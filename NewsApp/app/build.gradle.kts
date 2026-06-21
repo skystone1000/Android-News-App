@@ -110,6 +110,9 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
+    // WorkManager (daily digest)
+    implementation(libs.androidx.work.runtime)
+
     // Room
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)

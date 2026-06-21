@@ -142,9 +142,13 @@ Extra API keys in `local.properties`: `CLAUDE_API_KEY` (dev), optional `CLAUDE_P
 | `data/local/ReadingHistoryEntity.kt` + `ReadingHistoryDao.kt` | Room `reading_history` store + entity↔domain mapping (DB bumped to v3). |
 | `domain/usecases/news/` (`RecordHistory`/`GetHistory`/`ClearHistory`) | History use cases on `NewsRepository`. |
 | `presentation/history/` | `HistoryScreen` + `HistoryViewModel`; reached from Settings → Activity, navigates to detail, clear-all. |
+| `data/notifications/NewsNotifier.kt` | Notification channel + digest notification helper (`NotificationManagerCompat`). |
+| `work/DailyDigestWorker.kt` + `DigestScheduler.kt` | `CoroutineWorker` (deps via Hilt `EntryPoint`) fetching headlines → digest; scheduled once/day from `NewsApplication`. |
+| `MainActivity.kt` | Requests `POST_NOTIFICATIONS` (API 33+) on launch. |
 
-FCM push + WorkManager daily digest are **not yet built** — they need a Firebase project
-(`google-services.json`) / scheduling and are deferred (see `ROADMAP.md` Phase 6).
+FCM push is **deferred** — it needs a Firebase project (`google-services.json`) + a server
+trigger that can't be provisioned in this environment (see `ROADMAP.md` Phase 6). The local
+engagement surface (channel, runtime permission, WorkManager digest) is built.
 
 ### Where remaining layers will go (planned, not yet created)
 - `work/`, `data/notifications/` (Phase 6)
