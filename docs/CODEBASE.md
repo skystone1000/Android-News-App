@@ -43,6 +43,14 @@ Android-News-App/                 (git root, also the working directory)
 Build from CLI: `cd NewsApp && ./gradlew :app:assembleDebug`
 (set `JAVA_HOME` first as above). Output APK: `NewsApp/app/build/outputs/apk/debug/app-debug.apk`.
 
+**Dependency versions are centralized** in `NewsApp/gradle/libs.versions.toml` (Gradle
+version catalog). Add/bump dependencies there, then reference via `libs.*` in the build files.
+
+**Quality tooling (Phase 0):**
+- Static analysis: **detekt** (`NewsApp/config/detekt/detekt.yml`, pre-existing issues in `baseline.xml`). Run `./gradlew detekt`.
+- Unit tests live in `NewsApp/app/src/test/`; stack = JUnit4 + MockK + Turbine + Truth + coroutines-test. Run `./gradlew :app:testDebugUnitTest`.
+- CI: `.github/workflows/ci.yml` runs detekt + lint + unit tests + `assembleDebug` on every PR/push to `main` (JDK 17).
+
 ## 3. Source files (`NewsApp/app/src/main/java/com/example/newsapp/`)
 
 | File | Purpose |

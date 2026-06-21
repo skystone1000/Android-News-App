@@ -86,12 +86,11 @@ directly. Intended flow once built:
 
 ## 7. Known gaps / tech debt (as of 2026-06-21)
 
-- Hilt is not initialized (no `@HiltAndroidApp` Application, not in manifest).
-- No `INTERNET` permission in the manifest (required before networking works).
-- No domain or data layer exists yet.
-- Navigation is stubbed (`// Navigate to home` placeholder in `OnBoardingScreen`).
-- `OnBoardingScreen` button logic checks `currentPage == 3` but there are only 3 pages (indices 0–2), so "Get Started" currently does nothing.
-- `OnBoardingPage` renders `page.title` twice instead of `page.title` + `page.description`.
-- `MainActivity` still has the template `Greeting`/`GreetingPreview` boilerplate.
+- Hilt is not initialized (no `@HiltAndroidApp` Application, not in manifest). — *Phase 1*
+- No `INTERNET` permission in the manifest (required before networking works). — *Phase 1*
+- No domain or data layer exists yet. — *Phase 2*
+- Onboarding "Get Started" navigation is stubbed (`TODO(Phase 1)` in `OnBoardingScreen`); the last-page detection logic itself is now correct.
+
+_Fixed in Phase 0: template `Greeting`/`GreetingPreview` removed from `MainActivity`; `OnBoardingPage` now shows `description`; corrupted `Page.kt` field repaired; off-by-one page logic corrected._
 
 See [CODEBASE.md](CODEBASE.md) for the file-by-file map and [FEATURES.md](FEATURES.md) for feature status.

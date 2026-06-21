@@ -37,15 +37,16 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** none (build already works on Gradle 8.11.1 / AGP 8.7.3 / JDK 21).
 
 **Tasks**
-- [ ] Introduce a **version catalog** `gradle/libs.versions.toml`; migrate `build.gradle.kts` and `app/build.gradle.kts` to reference it (single source of truth for versions).
-- [ ] Add **test stack**: JUnit4, MockK, `kotlinx-coroutines-test`, Turbine, Truth (or AssertJ), `androidx.test` (ext-junit, espresso), Compose UI test, Hilt testing (`hilt-android-testing`).
-- [ ] Add **static analysis**: detekt + ktlint (or Spotless), configure Android `lint` (warningsAsErrors for the project's own code); generate baselines.
-- [ ] Add **GitHub Actions CI** (`.github/workflows/ci.yml`): checkout → set up JDK 17 → cache Gradle → `assembleDebug` + `lint` + `detekt` + `testDebugUnitTest`. Run on PR + push to `main`.
-- [ ] **Hygiene fixes** (clear the known gaps that touch every later phase):
-  - Remove template `Greeting`/`GreetingPreview` from `MainActivity.kt`.
-  - Fix `OnBoardingPage.kt` to render `page.description` (currently shows `title` twice).
-  - Fix `OnBoardingScreen.kt` button/page-count logic (checks `currentPage == 3` but only 3 pages exist).
-- [ ] Add one trivial unit test to prove the harness + CI are wired.
+- [x] Introduce a **version catalog** `gradle/libs.versions.toml`; migrate `build.gradle.kts` and `app/build.gradle.kts` to reference it (single source of truth for versions).
+- [x] Add **test stack**: JUnit4, MockK, `kotlinx-coroutines-test`, Turbine, Truth, `androidx.test` (ext-junit, espresso), Compose UI test, Hilt testing (`hilt-android-testing`).
+- [x] Add **static analysis**: detekt with baseline + Android `lint`. (ktlint/Spotless deferred — detekt's formatting rules cover the basics for now.)
+- [x] Add **GitHub Actions CI** (`.github/workflows/ci.yml`): checkout → set up JDK 17 → cache Gradle → `detekt` + `lintDebug` + `testDebugUnitTest` + `assembleDebug`. Runs on PR + push to `main`.
+- [x] **Hygiene fixes** (clear the known gaps that touch every later phase):
+  - Removed template `Greeting`/`GreetingPreview` from `MainActivity.kt`.
+  - Fixed `OnBoardingPage.kt` to render `page.description`.
+  - Fixed `OnBoardingScreen.kt` last-page logic (`currentPage == pages.size - 1`).
+  - Repaired corrupted `Page.kt` field (`val title:String,l;wes₹₹₹₹`).
+- [x] Add one trivial unit test (`SmokeTest`) to prove the harness + CI are wired.
 
 **New files/layers:** `gradle/libs.versions.toml`, `.github/workflows/ci.yml`, `config/detekt/detekt.yml`, `app/src/test/java/.../SmokeTest.kt`.
 
@@ -269,7 +270,7 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 
 ## Progress tracker
 
-- [ ] Phase 0 — Production foundation
+- [x] Phase 0 — Production foundation
 - [ ] Phase 1 — App foundation
 - [ ] Phase 2 — Source-agnostic data layer
 - [ ] Phase 3 — Core reading experience
