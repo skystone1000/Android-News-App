@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -32,7 +33,8 @@ import com.example.newsapp.presentation.Dimens.MediumPadding1
 @Composable
 fun SettingsScreen(
     settings: UserSettings,
-    event: (SettingsEvent) -> Unit
+    event: (SettingsEvent) -> Unit,
+    navigateToHistory: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -95,6 +97,39 @@ fun SettingsScreen(
             subtitle = "Show AI-generated summaries on article detail (Phase 5)",
             checked = settings.aiSummariesEnabled,
             onCheckedChange = { event(SettingsEvent.SetAiSummaries(it)) }
+        )
+        Spacer(Modifier.height(MediumPadding1))
+
+        SectionTitle("Activity")
+        NavigationRow(
+            title = "Reading history",
+            subtitle = "Articles you've opened",
+            onClick = navigateToHistory
+        )
+    }
+}
+
+@Composable
+private fun NavigationRow(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            text = subtitle,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

@@ -23,6 +23,8 @@ import com.example.newsapp.presentation.bookmark.BookmarkScreen
 import com.example.newsapp.presentation.bookmark.BookmarkViewModel
 import com.example.newsapp.presentation.details.DetailsScreen
 import com.example.newsapp.presentation.details.DetailsViewModel
+import com.example.newsapp.presentation.history.HistoryScreen
+import com.example.newsapp.presentation.history.HistoryViewModel
 import com.example.newsapp.presentation.home.HomeScreen
 import com.example.newsapp.presentation.home.HomeViewModel
 import com.example.newsapp.presentation.navgraph.Route
@@ -122,7 +124,20 @@ fun NewsNavigator() {
             composable(Route.SettingsScreen.route) {
                 val viewModel: SettingsViewModel = hiltViewModel()
                 val settings by viewModel.settings.collectAsState()
-                SettingsScreen(settings = settings, event = viewModel::onEvent)
+                SettingsScreen(
+                    settings = settings,
+                    event = viewModel::onEvent,
+                    navigateToHistory = { navController.navigate(Route.HistoryScreen.route) }
+                )
+            }
+            composable(Route.HistoryScreen.route) {
+                val viewModel: HistoryViewModel = hiltViewModel()
+                HistoryScreen(
+                    articles = viewModel.articles,
+                    onClearHistory = viewModel::clearHistory,
+                    navigateUp = { navController.navigateUp() },
+                    navigateToDetails = { navigateToDetails(navController, it) }
+                )
             }
             composable(Route.DetailsScreen.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()
@@ -135,7 +150,10 @@ fun NewsNavigator() {
                         sideEffect = viewModel.sideEffect,
                         aiState = viewModel.aiState,
                         event = viewModel::onEvent,
-                        onRequestInsight = { viewModel.loadInsightIfEnabled(article) },
+                        onRequestInsight = {
+                            viewModel.recordHistory(article)
+                            viewModel.loadInsightIfEnabled(article)
+                        },
                         navigateUp = { navController.navigateUp() }
                     )
                 }

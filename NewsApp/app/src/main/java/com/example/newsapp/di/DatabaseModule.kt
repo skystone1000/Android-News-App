@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.newsapp.data.local.NewsDao
 import com.example.newsapp.data.local.NewsDatabase
+import com.example.newsapp.data.local.ReadingHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +27,9 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideNewsDao(database: NewsDatabase): NewsDao = database.newsDao
+
+    @Provides
+    @Singleton
+    fun provideReadingHistoryDao(database: NewsDatabase): ReadingHistoryDao =
+        database.readingHistoryDao
 }

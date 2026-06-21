@@ -43,6 +43,11 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    /** Records that the user opened [article] so it appears in reading history. */
+    fun recordHistory(article: Article) {
+        viewModelScope.launch { newsUseCases.recordHistory(article) }
+    }
+
     /** Loads an AI insight only when the user has enabled AI summaries in Settings. */
     fun loadInsightIfEnabled(article: Article) {
         viewModelScope.launch {

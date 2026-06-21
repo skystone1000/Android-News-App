@@ -24,4 +24,12 @@ interface NewsRepository {
     suspend fun upsertArticle(article: Article)
 
     suspend fun deleteArticle(article: Article)
+
+    /** Records that the user opened [article] (refreshes the timestamp if already present). */
+    suspend fun recordHistory(article: Article)
+
+    /** Articles the user has opened, most recent first. */
+    fun getHistory(): Flow<List<Article>>
+
+    suspend fun clearHistory()
 }
