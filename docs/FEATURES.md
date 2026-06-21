@@ -21,6 +21,8 @@
 | 20 | Reading history | ✅ | Opening an article records it (Room `reading_history`); `HistoryScreen` (reached from Settings → Activity) lists it newest-first with a clear-all action. |
 | 21 | Daily digest notification | ✅ | `WorkManager` daily job (`DailyDigestWorker`) fetches top headlines → digest notification; channel + `POST_NOTIFICATIONS` runtime request handled. |
 | 22 | Push notifications (FCM) | ⛔ | Deferred — needs a Firebase project + `google-services.json` and a server trigger (cannot be provisioned in this environment). |
+| 23 | Release optimization (R8) | ✅ | `isMinifyEnabled`/`isShrinkResources` on release + full `proguard-rules.pro`; APK ~13 MB → ~2.8 MB. Release APK is **unsigned** (signing/AAB deferred — needs a keystore). |
+| 24 | StrictMode (debug) | ✅ | Thread + VM policies (`penaltyLog`) in debug builds to catch main-thread I/O and leaks. |
 | 7 | Search articles | ✅ | `SearchScreen` + `SearchViewModel`; paged search results. |
 | 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
 | 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |

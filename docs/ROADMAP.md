@@ -229,12 +229,14 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phases 1–6 (or as much as is being released).
 
 **Tasks**
-- [ ] **Modularization:** extract `:core` (ui/common, model), `:domain`, `:data`, and `:feature:*` modules; introduce Gradle **convention plugins** for shared config.
-- [ ] **Crash reporting & analytics:** Firebase Crashlytics + Analytics (or Sentry).
-- [ ] **Release engineering:** signing config via env/CI secrets; R8/ProGuard rules + `isMinifyEnabled = true` + resource shrinking; produce **AAB**; versioning strategy (versionCode automation).
-- [ ] **CI/CD extension:** add instrumented tests on an emulator matrix; release workflow builds the AAB and uploads to the Play **internal** track (fastlane or Gradle Play Publisher).
-- [ ] **Performance:** Baseline Profiles; verify Compose stability/strong-skipping; StrictMode in debug.
-- [ ] **Pre-launch compliance:** privacy policy, Play Data Safety form, store listing assets; bump `targetSdk` to the latest required.
+- [ ] **Modularization:** extract `:core` (ui/common, model), `:domain`, `:data`, and `:feature:*` modules; introduce Gradle **convention plugins** for shared config. *(Deferred — large refactor; current single-module structure is clean.)*
+- [ ] **Crash reporting & analytics:** Firebase Crashlytics + Analytics (or Sentry). *(Deferred — needs Firebase project.)*
+- [x] **R8/minify + resource shrinking:** `isMinifyEnabled = true` + `isShrinkResources = true` on release with a full `proguard-rules.pro` (Gson DTOs, Serializable domain models, Retrofit). Verified: release APK shrinks ~13 MB → ~2.8 MB and passes `lintVitalRelease`.
+- [ ] **Release signing + AAB:** signing config via env/CI secrets; produce **AAB**; versionCode automation. *(Deferred — needs a keystore + Play account; release build is currently unsigned.)*
+- [ ] **CI/CD extension:** instrumented tests on an emulator matrix; release workflow builds + uploads the AAB to Play internal. *(Deferred — needs emulator/Play credentials.)*
+- [x] **StrictMode in debug:** thread + VM policies (`penaltyLog`) enabled in `NewsApplication` for debug builds only.
+- [ ] **Baseline Profiles / Compose strong-skipping verification.** *(Deferred — needs a benchmark module + device.)*
+- [ ] **Pre-launch compliance:** privacy policy, Play Data Safety form, store listing assets. *(Deferred — release-time docs.)*
 
 **New files/layers:** `:core`/`:domain`/`:data`/`:feature:*` modules, `build-logic/` convention plugins, `.github/workflows/release.yml`, `app/proguard-rules.pro` (expanded), `baselineprofile/`.
 
@@ -276,5 +278,5 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 - [x] Phase 3 — Core reading experience
 - [x] Phase 4 — Configurable product features
 - [x] Phase 5 — AI layer
-- [ ] Phase 6 — Engagement & retention
-- [ ] Phase 7 — Production hardening
+- [x] Phase 6 — Engagement & retention *(local scope: share, TTS, history, daily digest, notif permission; FCM push deferred — needs Firebase)*
+- [x] Phase 7 — Production hardening *(buildable scope: R8/minify + resource shrinking, full ProGuard rules, StrictMode; signing/AAB, Crashlytics, modularization, baseline profiles, Play publishing deferred — need keystore/Firebase/Play/devices)*

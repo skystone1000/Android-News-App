@@ -150,6 +150,17 @@ FCM push is **deferred** — it needs a Firebase project (`google-services.json`
 trigger that can't be provisioned in this environment (see `ROADMAP.md` Phase 6). The local
 engagement surface (channel, runtime permission, WorkManager digest) is built.
 
+### Production hardening (Phase 7)
+| File / package | Purpose |
+|------|---------|
+| `app/build.gradle.kts` (release) | `isMinifyEnabled` + `isShrinkResources` = true (R8). |
+| `app/proguard-rules.pro` | Keep rules for Gson DTOs, `Serializable` domain models, Retrofit services. |
+| `NewsApplication.enableStrictMode()` | Debug-only thread + VM `StrictMode` policies. |
+
+Release builds are currently **unsigned** (`app-release-unsigned.apk`). Signing/AAB,
+Crashlytics, modularization, baseline profiles, and Play publishing are deferred — they
+need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
+
 ### Where remaining layers will go (planned, not yet created)
 - `work/`, `data/notifications/` (Phase 6)
 
