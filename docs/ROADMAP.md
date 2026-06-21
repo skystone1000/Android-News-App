@@ -95,17 +95,15 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phase 1.
 
 **Tasks**
-- [ ] **Domain models** (pure Kotlin): `Article`, `Source`. No DTO/Android leakage into domain.
-- [ ] **Repository contract:** `domain/repository/NewsRepository` — `getNews(sources, categories)`, `searchNews(query, sources)`, bookmark ops (`upsert`, `delete`, `getArticles`, `selectArticle`).
-- [ ] **Source abstraction:** `data/remote/NewsSource` interface. Implementations:
-  - `NewsApiSource` — Retrofit `NewsApiService` + DTOs + `toDomain()` mapper.
-  - `GNewsSource` — Retrofit service + DTOs + mapper.
-- [ ] **Runtime source selection:** `NewsSourceProvider` reading the user's chosen source from DataStore; wire sources via Hilt multibinding (qualifiers / `@IntoMap`) so adding a provider needs no changes to consumers.
-- [ ] **Paging 3:** `NewsPagingSource` parameterized by the active `NewsSource`; expose `Pager` from the repository.
-- [ ] **Room cache/bookmarks:** `ArticleEntity`, `NewsDao`, `NewsDatabase`, type converters.
-- [ ] **Repository impl** combining remote paging + Room.
-- [ ] **DI:** `NetworkModule` (OkHttp + logging interceptor + Retrofit per source + key config), `DatabaseModule`, `RepositoryModule`.
-- [ ] **Secrets:** per-source keys from `local.properties` → `BuildConfig`; document required keys in `CODEBASE.md`.
+- [x] **Domain models** (pure Kotlin): `Article`, `Source`. No DTO/Android leakage into domain.
+- [x] **Repository contract:** `domain/repository/NewsRepository` — `getNews(category)`, `searchNews(query)`, bookmark ops (`upsert`, `delete`, `getArticles`, `getArticle`).
+- [x] **Source abstraction:** `data/remote/source/NewsSource` interface with `NewsApiSource` + `GNewsSource` (Retrofit service + DTOs + `toArticleOrNull()` mappers).
+- [x] **Runtime source selection:** `NewsSourceProvider` over a Hilt `@IntoMap @StringKey` map of sources (adding a provider = one binding). User-pref wiring is Phase 4.
+- [x] **Paging 3:** `NewsPagingSource` parameterized by the active `NewsSource`; `Pager` exposed from the repository.
+- [x] **Room cache/bookmarks:** `ArticleEntity`, `NewsDao`, `NewsDatabase` (source flattened — no converter needed). Room bumped to 2.6.1 for Kotlin 1.9 kapt.
+- [x] **Repository impl** combining remote paging + Room.
+- [x] **DI:** `NetworkModule` (OkHttp + logging + Retrofit per source), `SourceModule` (multibinding), `DatabaseModule`, `RepositoryModule`.
+- [x] **Secrets:** per-source keys from `local.properties` → `BuildConfig`; documented in `CODEBASE.md`.
 
 **New files/layers:** `domain/model/`, `domain/repository/`, `data/remote/{dto,api,source}`, `data/local/`, `data/repository/`, expanded `di/`.
 
@@ -272,7 +270,7 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 
 - [x] Phase 0 — Production foundation
 - [x] Phase 1 — App foundation
-- [ ] Phase 2 — Source-agnostic data layer
+- [x] Phase 2 — Source-agnostic data layer
 - [ ] Phase 3 — Core reading experience
 - [ ] Phase 4 — Configurable product features
 - [ ] Phase 5 — AI layer

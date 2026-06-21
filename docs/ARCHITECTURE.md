@@ -53,9 +53,9 @@ Clean Architecture with three layers. Dependencies point **inward**
 |---------|--------------------|--------|
 | Dependency Injection | **Hilt** (`@HiltAndroidApp`, `@Module`, `@HiltViewModel`) | **wired** (`NewsApplication`, `di/AppModule`, `MainViewModel`/`OnBoardingViewModel`) |
 | Navigation | **Navigation-Compose** single-activity NavHost | **implemented** (`navgraph/NavGraph` + bottom-nav `NewsNavigator`; tab screens are placeholders until Phase 3) |
-| Networking | **Retrofit + Gson** against a news API (e.g. newsapi.org) | dependency present, not implemented |
-| Paging | **Paging 3** (`paging-compose`) for infinite article lists | dependency present, not implemented |
-| Local cache / bookmarks | **Room** | dependency present, not implemented |
+| Networking | **Retrofit + Gson** behind a pluggable `NewsSource` (NewsAPI + GNews) | **implemented** (source-agnostic; runtime-selectable via `NewsSourceProvider`) |
+| Paging | **Paging 3** (`paging-compose`) for infinite article lists | **implemented** (`NewsPagingSource` + repository `Pager`) |
+| Local cache / bookmarks | **Room** 2.6.1 (`ArticleEntity`, `NewsDao`, `NewsDatabase`) | **implemented** (bookmark store; consumed by repository) |
 | First-launch / user prefs | **DataStore Preferences** | **implemented** (`LocalUserManager` app-entry flag + `app_entry` use cases) |
 | Image loading | **Coil** (`coil-compose`) | dependency present, not used yet |
 | System bars | **Accompanist systemuicontroller** + edge-to-edge | partially used (theme) |
@@ -86,9 +86,12 @@ placeholder screens until Phase 3).
 
 ## 7. Known gaps / tech debt (as of 2026-06-21)
 
-- No domain or data layer for **news content** exists yet (models, repository, remote/local sources). — *Phase 2*
+- News content has no **UI** yet — Home/Search/Bookmark are placeholder screens. — *Phase 3*
+- `NewsSourceProvider.activeSourceId` is hard-coded to the default; user-driven source selection comes with Settings. — *Phase 4*
+- API keys must be supplied in `local.properties` (`NEWS_API_KEY`, `GNEWS_API_KEY`); empty keys make remote calls fail at runtime.
 
 _Fixed in Phase 0: template boilerplate removed; `OnBoardingPage` shows `description`; corrupted `Page.kt` repaired; page logic corrected._
-_Done in Phase 1: Hilt wired (`NewsApplication` + `AppModule`); `INTERNET`/`ACCESS_NETWORK_STATE` permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold; onboarding "Get Started" saves the flag and navigates to the main graph._
+_Done in Phase 1: Hilt wired; permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold._
+_Done in Phase 2: source-agnostic data layer — domain models, `NewsRepository`, pluggable `NewsSource` (NewsAPI/GNews) via Hilt map-multibinding, Paging 3, Room bookmarks, DI modules, BuildConfig API keys._
 
 See [CODEBASE.md](CODEBASE.md) for the file-by-file map and [FEATURES.md](FEATURES.md) for feature status.

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,14 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
+
+// API keys are read from local.properties (git-ignored) and exposed via BuildConfig.
+// Add NEWS_API_KEY=... and GNEWS_API_KEY=... there; missing keys default to "".
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+fun apiKey(name: String): String = "\"${localProperties.getProperty(name).orEmpty()}\""
 
 android {
     namespace = "com.example.newsapp"
@@ -21,6 +31,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "NEWS_API_KEY", apiKey("NEWS_API_KEY"))
+        buildConfigField("String", "GNEWS_API_KEY", apiKey("GNEWS_API_KEY"))
     }
 
     buildTypes {
@@ -41,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
