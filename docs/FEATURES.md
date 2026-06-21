@@ -14,14 +14,14 @@
 | 2 | Onboarding carousel | ✅ | 3-page `HorizontalPager`, indicator, Back/Next/Get-Started. "Get Started" saves the app-entry flag and navigates to the main graph. (Copy is still placeholder Lorem Ipsum.) |
 | 3 | First-launch detection (show onboarding once) | ✅ | DataStore app-entry flag via `LocalUserManager`; `MainViewModel` picks the start destination. |
 | 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (tab screens are placeholders until Phase 3). |
-| 5 | Home feed — breaking/top news, infinite scroll | 🟡 | Data layer ready (pluggable sources + Paging 3 + repository); Home screen/ViewModel UI is Phase 3. |
-| 6 | Article detail view | ⛔ | Open full article (in-app WebView or formatted detail). |
-| 7 | Search articles | ⛔ | Query the news API; debounced search + paged results. |
-| 8 | Bookmark / save articles | 🟡 | Room store + repository CRUD ready; bookmarks list screen is Phase 3. |
-| 9 | Image loading | ⛔ | Coil dependency present; used once article UI exists. |
+| 5 | Home feed — breaking/top news, infinite scroll | ✅ | `HomeScreen` + `HomeViewModel`; paged via `ArticlesList` with shimmer/empty/error states. |
+| 6 | Article detail view | ✅ | `DetailsScreen` (image, title, content) + bookmark toggle + open-in-browser. |
+| 7 | Search articles | ✅ | `SearchScreen` + `SearchViewModel`; paged search results. |
+| 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
+| 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |
 | 10 | Dependency injection wiring | ✅ | Hilt wired: `NewsApplication`, `di/AppModule`, `@HiltViewModel`s. |
 | 11 | Theming (light/dark, Material3) | ✅ | `NewsAppTheme`, brand palette, edge-to-edge system bars. |
-| 12 | Reusable UI kit | 🟡 | `NewsButton`/`NewsTextButton`, `PageIndicator`, `Dimens`. Grows per feature. |
+| 12 | Reusable UI kit | ✅ | `NewsButton`, `PageIndicator`, `ArticleCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `Dimens`. |
 
 ## 2. Current user-facing behavior
 
