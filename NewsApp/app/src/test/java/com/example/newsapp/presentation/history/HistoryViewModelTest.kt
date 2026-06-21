@@ -1,4 +1,4 @@
-package com.example.newsapp.presentation.details
+package com.example.newsapp.presentation.history
 
 import com.example.newsapp.domain.usecases.news.ClearHistory
 import com.example.newsapp.domain.usecases.news.DeleteArticle
@@ -10,9 +10,7 @@ import com.example.newsapp.domain.usecases.news.SearchNews
 import com.example.newsapp.domain.usecases.news.SelectArticle
 import com.example.newsapp.domain.usecases.news.SelectArticles
 import com.example.newsapp.domain.usecases.news.UpsertArticle
-import com.example.newsapp.util.FakeAiGateway
 import com.example.newsapp.util.FakeNewsRepository
-import com.example.newsapp.util.FakeSettingsManager
 import com.example.newsapp.util.MainDispatcherRule
 import com.example.newsapp.util.testArticle
 import com.google.common.truth.Truth.assertThat
@@ -22,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class DetailsViewModelTest {
+class HistoryViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -40,38 +38,23 @@ class DetailsViewModelTest {
     )
 
     @Test
-    fun `bookmarking a new article saves it and emits Saved`() = runTest {
+    fun `recorded articles surface in the history list`() = runTest {
         val repository = FakeNewsRepository()
-        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
-        val article = testArticle()
+        repository.recordHistory(testArticle("https://example.com/1"))
+        val viewModel = HistoryViewModel(useCases(repository))
 
-        viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(article))
-
-        assertThat(repository.bookmarks).contains(article)
-        assertThat(viewModel.sideEffect).isEqualTo("Article Saved")
+        assertThat(viewModel.articles).hasSize(1)
+        assertThat(viewModel.articles.first().url).isEqualTo("https://example.com/1")
     }
 
     @Test
-    fun `bookmarking an already-saved article deletes it and emits Deleted`() = runTest {
+    fun `clearHistory empties the list`() = runTest {
         val repository = FakeNewsRepository()
-        val article = testArticle()
-        repository.upsertArticle(article)
-        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
+        repository.recordHistory(testArticle("https://example.com/1"))
+        val viewModel = HistoryViewModel(useCases(repository))
 
-        viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(article))
+        viewModel.clearHistory()
 
-        assertThat(repository.bookmarks).isEmpty()
-        assertThat(viewModel.sideEffect).isEqualTo("Article Deleted")
-    }
-
-    @Test
-    fun `RemoveSideEffect clears the message`() = runTest {
-        val repository = FakeNewsRepository()
-        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
-        viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(testArticle()))
-
-        viewModel.onEvent(DetailsEvent.RemoveSideEffect)
-
-        assertThat(viewModel.sideEffect).isNull()
+        assertThat(viewModel.articles).isEmpty()
     }
 }

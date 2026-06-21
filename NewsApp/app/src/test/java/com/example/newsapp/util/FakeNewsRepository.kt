@@ -14,6 +14,9 @@ class FakeNewsRepository : NewsRepository {
     val bookmarks = mutableListOf<Article>()
     private val bookmarksFlow = MutableStateFlow<List<Article>>(emptyList())
 
+    val history = mutableListOf<Article>()
+    private val historyFlow = MutableStateFlow<List<Article>>(emptyList())
+
     override fun getNews(category: String?): Flow<PagingData<Article>> = flowOf(PagingData.empty())
 
     override fun searchNews(query: String): Flow<PagingData<Article>> = flowOf(PagingData.empty())
@@ -31,6 +34,19 @@ class FakeNewsRepository : NewsRepository {
     override suspend fun deleteArticle(article: Article) {
         bookmarks.removeAll { it.url == article.url }
         bookmarksFlow.value = bookmarks.toList()
+    }
+
+    override suspend fun recordHistory(article: Article) {
+        history.removeAll { it.url == article.url }
+        history.add(0, article)
+        historyFlow.value = history.toList()
+    }
+
+    override fun getHistory(): Flow<List<Article>> = historyFlow
+
+    override suspend fun clearHistory() {
+        history.clear()
+        historyFlow.value = emptyList()
     }
 }
 

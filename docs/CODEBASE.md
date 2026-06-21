@@ -128,11 +128,23 @@ navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
 | `domain/ai/AiGateway.kt` | `AiGateway` contract + `ArticleInsight` (summary/sentiment/tags). |
 | `data/ai/ClaudeService.kt` + `dto/ClaudeDto.kt` | Retrofit binding for Anthropic Messages API. |
 | `data/ai/ClaudeAiGateway.kt` | Builds prompt, parses JSON, handles `refusal`, caches by URL. Model `claude-haiku-4-5`. |
-| `data/local/AiInsightEntity.kt` + `AiInsightDao.kt` | Room cache (DB bumped to v2). |
+| `data/local/AiInsightEntity.kt` + `AiInsightDao.kt` | Room AI-insight cache (DB now v3; see Phase 6). |
 | `di/AiModule.kt` | Provides `ClaudeService` (base URL = `CLAUDE_PROXY_URL` or Anthropic) + `AiGateway`. |
 | `presentation/details/AiInsightState.kt` + `components/AiInsightCard.kt` | AI card UI; `DetailsViewModel.loadInsightIfEnabled` gates on the Settings toggle. |
 
 Extra API keys in `local.properties`: `CLAUDE_API_KEY` (dev), optional `CLAUDE_PROXY_URL` (prod base URL).
+
+### Engagement (Phase 6)
+| File / package | Purpose |
+|------|---------|
+| `presentation/details/ArticleSpeaker.kt` | `TextToSpeech` wrapper (play/stop toggle, lifecycle-safe shutdown) behind `rememberArticleSpeaker()`. |
+| `presentation/details/components/DetailsTopBar.kt` | Listen + Share actions added (icons via `material-icons-core`). |
+| `data/local/ReadingHistoryEntity.kt` + `ReadingHistoryDao.kt` | Room `reading_history` store + entity↔domain mapping (DB bumped to v3). |
+| `domain/usecases/news/` (`RecordHistory`/`GetHistory`/`ClearHistory`) | History use cases on `NewsRepository`. |
+| `presentation/history/` | `HistoryScreen` + `HistoryViewModel`; reached from Settings → Activity, navigates to detail, clear-all. |
+
+FCM push + WorkManager daily digest are **not yet built** — they need a Firebase project
+(`google-services.json`) / scheduling and are deferred (see `ROADMAP.md` Phase 6).
 
 ### Where remaining layers will go (planned, not yet created)
 - `work/`, `data/notifications/` (Phase 6)

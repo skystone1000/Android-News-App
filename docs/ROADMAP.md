@@ -207,7 +207,8 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 - [ ] **Daily digest:** `WorkManager` periodic job → digest notification.
 - [x] **TTS "Listen to article":** Android `TextToSpeech` via `ArticleSpeaker`; play/stop toggle on the detail top bar.
 - [x] **Share** intent (`ACTION_SEND` chooser from the detail top bar).
-- [ ] **Reading history** (Room); **accessibility** (dynamic font scaling, content descriptions); AMOLED/dark theme polish.
+- [x] **Reading history** (Room `reading_history` + `HistoryScreen`, reached from Settings → Activity, with clear-all).
+- [ ] **Accessibility** (dynamic font scaling, content descriptions); AMOLED/dark theme polish. *(deferred — polish pass)*
 
 **New files/layers:** `data/notifications/`, `work/` (WorkManager), `presentation/history/`, TTS controller.
 

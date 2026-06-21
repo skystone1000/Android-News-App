@@ -1,6 +1,7 @@
 package com.example.newsapp.di
 
 import com.example.newsapp.data.local.NewsDao
+import com.example.newsapp.data.local.ReadingHistoryDao
 import com.example.newsapp.data.remote.source.NewsSourceProvider
 import com.example.newsapp.data.repository.NewsRepositoryImpl
 import com.example.newsapp.domain.repository.NewsRepository
@@ -18,6 +19,7 @@ object RepositoryModule {
     @Singleton
     fun provideNewsRepository(
         newsSourceProvider: NewsSourceProvider,
-        newsDao: NewsDao
-    ): NewsRepository = NewsRepositoryImpl(newsSourceProvider, newsDao)
+        newsDao: NewsDao,
+        readingHistoryDao: ReadingHistoryDao
+    ): NewsRepository = NewsRepositoryImpl(newsSourceProvider, newsDao, readingHistoryDao)
 }

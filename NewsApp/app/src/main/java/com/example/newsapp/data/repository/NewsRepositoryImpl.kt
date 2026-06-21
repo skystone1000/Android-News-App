@@ -4,8 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.newsapp.data.local.NewsDao
+import com.example.newsapp.data.local.ReadingHistoryDao
 import com.example.newsapp.data.local.toArticle
 import com.example.newsapp.data.local.toEntity
+import com.example.newsapp.data.local.toHistoryEntity
 import com.example.newsapp.data.remote.NewsPagingSource
 import com.example.newsapp.data.remote.source.NewsSourceProvider
 import com.example.newsapp.domain.model.Article
@@ -15,7 +17,8 @@ import kotlinx.coroutines.flow.map
 
 class NewsRepositoryImpl(
     private val newsSourceProvider: NewsSourceProvider,
-    private val newsDao: NewsDao
+    private val newsDao: NewsDao,
+    private val readingHistoryDao: ReadingHistoryDao
 ) : NewsRepository {
 
     override fun getNews(category: String?): Flow<PagingData<Article>> = Pager(
@@ -43,6 +46,14 @@ class NewsRepositoryImpl(
 
     override suspend fun deleteArticle(article: Article) =
         newsDao.delete(article.toEntity())
+
+    override suspend fun recordHistory(article: Article) =
+        readingHistoryDao.upsert(article.toHistoryEntity(readAt = System.currentTimeMillis()))
+
+    override fun getHistory(): Flow<List<Article>> =
+        readingHistoryDao.getHistory().map { entities -> entities.map { it.toArticle() } }
+
+    override suspend fun clearHistory() = readingHistoryDao.clear()
 
     private companion object {
         const val PAGE_SIZE = 20
