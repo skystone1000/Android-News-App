@@ -97,8 +97,22 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 **Required API keys** (in `NewsApp/local.properties`, git-ignored): `NEWS_API_KEY`, `GNEWS_API_KEY`.
 Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (default `""`).
 
+### Presentation — reading features (Phase 3)
+| File / package | Purpose |
+|------|---------|
+| `domain/usecases/news/NewsUseCases.kt` | `GetNews`, `SearchNews`, `UpsertArticle`, `DeleteArticle`, `SelectArticles`, `SelectArticle` + holder. |
+| `di/UseCaseModule.kt` | Provides `NewsUseCases`. |
+| `presentation/home/{HomeScreen,HomeViewModel}.kt` | Paged headlines feed. |
+| `presentation/search/` | `SearchScreen`/`SearchViewModel`/`SearchState`/`SearchEvent` + `components/SearchBar`. |
+| `presentation/details/` | `DetailsScreen`/`DetailsViewModel`/`DetailsEvent` + `components/DetailsTopBar` (bookmark toggle, open-in-browser). |
+| `presentation/bookmark/` | `BookmarkScreen`/`BookmarkViewModel`/`BookmarkState` (Room-backed list). |
+| `presentation/common/` | `ArticleCard`, `ArticlesList` (+ paging-state handling), `ShimmerEffect`, `EmptyScreen`. |
+
+Domain models implement `java.io.Serializable` so an `Article` can pass through Compose
+navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
+
 ### Where remaining layers will go (planned, not yet created)
-- `domain/usecases/news/`, `presentation/home/`, `presentation/search/`, `presentation/details/`, `presentation/bookmark/`, `presentation/settings/`
+- `presentation/settings/`, `domain/ai/`, `data/ai/`, `work/`, `data/notifications/`
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 

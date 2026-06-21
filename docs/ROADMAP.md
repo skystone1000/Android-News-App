@@ -124,11 +124,11 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phase 2.
 
 **Tasks**
-- [ ] **Home feed:** `HomeScreen` + `HomeViewModel` consuming `collectAsLazyPagingItems()`; `ArticleCard` (Coil images); shimmer/loading, empty, and error states; pull-to-refresh.
-- [ ] **Article detail:** `DetailsScreen` (in-app WebView or rich detail) + `DetailsViewModel` with event-based bookmark toggle; open-in-browser + share affordance.
-- [ ] **Search:** `SearchScreen` + `SearchViewModel` with debounced query → paged results.
-- [ ] **Bookmarks:** `BookmarkScreen` + `BookmarkViewModel` reading saved articles from Room.
-- [ ] **Use cases:** `GetNews`, `SearchNews`, `UpsertArticle`, `DeleteArticle`, `SelectArticle`, `GetArticles` — grouped in a `NewsUseCases` holder.
+- [x] **Home feed:** `HomeScreen` + `HomeViewModel` consuming `collectAsLazyPagingItems()`; `ArticleCard` (Coil images); shimmer/loading, empty, and error states. (Pull-to-refresh deferred to Phase 4 polish.)
+- [x] **Article detail:** `DetailsScreen` + `DetailsViewModel` with event-based bookmark toggle; open-in-browser. (Share affordance lands in Phase 6.)
+- [x] **Search:** `SearchScreen` + `SearchViewModel` with paged results.
+- [x] **Bookmarks:** `BookmarkScreen` + `BookmarkViewModel` reading saved articles from Room.
+- [x] **Use cases:** `GetNews`, `SearchNews`, `UpsertArticle`, `DeleteArticle`, `SelectArticles`, `SelectArticle` — grouped in a `NewsUseCases` holder.
 
 **New files/layers:** `presentation/home/`, `presentation/details/`, `presentation/search/`, `presentation/bookmark/`, `domain/usecases/news/`, shared `presentation/common/` cards.
 
@@ -271,7 +271,7 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 - [x] Phase 0 — Production foundation
 - [x] Phase 1 — App foundation
 - [x] Phase 2 — Source-agnostic data layer
-- [ ] Phase 3 — Core reading experience
+- [x] Phase 3 — Core reading experience
 - [ ] Phase 4 — Configurable product features
 - [ ] Phase 5 — AI layer
 - [ ] Phase 6 — Engagement & retention
