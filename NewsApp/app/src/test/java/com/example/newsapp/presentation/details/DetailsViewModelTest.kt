@@ -7,7 +7,9 @@ import com.example.newsapp.domain.usecases.news.SearchNews
 import com.example.newsapp.domain.usecases.news.SelectArticle
 import com.example.newsapp.domain.usecases.news.SelectArticles
 import com.example.newsapp.domain.usecases.news.UpsertArticle
+import com.example.newsapp.util.FakeAiGateway
 import com.example.newsapp.util.FakeNewsRepository
+import com.example.newsapp.util.FakeSettingsManager
 import com.example.newsapp.util.MainDispatcherRule
 import com.example.newsapp.util.testArticle
 import com.google.common.truth.Truth.assertThat
@@ -34,7 +36,7 @@ class DetailsViewModelTest {
     @Test
     fun `bookmarking a new article saves it and emits Saved`() = runTest {
         val repository = FakeNewsRepository()
-        val viewModel = DetailsViewModel(useCases(repository))
+        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
         val article = testArticle()
 
         viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(article))
@@ -48,7 +50,7 @@ class DetailsViewModelTest {
         val repository = FakeNewsRepository()
         val article = testArticle()
         repository.upsertArticle(article)
-        val viewModel = DetailsViewModel(useCases(repository))
+        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
 
         viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(article))
 
@@ -59,7 +61,7 @@ class DetailsViewModelTest {
     @Test
     fun `RemoveSideEffect clears the message`() = runTest {
         val repository = FakeNewsRepository()
-        val viewModel = DetailsViewModel(useCases(repository))
+        val viewModel = DetailsViewModel(useCases(repository), FakeAiGateway(), FakeSettingsManager())
         viewModel.onEvent(DetailsEvent.UpsertDeleteArticle(testArticle()))
 
         viewModel.onEvent(DetailsEvent.RemoveSideEffect)

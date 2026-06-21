@@ -25,6 +25,7 @@
 | 14 | Category / niche filtering | ✅ | Category chips on Home; selected category drives the feed. |
 | 15 | Personalized feed | ✅ | Follow categories + personalization toggle; chips narrow to followed categories. |
 | 16 | Runtime data-source selection | ✅ | Pick NewsAPI / GNews in Settings; feed rebuilds via `NewsSourceProvider`. |
+| 17 | AI summaries / sentiment / tags | ✅ | Claude-powered `AiGateway`; card on article detail, gated by the AI toggle; cached in Room. (Dev key in BuildConfig; proxy for prod.) |
 | 12 | Reusable UI kit | ✅ | `NewsButton`, `PageIndicator`, `ArticleCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `Dimens`. |
 
 ## 2. Current user-facing behavior

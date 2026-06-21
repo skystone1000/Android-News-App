@@ -34,6 +34,8 @@ android {
 
         buildConfigField("String", "NEWS_API_KEY", apiKey("NEWS_API_KEY"))
         buildConfigField("String", "GNEWS_API_KEY", apiKey("GNEWS_API_KEY"))
+        buildConfigField("String", "CLAUDE_API_KEY", apiKey("CLAUDE_API_KEY"))
+        buildConfigField("String", "CLAUDE_PROXY_URL", apiKey("CLAUDE_PROXY_URL"))
     }
 
     buildTypes {
