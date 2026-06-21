@@ -67,14 +67,14 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phase 0.
 
 **Tasks**
-- [ ] Create `NewsApplication` annotated `@HiltAndroidApp`; register via `android:name` in the manifest.
-- [ ] Add `<uses-permission android:name="android.permission.INTERNET"/>` (and `ACCESS_NETWORK_STATE`).
-- [ ] Base Hilt module(s) under `di/`.
-- [ ] **DataStore app-entry flag:** `domain/manager/LocalUserManager` (interface) + `data/manager/LocalUserManagerImpl`; use cases `domain/usecases/app_entry/{ReadAppEntry, SaveAppEntry}`.
-- [ ] **Navigation:** `presentation/navgraph/{Route, NavGraph}`; single `NavHost`; destinations for Onboarding and the main scaffold.
-- [ ] `MainViewModel` + splash logic: keep splash visible until the app-entry flag is read, then choose start destination (Onboarding vs Main).
-- [ ] **Bottom-nav scaffold** (`presentation/main/` + `components/NewsBottomNavigation`) with Home / Search / Bookmark placeholders.
-- [ ] Wire onboarding "Get Started" → `SaveAppEntry` → navigate to Main.
+- [x] Create `NewsApplication` annotated `@HiltAndroidApp`; register via `android:name` in the manifest.
+- [x] Add `<uses-permission android:name="android.permission.INTERNET"/>` (and `ACCESS_NETWORK_STATE`).
+- [x] Base Hilt module(s) under `di/` (`AppModule`).
+- [x] **DataStore app-entry flag:** `domain/manager/LocalUserManager` (interface) + `data/manager/LocalUserManagerImpl`; use cases `domain/usecases/app_entry/{ReadAppEntry, SaveAppEntry, AppEntryUseCases}`.
+- [x] **Navigation:** `presentation/navgraph/{Route, NavGraph}`; single `NavHost` with app-start + news nested graphs.
+- [x] `MainViewModel` + splash logic: keep splash visible until the app-entry flag is read, then choose start destination (Onboarding vs Main).
+- [x] **Bottom-nav scaffold** (`presentation/news_navigator/` + `components/NewsBottomNavigation`) with Home / Search / Bookmark placeholders.
+- [x] Wire onboarding "Get Started" → `SaveAppEntry` → navigate to Main (clears onboarding from back stack).
 
 **New files/layers:** `NewsApplication.kt`, `di/AppModule.kt`, `domain/manager/`, `data/manager/`, `domain/usecases/app_entry/`, `presentation/navgraph/`, `presentation/main/`.
 
@@ -271,7 +271,7 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 ## Progress tracker
 
 - [x] Phase 0 — Production foundation
-- [ ] Phase 1 — App foundation
+- [x] Phase 1 — App foundation
 - [ ] Phase 2 — Source-agnostic data layer
 - [ ] Phase 3 — Core reading experience
 - [ ] Phase 4 — Configurable product features
