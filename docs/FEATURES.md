@@ -1,7 +1,7 @@
 # FEATURES.md
 
 > What the app does today and what's planned. Read this to understand product scope.
-> Last updated: 2026-06-21. Update the status table whenever a feature lands or changes.
+> Last updated: 2026-06-22. Update the status table whenever a feature lands or changes.
 
 ## Status legend
 ✅ Done · 🟡 Partial / stubbed · ⛔ Not started (dependency may exist)
@@ -15,7 +15,9 @@
 | 3 | First-launch detection (show onboarding once) | ✅ | DataStore app-entry flag via `LocalUserManager`; `MainViewModel` picks the start destination. |
 | 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (tab screens are placeholders until Phase 3). |
 | 5 | Home feed — breaking/top news, infinite scroll | ✅ | `HomeScreen` + `HomeViewModel`; paged via `ArticlesList` with shimmer/empty/error states. |
-| 6 | Article detail view | ✅ | `DetailsScreen` (image, title, content) + bookmark toggle + open-in-browser. |
+| 6 | Article detail view | ✅ | `DetailsScreen` (image, title, content) + bookmark toggle + open-in-browser + share + listen (TTS). |
+| 18 | Share article | ✅ | `ACTION_SEND` chooser from the detail top bar (title + URL). |
+| 19 | Listen to article (TTS) | ✅ | `ArticleSpeaker` wraps Android `TextToSpeech`; play/stop toggle in the detail top bar. |
 | 7 | Search articles | ✅ | `SearchScreen` + `SearchViewModel`; paged search results. |
 | 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
 | 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |

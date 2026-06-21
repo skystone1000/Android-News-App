@@ -33,6 +33,7 @@ fun DetailsScreen(
     navigateUp: () -> Unit
 ) {
     val context = LocalContext.current
+    val speaker = rememberArticleSpeaker()
 
     LaunchedEffect(sideEffect) {
         sideEffect?.let { message ->
@@ -49,6 +50,19 @@ fun DetailsScreen(
     ) {
         item {
             DetailsTopBar(
+                isSpeaking = speaker.isSpeaking,
+                onListenClick = {
+                    val body = article.content.ifEmpty { article.description }
+                    speaker.toggle("${article.title}. $body")
+                },
+                onShareClick = {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_SUBJECT, article.title)
+                        putExtra(Intent.EXTRA_TEXT, "${article.title}\n\n${article.url}")
+                    }
+                    context.startActivity(Intent.createChooser(intent, "Share article"))
+                },
                 onBookmarkClick = { event(DetailsEvent.UpsertDeleteArticle(article)) },
                 onBrowsingClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
