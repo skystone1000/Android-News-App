@@ -122,8 +122,20 @@ navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
 | `NewsApplication.kt` | Now also syncs `NewsSourceProvider.activeSourceId` from settings. |
 | `MainViewModel.kt` | Now also exposes `themeMode`; `MainActivity` applies it to `NewsAppTheme`. |
 
+### AI layer (Phase 5)
+| File / package | Purpose |
+|------|---------|
+| `domain/ai/AiGateway.kt` | `AiGateway` contract + `ArticleInsight` (summary/sentiment/tags). |
+| `data/ai/ClaudeService.kt` + `dto/ClaudeDto.kt` | Retrofit binding for Anthropic Messages API. |
+| `data/ai/ClaudeAiGateway.kt` | Builds prompt, parses JSON, handles `refusal`, caches by URL. Model `claude-haiku-4-5`. |
+| `data/local/AiInsightEntity.kt` + `AiInsightDao.kt` | Room cache (DB bumped to v2). |
+| `di/AiModule.kt` | Provides `ClaudeService` (base URL = `CLAUDE_PROXY_URL` or Anthropic) + `AiGateway`. |
+| `presentation/details/AiInsightState.kt` + `components/AiInsightCard.kt` | AI card UI; `DetailsViewModel.loadInsightIfEnabled` gates on the Settings toggle. |
+
+Extra API keys in `local.properties`: `CLAUDE_API_KEY` (dev), optional `CLAUDE_PROXY_URL` (prod base URL).
+
 ### Where remaining layers will go (planned, not yet created)
-- `domain/ai/`, `data/ai/` (Phase 5), `work/`, `data/notifications/` (Phase 6)
+- `work/`, `data/notifications/` (Phase 6)
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 

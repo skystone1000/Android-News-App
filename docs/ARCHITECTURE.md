@@ -86,14 +86,15 @@ placeholder screens until Phase 3).
 
 ## 7. Known gaps / tech debt (as of 2026-06-21)
 
-- AI summaries toggle exists in Settings but the AI engine is not built — the toggle is inert until Phase 5. — *Phase 5*
+- AI key handling is **dev-only**: `CLAUDE_API_KEY` ships in `BuildConfig`. For production the key must move off-device behind a proxy (`CLAUDE_PROXY_URL` is already supported as the base URL) — see ROADMAP Phase 5. — *production hardening*
 - No engagement features (push notifications, daily digest, TTS, share). — *Phase 6*
-- API keys must be supplied in `local.properties` (`NEWS_API_KEY`, `GNEWS_API_KEY`); empty keys make remote calls fail at runtime.
+- API keys must be supplied in `local.properties` (`NEWS_API_KEY`, `GNEWS_API_KEY`, `CLAUDE_API_KEY`); empty keys make those calls fail at runtime.
 
 _Fixed in Phase 0: template boilerplate removed; `OnBoardingPage` shows `description`; corrupted `Page.kt` repaired; page logic corrected._
 _Done in Phase 1: Hilt wired; permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold._
 _Done in Phase 2: source-agnostic data layer — domain models, `NewsRepository`, pluggable `NewsSource` (NewsAPI/GNews) via Hilt map-multibinding, Paging 3, Room bookmarks, DI modules, BuildConfig API keys._
 _Done in Phase 3: core reading — `NewsUseCases`; Home feed, Search, Article detail (bookmark toggle + open-in-browser), Bookmarks; shared `ArticleCard`/`ArticlesList`/`ShimmerEffect`/`EmptyScreen`; Coil images; article passed to detail via `Serializable` + savedStateHandle._
-_Done in Phase 4: `SettingsManager` (DataStore) + Settings tab — data-source selection (wired to `NewsSourceProvider`), theme mode (Light/Dark/System), category chips on Home, follow-categories + personalization toggle, AI-summaries toggle (inert until Phase 5). Home feed reacts to source/category changes._
+_Done in Phase 4: `SettingsManager` (DataStore) + Settings tab — data-source selection (wired to `NewsSourceProvider`), theme mode (Light/Dark/System), category chips on Home, follow-categories + personalization toggle, AI-summaries toggle. Home feed reacts to source/category changes._
+_Done in Phase 5: AI layer — `AiGateway` contract + `ClaudeAiGateway` (Anthropic Messages API, model `claude-haiku-4-5`, refusal-aware), Room cache (`AiInsightEntity`), AI summary/sentiment/tags card on the detail screen gated by the Settings toggle. Key via `BuildConfig` (dev) or `CLAUDE_PROXY_URL` (prod)._
 
 See [CODEBASE.md](CODEBASE.md) for the file-by-file map and [FEATURES.md](FEATURES.md) for feature status.

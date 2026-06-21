@@ -20,13 +20,16 @@ import coil.request.ImageRequest
 import com.example.newsapp.domain.model.Article
 import com.example.newsapp.presentation.Dimens.ArticleImageHeight
 import com.example.newsapp.presentation.Dimens.MediumPadding1
+import com.example.newsapp.presentation.details.components.AiInsightCard
 import com.example.newsapp.presentation.details.components.DetailsTopBar
 
 @Composable
 fun DetailsScreen(
     article: Article,
     sideEffect: String?,
+    aiState: AiInsightState,
     event: (DetailsEvent) -> Unit,
+    onRequestInsight: () -> Unit,
     navigateUp: () -> Unit
 ) {
     val context = LocalContext.current
@@ -37,6 +40,8 @@ fun DetailsScreen(
             event(DetailsEvent.RemoveSideEffect)
         }
     }
+
+    LaunchedEffect(article.url) { onRequestInsight() }
 
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -66,6 +71,10 @@ fun DetailsScreen(
                 text = article.title,
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurface
+            )
+            AiInsightCard(
+                state = aiState,
+                modifier = Modifier.padding(horizontal = MediumPadding1)
             )
             Text(
                 modifier = Modifier.padding(horizontal = MediumPadding1),

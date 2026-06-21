@@ -179,10 +179,10 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 > The plan implements the `AiGateway` behind an interface so either backing works without touching the UI.
 
 **Tasks**
-- [ ] `domain/ai/AiGateway` interface: `summarize(article)`, `simplify(text)`, `tagSentimentAndTopics(article)`.
-- [ ] `data/ai/ClaudeAiGateway` impl calling Claude (default model `claude-haiku-4-5` for cost; allow `claude-sonnet-4-6` for quality) via the chosen key path above. **Read the `claude-api` skill before implementing** for current model IDs, params, and SDK usage.
-- [ ] **Result caching** in Room keyed by article URL + action, to avoid repeat cost/latency.
-- [ ] **UI:** summary card + "Explain simply" action + sentiment/topic chips on article detail and (optionally) cards — all gated by the Phase 4 AI toggles.
+- [x] `domain/ai/AiGateway` interface: `summarize(article)` returning `ArticleInsight` (summary + sentiment + tags in one call). (Merged "simplify"/"tag" into one request for cost.)
+- [x] `data/ai/ClaudeAiGateway` impl calling Claude (default model `claude-haiku-4-5`; swap to `claude-sonnet-4-6`/`claude-opus-4-8` for quality) via Retrofit; refusal-aware. Implemented per the `claude-api` skill (endpoint, `x-api-key`/`anthropic-version` headers).
+- [x] **Result caching** in Room (`AiInsightEntity`) keyed by article URL.
+- [x] **UI:** summary card + sentiment + topic chips on article detail, gated by the Phase 4 AI toggle. ("Explain simply" action deferred.)
 
 **New files/layers:** `domain/ai/`, `data/ai/`, Room `AiResultEntity`/DAO, AI UI components.
 
@@ -273,6 +273,6 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 - [x] Phase 2 — Source-agnostic data layer
 - [x] Phase 3 — Core reading experience
 - [x] Phase 4 — Configurable product features
-- [ ] Phase 5 — AI layer
+- [x] Phase 5 — AI layer
 - [ ] Phase 6 — Engagement & retention
 - [ ] Phase 7 — Production hardening

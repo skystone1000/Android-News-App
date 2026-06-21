@@ -133,7 +133,9 @@ fun NewsNavigator() {
                     DetailsScreen(
                         article = article,
                         sideEffect = viewModel.sideEffect,
+                        aiState = viewModel.aiState,
                         event = viewModel::onEvent,
+                        onRequestInsight = { viewModel.loadInsightIfEnabled(article) },
                         navigateUp = { navController.navigateUp() }
                     )
                 }
