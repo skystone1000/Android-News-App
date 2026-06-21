@@ -1,6 +1,7 @@
 package com.example.newsapp
 
 import android.app.Application
+import android.os.StrictMode
 import com.example.newsapp.data.notifications.NewsNotifier
 import com.example.newsapp.data.remote.source.NewsSourceProvider
 import com.example.newsapp.domain.manager.SettingsManager
@@ -31,11 +32,29 @@ class NewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) enableStrictMode()
         settingsManager.settings()
             .onEach { newsSourceProvider.activeSourceId = it.dataSourceId }
             .launchIn(appScope)
 
         NewsNotifier.ensureChannel(this)
         DigestScheduler.schedule(this)
+    }
+
+    /** Surfaces accidental disk/network on the main thread and common leaks during development. */
+    private fun enableStrictMode() {
+        StrictMode.setThreadPolicy(
+            StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build()
+        )
+        StrictMode.setVmPolicy(
+            StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .build()
+        )
     }
 }
