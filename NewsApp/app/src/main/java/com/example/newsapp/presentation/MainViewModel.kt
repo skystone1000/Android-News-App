@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsapp.domain.manager.SettingsManager
+import com.example.newsapp.domain.model.ThemeMode
 import com.example.newsapp.domain.usecases.app_entry.AppEntryUseCases
 import com.example.newsapp.presentation.navgraph.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +21,17 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    appEntryUseCases: AppEntryUseCases
+    appEntryUseCases: AppEntryUseCases,
+    settingsManager: SettingsManager
 ) : ViewModel() {
 
     var splashCondition by mutableStateOf(true)
         private set
 
     var startDestination by mutableStateOf(Route.AppStartNavigation.route)
+        private set
+
+    var themeMode by mutableStateOf(ThemeMode.SYSTEM)
         private set
 
     init {
@@ -39,6 +45,8 @@ class MainViewModel @Inject constructor(
             delay(SPLASH_DELAY_MS)
             splashCondition = false
         }.launchIn(viewModelScope)
+
+        settingsManager.settings().onEach { themeMode = it.themeMode }.launchIn(viewModelScope)
     }
 
     private companion object {

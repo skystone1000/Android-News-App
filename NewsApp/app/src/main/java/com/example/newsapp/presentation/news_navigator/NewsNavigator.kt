@@ -3,6 +3,7 @@ package com.example.newsapp.presentation.news_navigator
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,8 @@ import com.example.newsapp.presentation.news_navigator.components.BottomNavigati
 import com.example.newsapp.presentation.news_navigator.components.NewsBottomNavigation
 import com.example.newsapp.presentation.search.SearchScreen
 import com.example.newsapp.presentation.search.SearchViewModel
+import com.example.newsapp.presentation.settings.SettingsScreen
+import com.example.newsapp.presentation.settings.SettingsViewModel
 
 private const val ARTICLE_KEY = "article"
 
@@ -40,7 +43,8 @@ fun NewsNavigator() {
         listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = "Home"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Search"),
-            BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Bookmark")
+            BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Bookmark"),
+            BottomNavigationItem(icon = R.drawable.ic_preferences, text = "Settings")
         )
     }
 
@@ -53,13 +57,15 @@ fun NewsNavigator() {
         Route.HomeScreen.route -> 0
         Route.SearchScreen.route -> 1
         Route.BookmarkScreen.route -> 2
+        Route.SettingsScreen.route -> 3
         else -> selectedItem
     }
 
     val isBottomBarVisible = currentRoute in setOf(
         Route.HomeScreen.route,
         Route.SearchScreen.route,
-        Route.BookmarkScreen.route
+        Route.BookmarkScreen.route,
+        Route.SettingsScreen.route
     )
 
     Scaffold(
@@ -73,6 +79,7 @@ fun NewsNavigator() {
                             0 -> Route.HomeScreen.route
                             1 -> Route.SearchScreen.route
                             2 -> Route.BookmarkScreen.route
+                            3 -> Route.SettingsScreen.route
                             else -> Route.HomeScreen.route
                         }
                         navigateToTab(navController, route)
@@ -89,8 +96,11 @@ fun NewsNavigator() {
             composable(Route.HomeScreen.route) {
                 val viewModel: HomeViewModel = hiltViewModel()
                 val articles = viewModel.news.collectAsLazyPagingItems()
+                val settings by viewModel.settings.collectAsState()
                 HomeScreen(
                     articles = articles,
+                    settings = settings,
+                    onCategorySelected = viewModel::selectCategory,
                     navigateToDetails = { navigateToDetails(navController, it) }
                 )
             }
@@ -108,6 +118,11 @@ fun NewsNavigator() {
                     state = viewModel.state,
                     navigateToDetails = { navigateToDetails(navController, it) }
                 )
+            }
+            composable(Route.SettingsScreen.route) {
+                val viewModel: SettingsViewModel = hiltViewModel()
+                val settings by viewModel.settings.collectAsState()
+                SettingsScreen(settings = settings, event = viewModel::onEvent)
             }
             composable(Route.DetailsScreen.route) {
                 val viewModel: DetailsViewModel = hiltViewModel()

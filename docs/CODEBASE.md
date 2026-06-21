@@ -111,8 +111,19 @@ Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (def
 Domain models implement `java.io.Serializable` so an `Article` can pass through Compose
 navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
 
+### Settings & personalization (Phase 4)
+| File / package | Purpose |
+|------|---------|
+| `domain/model/UserSettings.kt` | `UserSettings`, `ThemeMode`, `NewsCategories`, source-id constants. |
+| `domain/manager/SettingsManager.kt` | Contract for reading/persisting user settings. |
+| `data/manager/SettingsManagerImpl.kt` | DataStore impl (separate store: `news_user_settings`). |
+| `presentation/settings/` | `SettingsScreen`/`SettingsViewModel`/`SettingsEvent` (theme, source, follows, toggles). |
+| `presentation/home/components/CategoryChips.kt` | Horizontal category selector on Home. |
+| `NewsApplication.kt` | Now also syncs `NewsSourceProvider.activeSourceId` from settings. |
+| `MainViewModel.kt` | Now also exposes `themeMode`; `MainActivity` applies it to `NewsAppTheme`. |
+
 ### Where remaining layers will go (planned, not yet created)
-- `presentation/settings/`, `domain/ai/`, `data/ai/`, `work/`, `data/notifications/`
+- `domain/ai/`, `data/ai/` (Phase 5), `work/`, `data/notifications/` (Phase 6)
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 

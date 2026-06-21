@@ -20,7 +20,11 @@
 | 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
 | 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |
 | 10 | Dependency injection wiring | ✅ | Hilt wired: `NewsApplication`, `di/AppModule`, `@HiltViewModel`s. |
-| 11 | Theming (light/dark, Material3) | ✅ | `NewsAppTheme`, brand palette, edge-to-edge system bars. |
+| 11 | Theming (light/dark, Material3) | ✅ | `NewsAppTheme`, brand palette, edge-to-edge; theme mode (Light/Dark/System) user-selectable in Settings. |
+| 13 | Settings hub | ✅ | `SettingsScreen` (4th tab); DataStore-backed `SettingsManager`. |
+| 14 | Category / niche filtering | ✅ | Category chips on Home; selected category drives the feed. |
+| 15 | Personalized feed | ✅ | Follow categories + personalization toggle; chips narrow to followed categories. |
+| 16 | Runtime data-source selection | ✅ | Pick NewsAPI / GNews in Settings; feed rebuilds via `NewsSourceProvider`. |
 | 12 | Reusable UI kit | ✅ | `NewsButton`, `PageIndicator`, `ArticleCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `Dimens`. |
 
 ## 2. Current user-facing behavior
