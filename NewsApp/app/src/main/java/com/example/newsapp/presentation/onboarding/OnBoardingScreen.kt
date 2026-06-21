@@ -83,8 +83,8 @@ fun OnBoardingScreen() {
                     text = buttonState.value[1],
                     onClick = {
                         scope.launch {
-                            if (pagerState.currentPage == 3) {
-                                // Navigate to home
+                            if (pagerState.currentPage == pages.size - 1) {
+                                // TODO(Phase 1): save app-entry flag and navigate to Home
                             } else {
                                 pagerState.animateScrollToPage(
                                     page = pagerState.currentPage + 1
