@@ -56,7 +56,7 @@ Clean Architecture with three layers. Dependencies point **inward**
 | Networking | **Retrofit + Gson** behind a pluggable `NewsSource` (NewsAPI + GNews) | **implemented** (source-agnostic; runtime-selectable via `NewsSourceProvider`) |
 | Paging | **Paging 3** (`paging-compose`) for infinite article lists | **implemented** (`NewsPagingSource` + repository `Pager`) |
 | Local cache / bookmarks | **Room** 2.6.1 (`ArticleEntity`, `NewsDao`, `NewsDatabase`) | **implemented** (bookmark store; consumed by repository) |
-| First-launch / user prefs | **DataStore Preferences** | **implemented** (`LocalUserManager` app-entry flag + `app_entry` use cases) |
+| First-launch / user prefs | **DataStore Preferences** | **implemented** (`LocalUserManager` app-entry + `SettingsManager` user settings: source, category, theme, follows, toggles) |
 | Image loading | **Coil** (`coil-compose`) | **implemented** (`AsyncImage` in article cards/detail) |
 | System bars | **Accompanist systemuicontroller** + edge-to-edge | partially used (theme) |
 | Splash | **Core SplashScreen API** (`installSplashScreen`) | implemented |
@@ -86,13 +86,14 @@ placeholder screens until Phase 3).
 
 ## 7. Known gaps / tech debt (as of 2026-06-21)
 
-- No **Settings** screen yet — category selection, source selection, personalization, and AI toggles are unimplemented. — *Phase 4*
-- `NewsSourceProvider.activeSourceId` is hard-coded to the default; user-driven source selection comes with Settings. — *Phase 4*
+- AI summaries toggle exists in Settings but the AI engine is not built — the toggle is inert until Phase 5. — *Phase 5*
+- No engagement features (push notifications, daily digest, TTS, share). — *Phase 6*
 - API keys must be supplied in `local.properties` (`NEWS_API_KEY`, `GNEWS_API_KEY`); empty keys make remote calls fail at runtime.
 
 _Fixed in Phase 0: template boilerplate removed; `OnBoardingPage` shows `description`; corrupted `Page.kt` repaired; page logic corrected._
 _Done in Phase 1: Hilt wired; permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold._
 _Done in Phase 2: source-agnostic data layer — domain models, `NewsRepository`, pluggable `NewsSource` (NewsAPI/GNews) via Hilt map-multibinding, Paging 3, Room bookmarks, DI modules, BuildConfig API keys._
 _Done in Phase 3: core reading — `NewsUseCases`; Home feed, Search, Article detail (bookmark toggle + open-in-browser), Bookmarks; shared `ArticleCard`/`ArticlesList`/`ShimmerEffect`/`EmptyScreen`; Coil images; article passed to detail via `Serializable` + savedStateHandle._
+_Done in Phase 4: `SettingsManager` (DataStore) + Settings tab — data-source selection (wired to `NewsSourceProvider`), theme mode (Light/Dark/System), category chips on Home, follow-categories + personalization toggle, AI-summaries toggle (inert until Phase 5). Home feed reacts to source/category changes._
 
 See [CODEBASE.md](CODEBASE.md) for the file-by-file map and [FEATURES.md](FEATURES.md) for feature status.

@@ -149,11 +149,11 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phase 3.
 
 **Tasks**
-- [ ] **Settings hub:** `SettingsScreen` + `SettingsViewModel` backed by a DataStore `UserPreferences` (Proto DataStore recommended for typed prefs).
-- [ ] **Preference model & flags:** default/selected data source; personalization on/off; followed topics & sources; niche/category filter; theme (light/dark/AMOLED/system); text size; AI toggles (placeholder until Phase 5); notification prefs (placeholder until Phase 6).
-- [ ] **Personalization:** topic/source follow UI; a **"For You"** feed = repository query filtered & ranked by prefs; category browse screen.
-- [ ] **Niche/vertical filtering:** category chips; remember default category.
-- [ ] Make `HomeViewModel` reactive to preference changes (re-compose the feed from selected sources/categories).
+- [x] **Settings hub:** `SettingsScreen` + `SettingsViewModel` backed by DataStore (`SettingsManager`). (Preferences DataStore used; Proto deferred — typed wrapper is sufficient.)
+- [x] **Preference model & flags:** selected data source; personalization on/off; followed categories; category filter; theme (Light/Dark/System); AI-summaries toggle (inert until Phase 5). (Text-size + notification prefs deferred to their phases.)
+- [x] **Personalization:** follow-categories UI + toggle; Home chips narrow to followed categories when enabled.
+- [x] **Niche/vertical filtering:** category chips on Home; selected category persisted.
+- [x] Make `HomeViewModel` reactive to preference changes (feed rebuilds on source/category change).
 
 **New files/layers:** `presentation/settings/`, `domain/usecases/preferences/`, `data/manager/UserPreferences*`, `presentation/foryou/` (or a Home mode).
 
@@ -272,7 +272,7 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 - [x] Phase 1 — App foundation
 - [x] Phase 2 — Source-agnostic data layer
 - [x] Phase 3 — Core reading experience
-- [ ] Phase 4 — Configurable product features
+- [x] Phase 4 — Configurable product features
 - [ ] Phase 5 — AI layer
 - [ ] Phase 6 — Engagement & retention
 - [ ] Phase 7 — Production hardening

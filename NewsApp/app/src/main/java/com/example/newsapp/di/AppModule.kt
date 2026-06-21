@@ -2,7 +2,9 @@ package com.example.newsapp.di
 
 import android.app.Application
 import com.example.newsapp.data.manager.LocalUserManagerImpl
+import com.example.newsapp.data.manager.SettingsManagerImpl
 import com.example.newsapp.domain.manager.LocalUserManager
+import com.example.newsapp.domain.manager.SettingsManager
 import com.example.newsapp.domain.usecases.app_entry.AppEntryUseCases
 import com.example.newsapp.domain.usecases.app_entry.ReadAppEntry
 import com.example.newsapp.domain.usecases.app_entry.SaveAppEntry
@@ -23,6 +25,11 @@ object AppModule {
     @Singleton
     fun provideLocalUserManager(application: Application): LocalUserManager =
         LocalUserManagerImpl(application)
+
+    @Provides
+    @Singleton
+    fun provideSettingsManager(application: Application): SettingsManager =
+        SettingsManagerImpl(application)
 
     @Provides
     @Singleton
