@@ -205,8 +205,9 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Tasks**
 - [ ] **Push (FCM):** breaking-news notifications via topic subscriptions tied to followed categories; runtime `POST_NOTIFICATIONS` permission (API 33+). Sending requires a Firebase project + a trigger (Cloud Function or the same proxy from Phase 5).
 - [ ] **Daily digest:** `WorkManager` periodic job → digest notification.
-- [ ] **TTS "Listen to article":** Android `TextToSpeech`.
-- [ ] **Share** intent; **reading history** (Room); **accessibility** (dynamic font scaling, content descriptions); AMOLED/dark theme polish.
+- [x] **TTS "Listen to article":** Android `TextToSpeech` via `ArticleSpeaker`; play/stop toggle on the detail top bar.
+- [x] **Share** intent (`ACTION_SEND` chooser from the detail top bar).
+- [ ] **Reading history** (Room); **accessibility** (dynamic font scaling, content descriptions); AMOLED/dark theme polish.
 
 **New files/layers:** `data/notifications/`, `work/` (WorkManager), `presentation/history/`, TTS controller.
 

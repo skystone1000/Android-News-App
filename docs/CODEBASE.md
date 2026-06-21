@@ -1,7 +1,7 @@
 # CODEBASE.md
 
 > File-by-file map of the project so you don't have to re-scan the tree each session.
-> Read this before opening source files. Last updated: 2026-06-21.
+> Read this before opening source files. Last updated: 2026-06-22.
 > Update this whenever files are added, removed, moved, or substantially changed (see root `CLAUDE.md`).
 
 ## 1. Repository layout
@@ -104,7 +104,7 @@ Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (def
 | `di/UseCaseModule.kt` | Provides `NewsUseCases`. |
 | `presentation/home/{HomeScreen,HomeViewModel}.kt` | Paged headlines feed. |
 | `presentation/search/` | `SearchScreen`/`SearchViewModel`/`SearchState`/`SearchEvent` + `components/SearchBar`. |
-| `presentation/details/` | `DetailsScreen`/`DetailsViewModel`/`DetailsEvent` + `components/DetailsTopBar` (bookmark toggle, open-in-browser). |
+| `presentation/details/` | `DetailsScreen`/`DetailsViewModel`/`DetailsEvent` + `components/DetailsTopBar` (listen/share/bookmark/open-in-browser) + `ArticleSpeaker.kt` (TTS wrapper). |
 | `presentation/bookmark/` | `BookmarkScreen`/`BookmarkViewModel`/`BookmarkState` (Room-backed list). |
 | `presentation/common/` | `ArticleCard`, `ArticlesList` (+ paging-state handling), `ShimmerEffect`, `EmptyScreen`. |
 

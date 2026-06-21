@@ -1,5 +1,9 @@
 package com.example.newsapp.presentation.details.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,6 +18,9 @@ import com.example.newsapp.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsTopBar(
+    isSpeaking: Boolean,
+    onListenClick: () -> Unit,
+    onShareClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     onBrowsingClick: () -> Unit,
     onBackClick: () -> Unit
@@ -34,6 +41,18 @@ fun DetailsTopBar(
             }
         },
         actions = {
+            IconButton(onClick = onListenClick) {
+                Icon(
+                    imageVector = if (isSpeaking) Icons.Filled.Clear else Icons.Filled.PlayArrow,
+                    contentDescription = if (isSpeaking) "Stop listening" else "Listen to article"
+                )
+            }
+            IconButton(onClick = onShareClick) {
+                Icon(
+                    imageVector = Icons.Filled.Share,
+                    contentDescription = "Share article"
+                )
+            }
             IconButton(onClick = onBookmarkClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_bookmark),
