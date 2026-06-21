@@ -79,11 +79,26 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 | `ui/theme/Theme.kt` | `NewsAppTheme` Material3 theme + status bar handling. |
 | `ui/theme/Type.kt` | Typography definitions. |
 
-### Where new layers will go (planned, not yet created)
-- `domain/model/`, `domain/repository/`, `domain/usecases/`
-- `data/remote/` (Retrofit API + Paging source), `data/local/` (Room DB/DAO), `data/repository/`, `data/manager/` (DataStore)
-- `di/` (Hilt modules), `presentation/navgraph/`, `presentation/home/`, `presentation/search/`, `presentation/details/`, `presentation/bookmark/`
-- `NewsApplication.kt` (`@HiltAndroidApp`)
+### Data layer (Phase 2)
+| File / package | Purpose |
+|------|---------|
+| `domain/model/{Article,Source}.kt` | Pure-Kotlin domain models. |
+| `domain/repository/NewsRepository.kt` | Single repository contract (paged news/search + bookmark CRUD). |
+| `data/remote/dto/{NewsApiDto,GNewsDto}.kt` | Per-provider wire DTOs + `toArticleOrNull()` mappers. |
+| `data/remote/api/{NewsApiService,GNewsService}.kt` | Retrofit service bindings (+ `BASE_URL`). |
+| `data/remote/source/NewsSource.kt` | Provider-agnostic source contract. |
+| `data/remote/source/{NewsApiSource,GNewsSource}.kt` | Concrete sources (service + API key → domain). |
+| `data/remote/source/NewsSourceProvider.kt` | Resolves the active source from the Hilt source map. |
+| `data/remote/NewsPagingSource.kt` | Paging 3 source (headlines or search), de-dupes by URL. |
+| `data/local/{ArticleEntity,NewsDao,NewsDatabase,ArticleMapper}.kt` | Room bookmark store + entity↔domain mapping. |
+| `data/repository/NewsRepositoryImpl.kt` | Pager over the active source + Room-backed bookmarks. |
+| `di/{NetworkModule,SourceModule,DatabaseModule,RepositoryModule}.kt` | Hilt wiring; `SourceModule` uses `@IntoMap @StringKey` multibinding. |
+
+**Required API keys** (in `NewsApp/local.properties`, git-ignored): `NEWS_API_KEY`, `GNEWS_API_KEY`.
+Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (default `""`).
+
+### Where remaining layers will go (planned, not yet created)
+- `domain/usecases/news/`, `presentation/home/`, `presentation/search/`, `presentation/details/`, `presentation/bookmark/`, `presentation/settings/`
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 

@@ -14,10 +14,10 @@
 | 2 | Onboarding carousel | ✅ | 3-page `HorizontalPager`, indicator, Back/Next/Get-Started. "Get Started" saves the app-entry flag and navigates to the main graph. (Copy is still placeholder Lorem Ipsum.) |
 | 3 | First-launch detection (show onboarding once) | ✅ | DataStore app-entry flag via `LocalUserManager`; `MainViewModel` picks the start destination. |
 | 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (tab screens are placeholders until Phase 3). |
-| 5 | Home feed — breaking/top news, infinite scroll | ⛔ | Needs Retrofit API + Paging 3 + Home screen/ViewModel. |
+| 5 | Home feed — breaking/top news, infinite scroll | 🟡 | Data layer ready (pluggable sources + Paging 3 + repository); Home screen/ViewModel UI is Phase 3. |
 | 6 | Article detail view | ⛔ | Open full article (in-app WebView or formatted detail). |
 | 7 | Search articles | ⛔ | Query the news API; debounced search + paged results. |
-| 8 | Bookmark / save articles | ⛔ | Room-backed; bookmarks list screen. |
+| 8 | Bookmark / save articles | 🟡 | Room store + repository CRUD ready; bookmarks list screen is Phase 3. |
 | 9 | Image loading | ⛔ | Coil dependency present; used once article UI exists. |
 | 10 | Dependency injection wiring | ✅ | Hilt wired: `NewsApplication`, `di/AppModule`, `@HiltViewModel`s. |
 | 11 | Theming (light/dark, Material3) | ✅ | `NewsAppTheme`, brand palette, edge-to-edge system bars. |
