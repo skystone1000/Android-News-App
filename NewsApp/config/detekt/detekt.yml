@@ -31,6 +31,10 @@ naming:
   FunctionNaming:
     active: true
     ignoreAnnotated: ['Composable']
+  # Allow snake_case package segments (e.g. app_entry, news_navigator)
+  PackageNaming:
+    active: true
+    packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9_]*)*'
 
 empty-blocks:
   EmptyFunctionBlock:

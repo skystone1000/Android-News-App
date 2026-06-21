@@ -51,24 +51,24 @@ Clean Architecture with three layers. Dependencies point **inward**
 
 | Concern | Approach / Library | Status |
 |---------|--------------------|--------|
-| Dependency Injection | **Hilt** (`@HiltAndroidApp`, `@Module`, `@HiltViewModel`) | dependency present, **not wired yet** (no Application class, no modules) |
-| Navigation | **Navigation-Compose** single-activity NavHost | planned (placeholders in onboarding) |
+| Dependency Injection | **Hilt** (`@HiltAndroidApp`, `@Module`, `@HiltViewModel`) | **wired** (`NewsApplication`, `di/AppModule`, `MainViewModel`/`OnBoardingViewModel`) |
+| Navigation | **Navigation-Compose** single-activity NavHost | **implemented** (`navgraph/NavGraph` + bottom-nav `NewsNavigator`; tab screens are placeholders until Phase 3) |
 | Networking | **Retrofit + Gson** against a news API (e.g. newsapi.org) | dependency present, not implemented |
 | Paging | **Paging 3** (`paging-compose`) for infinite article lists | dependency present, not implemented |
 | Local cache / bookmarks | **Room** | dependency present, not implemented |
-| First-launch / user prefs | **DataStore Preferences** | dependency present, not implemented |
+| First-launch / user prefs | **DataStore Preferences** | **implemented** (`LocalUserManager` app-entry flag + `app_entry` use cases) |
 | Image loading | **Coil** (`coil-compose`) | dependency present, not used yet |
 | System bars | **Accompanist systemuicontroller** + edge-to-edge | partially used (theme) |
 | Splash | **Core SplashScreen API** (`installSplashScreen`) | implemented |
 
 ## 4. App startup flow (current)
 
-`MainActivity.onCreate` → edge-to-edge (`setDecorFitsSystemWindows(false)`) →
-`installSplashScreen()` → `setContent { NewsAppTheme { OnBoardingScreen() } }`.
-
-There is currently **no navigation graph**: `MainActivity` shows `OnBoardingScreen`
-directly. Intended flow once built:
-`Splash → (first launch?) → Onboarding → Home (paged articles) → Detail → Bookmarks/Search`.
+`MainActivity` (`@AndroidEntryPoint`) → `installSplashScreen()` kept on screen while
+`MainViewModel` reads the DataStore app-entry flag → `MainViewModel.startDestination`
+selects `AppStartNavigation` (Onboarding) or `NewsNavigation` (main) → `NavGraph` renders.
+Pressing **Get Started** saves the flag and navigates to the main graph (clearing onboarding
+from the back stack). The main graph hosts `NewsNavigator` (bottom nav: Home/Search/Bookmark —
+placeholder screens until Phase 3).
 
 ## 5. Intended startup flow (planned)
 
@@ -86,11 +86,9 @@ directly. Intended flow once built:
 
 ## 7. Known gaps / tech debt (as of 2026-06-21)
 
-- Hilt is not initialized (no `@HiltAndroidApp` Application, not in manifest). — *Phase 1*
-- No `INTERNET` permission in the manifest (required before networking works). — *Phase 1*
-- No domain or data layer exists yet. — *Phase 2*
-- Onboarding "Get Started" navigation is stubbed (`TODO(Phase 1)` in `OnBoardingScreen`); the last-page detection logic itself is now correct.
+- No domain or data layer for **news content** exists yet (models, repository, remote/local sources). — *Phase 2*
 
-_Fixed in Phase 0: template `Greeting`/`GreetingPreview` removed from `MainActivity`; `OnBoardingPage` now shows `description`; corrupted `Page.kt` field repaired; off-by-one page logic corrected._
+_Fixed in Phase 0: template boilerplate removed; `OnBoardingPage` shows `description`; corrupted `Page.kt` repaired; page logic corrected._
+_Done in Phase 1: Hilt wired (`NewsApplication` + `AppModule`); `INTERNET`/`ACCESS_NETWORK_STATE` permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold; onboarding "Get Started" saves the flag and navigates to the main graph._
 
 See [CODEBASE.md](CODEBASE.md) for the file-by-file map and [FEATURES.md](FEATURES.md) for feature status.

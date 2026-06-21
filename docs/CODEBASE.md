@@ -55,7 +55,20 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 
 | File | Purpose |
 |------|---------|
-| `MainActivity.kt` | Single activity. Edge-to-edge + `installSplashScreen()`, sets `NewsAppTheme { OnBoardingScreen() }`. Still contains template `Greeting`/`GreetingPreview`. |
+| `NewsApplication.kt` | `@HiltAndroidApp` Application — DI entry point (registered in manifest). |
+| `MainActivity.kt` | `@AndroidEntryPoint` single activity. Splash held via `MainViewModel.splashCondition`; renders `NavGraph(startDestination)`. |
+| `util/Constants.kt` | App-wide constant keys (`USER_SETTINGS`, `APP_ENTRY`). |
+| `di/AppModule.kt` | Hilt `@Module` (SingletonComponent): provides `LocalUserManager` + `AppEntryUseCases`. |
+| `domain/manager/LocalUserManager.kt` | Pure-Kotlin contract for local user state (app-entry flag). |
+| `data/manager/LocalUserManagerImpl.kt` | DataStore Preferences impl of `LocalUserManager`. |
+| `domain/usecases/app_entry/` | `ReadAppEntry`, `SaveAppEntry`, `AppEntryUseCases` holder. |
+| `presentation/MainViewModel.kt` | `@HiltViewModel` — resolves start destination + splash hold from the app-entry flag. |
+| `presentation/navgraph/Route.kt` | Sealed route/destination definitions. |
+| `presentation/navgraph/NavGraph.kt` | Top-level `NavHost`: app-start (onboarding) + news nested graphs. |
+| `presentation/onboarding/OnBoardingViewModel.kt` + `OnBoardingEvent.kt` | Onboarding `@HiltViewModel` + event(s) (`SaveAppEntry`). |
+| `presentation/news_navigator/NewsNavigator.kt` | Bottom-nav `Scaffold` + nested `NavHost` (Home/Search/Bookmark placeholder tabs). |
+| `presentation/news_navigator/components/` | `NewsBottomNavigation` bar + `BottomNavigationItem`. |
+| `presentation/common/PlaceholderScreen.kt` | Temporary stand-in for tab screens (replaced in Phase 3). |
 | `presentation/Dimens.kt` | `object Dimens` — all spacing/size constants (paddings, indicator size, icon sizes, article card/image sizes). |
 | `presentation/common/NewsButton.kt` | Reusable `NewsButton` (filled) and `NewsTextButton` (text) composables. |
 | `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started buttons driven by `derivedStateOf`. Navigation onClick is a stub. |
