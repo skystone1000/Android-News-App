@@ -203,8 +203,8 @@ A phase is **Done** only when its exit criteria pass *and* the relevant `docs/` 
 **Prerequisites:** Phase 3 (content) + Phase 4 (notification prefs).
 
 **Tasks**
-- [ ] **Push (FCM):** breaking-news notifications via topic subscriptions tied to followed categories; runtime `POST_NOTIFICATIONS` permission (API 33+). Sending requires a Firebase project + a trigger (Cloud Function or the same proxy from Phase 5).
-- [ ] **Daily digest:** `WorkManager` periodic job → digest notification.
+- [ ] **Push (FCM):** breaking-news notifications via topic subscriptions tied to followed categories. **Deferred** — sending requires a Firebase project + `google-services.json` + a server trigger that can't be provisioned here. (The app side that *can* exist now — the notification channel and runtime `POST_NOTIFICATIONS` request — is done as part of the digest below.)
+- [x] **Daily digest:** `WorkManager` periodic job (`DailyDigestWorker` + `DigestScheduler`) → digest notification via `NewsNotifier`; channel + runtime `POST_NOTIFICATIONS` (API 33+) handled in `MainActivity`.
 - [x] **TTS "Listen to article":** Android `TextToSpeech` via `ArticleSpeaker`; play/stop toggle on the detail top bar.
 - [x] **Share** intent (`ACTION_SEND` chooser from the detail top bar).
 - [x] **Reading history** (Room `reading_history` + `HistoryScreen`, reached from Settings → Activity, with clear-all).

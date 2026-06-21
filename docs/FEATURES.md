@@ -19,6 +19,8 @@
 | 18 | Share article | ✅ | `ACTION_SEND` chooser from the detail top bar (title + URL). |
 | 19 | Listen to article (TTS) | ✅ | `ArticleSpeaker` wraps Android `TextToSpeech`; play/stop toggle in the detail top bar. |
 | 20 | Reading history | ✅ | Opening an article records it (Room `reading_history`); `HistoryScreen` (reached from Settings → Activity) lists it newest-first with a clear-all action. |
+| 21 | Daily digest notification | ✅ | `WorkManager` daily job (`DailyDigestWorker`) fetches top headlines → digest notification; channel + `POST_NOTIFICATIONS` runtime request handled. |
+| 22 | Push notifications (FCM) | ⛔ | Deferred — needs a Firebase project + `google-services.json` and a server trigger (cannot be provisioned in this environment). |
 | 7 | Search articles | ✅ | `SearchScreen` + `SearchViewModel`; paged search results. |
 | 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
 | 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |

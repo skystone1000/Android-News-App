@@ -1,8 +1,10 @@
 package com.example.newsapp
 
 import android.app.Application
+import com.example.newsapp.data.notifications.NewsNotifier
 import com.example.newsapp.data.remote.source.NewsSourceProvider
 import com.example.newsapp.domain.manager.SettingsManager
+import com.example.newsapp.work.DigestScheduler
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,5 +34,8 @@ class NewsApplication : Application() {
         settingsManager.settings()
             .onEach { newsSourceProvider.activeSourceId = it.dataSourceId }
             .launchIn(appScope)
+
+        NewsNotifier.ensureChannel(this)
+        DigestScheduler.schedule(this)
     }
 }
