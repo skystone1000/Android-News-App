@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>NewLineAtEndOfFile:Color.kt$com.example.newsapp.ui.theme.Color.kt</ID>
+    <ID>NewLineAtEndOfFile:Dimens.kt$com.example.newsapp.presentation.Dimens.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$com.example.newsapp.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:NewsButton.kt$com.example.newsapp.presentation.common.NewsButton.kt</ID>
+    <ID>NewLineAtEndOfFile:OnBoardingPage.kt$com.example.newsapp.presentation.onboarding.components.OnBoardingPage.kt</ID>
+    <ID>NewLineAtEndOfFile:OnBoardingScreen.kt$com.example.newsapp.presentation.onboarding.OnBoardingScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:PageIndicator.kt$com.example.newsapp.presentation.onboarding.components.PageIndicator.kt</ID>
+    <ID>NewLineAtEndOfFile:Theme.kt$com.example.newsapp.ui.theme.Theme.kt</ID>
+    <ID>NewLineAtEndOfFile:Type.kt$com.example.newsapp.ui.theme.Type.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>
