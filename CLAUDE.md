@@ -11,6 +11,7 @@ context**. Do NOT re-scan the whole codebase to orient yourself each session.
 1. `docs/ARCHITECTURE.md` — layers, design, conventions, known gaps
 2. `docs/CODEBASE.md` — file-by-file map, build/toolchain versions
 3. `docs/FEATURES.md` — what works, what's planned, build order
+4. `docs/ROADMAP.md` — phased implementation plan (Path A→D) + progress tracker; consult before starting feature work and tick boxes as phases land
 
 Only after reading the relevant docs should you open source files — and then open
 **only the specific files** the task needs (the docs tell you which). Do not bulk-read
