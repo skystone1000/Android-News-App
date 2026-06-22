@@ -1,11 +1,14 @@
 package com.example.newsapp.data.notifications
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.example.newsapp.R
 
 /**
@@ -32,6 +35,15 @@ object NewsNotifier {
     }
 
     fun showDigest(context: Context, title: String, body: String) {
+        // Inline permission check (lint's MissingPermission flow analysis needs it in-method).
+        // Pre-Tiramisu the permission is install-granted, so this passes there too.
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         ensureChannel(context)
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_home)
