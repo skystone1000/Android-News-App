@@ -4,12 +4,17 @@ import com.example.newsapp.BuildConfig
 import com.example.newsapp.data.remote.api.CurrentsService
 import com.example.newsapp.data.remote.api.GNewsService
 import com.example.newsapp.data.remote.api.MediastackService
+import com.example.newsapp.data.remote.UsageInterceptor
 import com.example.newsapp.data.remote.api.NewsApiService
 import com.example.newsapp.data.remote.api.NewsDataService
+import com.example.newsapp.domain.usage.ApiUsageStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,7 +27,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(usageStore: ApiUsageStore): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
@@ -30,7 +35,9 @@ object NetworkModule {
                 HttpLoggingInterceptor.Level.NONE
             }
         }
+        val usageScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         return OkHttpClient.Builder()
+            .addInterceptor(UsageInterceptor(usageStore, usageScope))
             .addInterceptor(logging)
             .build()
     }

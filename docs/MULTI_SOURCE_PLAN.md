@@ -124,20 +124,20 @@ so usage is **tracked locally** and shown as an *estimate* — the same key used
 tool won't be counted. When a provider *does* return rate-limit headers, prefer them over the local count.
 
 **Tasks**
-- [ ] `domain/model/SourceQuota.kt`: `SourceQuota(limit: Int, period: QuotaPeriod)` with
+- [x] `domain/model/SourceQuota.kt`: `SourceQuota(limit: Int, period: QuotaPeriod)` with
   `enum QuotaPeriod { DAILY, MONTHLY }` (DAILY for NewsAPI/NewsData/GNews/Currents, MONTHLY for Mediastack).
-- [ ] `domain/usage/ApiUsageStore` interface:
+- [x] `domain/usage/ApiUsageStore` interface:
   - `fun usage(): Flow<Map<String, UsageSnapshot>>`
   - `suspend fun recordRequest(sourceId: String)`
   - `suspend fun reset(sourceId: String)`
   - `data class UsageSnapshot(used: Int, limit: Int, period: QuotaPeriod, windowStart: Long, resetAt: Long)`.
-- [ ] `data/usage/ApiUsageStoreImpl`: persist `{count, windowStart}` per source (DataStore or a small
+- [x] `data/usage/ApiUsageStoreImpl`: persist `{count, windowStart}` per source (DataStore or a small
   Room table). On read/increment, if the current time has crossed the period boundary (new local day /
   new month), roll the window and zero the count.
-- [ ] **Increment hook:** an OkHttp interceptor maps request **host → `sourceId`** and calls
+- [x] **Increment hook:** an OkHttp interceptor maps request **host → `sourceId`** and calls
   `recordRequest`; it also parses `X-RateLimit-Remaining`/`-Limit` (or provider equivalents) when
   present and reconciles (header value overrides the local estimate).
-- [ ] Hilt: provide `ApiUsageStore`; register the interceptor on the OkHttp client (`NetworkModule`).
+- [x] Hilt: provide `ApiUsageStore`; register the interceptor on the OkHttp client (`NetworkModule`).
 
 **Tests:** increment raises `used`; crossing the day/month boundary resets; header value overrides
 local count; host→sourceId mapping.
