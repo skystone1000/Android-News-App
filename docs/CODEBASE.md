@@ -175,6 +175,10 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `data/remote/NewsPagingSource.kt` | Keyed on `String?` cursor (forward-only). `NewsApiSource`/`GNewsSource` read keys per call from `ApiKeyStore`. |
 | `data/remote/{api,dto,source}` NewsData/Currents/Mediastack | 3 providers: NewsData.io (token cursor), Currents (numeric), Mediastack (offset, **HTTP-only**). Each = service + DTO/mapper + source + `NetworkModule` Retrofit + `SourceModule` binding. |
 | `res/xml/network_security_config.xml` | Cleartext allowed **only** for `api.mediastack.com` (free tier has no TLS); referenced from the manifest. |
+| `domain/usage/ApiUsageStore.kt` + `QuotaWindow.kt` | Usage contract + `UsageSnapshot`; daily/monthly window math (pure). |
+| `data/usage/ApiUsageStoreImpl.kt` | Per-provider request counts in a DataStore (`api_usage`), rolling the window on day/month boundaries. |
+| `data/remote/UsageInterceptor.kt` | OkHttp interceptor: host→sourceId, fire-and-forget count; reconciles `x-ratelimit-remaining`. Added to the client in `NetworkModule`. |
+| `di/UsageModule.kt` | Provides `ApiUsageStore`. |
 
 ### Where remaining layers will go (planned, not yet created)
 - `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)
