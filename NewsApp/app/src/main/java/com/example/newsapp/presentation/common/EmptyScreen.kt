@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import com.example.newsapp.R
+import com.example.newsapp.data.remote.source.MissingApiKeyException
 
 /**
  * Full-screen empty/error state. Shows a friendly message derived from [error]
@@ -24,6 +25,8 @@ import com.example.newsapp.R
 @Composable
 fun EmptyScreen(error: LoadState.Error? = null) {
     val message = when (val throwable = error?.error) {
+        is MissingApiKeyException ->
+            "No API key for this source. Add one in Settings → Data sources."
         is java.net.SocketTimeoutException -> "Server unavailable. Please try again."
         is java.net.ConnectException -> "No internet connection."
         null -> "No articles found."

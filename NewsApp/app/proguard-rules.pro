@@ -34,6 +34,13 @@
 -dontwarn org.bouncycastle.**
 -dontwarn org.openjsse.**
 
+# Tink (via androidx.security:security-crypto) references compile-only annotations and optional
+# deps (ErrorProne, Google API client, Joda) that aren't on the Android classpath.
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn com.google.api.client.**
+-dontwarn org.joda.time.**
+-keep class com.google.crypto.tink.** { *; }
+
 # Gson keeps its own TypeAdapters via reflection.
 -keep class com.google.gson.reflect.TypeToken { *; }
 -keep class * extends com.google.gson.reflect.TypeToken

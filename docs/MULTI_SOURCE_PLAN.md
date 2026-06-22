@@ -177,18 +177,18 @@ usage and reset time; switching works.
 # Phase F — Hardening, security, docs
 
 **Tasks**
-- [ ] **Log redaction:** OkHttp `BODY` logging in debug prints the full URL — which contains the
+- [x] **Log redaction:** OkHttp `BODY` logging in debug prints the full URL — which contains the
   key as a query param. Add a `redactQueryParam`/header-redaction interceptor (or move keys to
   headers where supported) so keys don't leak into Logcat.
-- [ ] **Error UX:** missing/invalid-key and rate-limit (HTTP 401/403/429) → friendly empty/error
+- [x] **Error UX:** missing/invalid-key and rate-limit (HTTP 401/403/429) → friendly empty/error
   state with an "Add API key in Settings" CTA (extend `EmptyScreen`/paging error handling).
-- [ ] **ProGuard:** ensure new DTO packages are covered by keep rules (existing rule globs
+- [x] **ProGuard:** ensure new DTO packages are covered by keep rules (existing rule globs
   `data.remote.dto.**`; verify the new DTOs live there or extend the rule).
-- [ ] **Usage accuracy caveat:** keep the meter labeled an on-device estimate — failed/cached
+- [x] **Usage accuracy caveat:** keep the meter labeled an on-device estimate — failed/cached
   requests and usage from other devices/tools won't match the provider's own count exactly.
-- [ ] **Dev seed (optional):** on first launch, if `ApiKeyStore` is empty and `BuildConfig.*_API_KEY`
+- [x] **Dev seed (optional):** on first launch, if `ApiKeyStore` is empty and `BuildConfig.*_API_KEY`
   is present, seed it — keeps the existing `local.properties` dev flow working.
-- [ ] **Docs:** `ARCHITECTURE.md` (runtime encrypted-key layer + cursor paging + usage tracking),
+- [x] **Docs:** `ARCHITECTURE.md` (runtime encrypted-key layer + cursor paging + usage tracking),
   `CODEBASE.md` (new files), `FEATURES.md` (#16 reworded + per-provider + key-management +
   usage-meter rows), update `AVAILABLE_SOURCE_IDS` → `SourceCatalog` references.
 
