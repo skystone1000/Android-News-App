@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--
+      Default: cleartext (HTTP) is NOT permitted. Mediastack's free tier is HTTP-only,
+      so we allow cleartext for that single host. Upgrade to a paid HTTPS plan to remove this.
+    -->
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">api.mediastack.com</domain>
+    </domain-config>
+</network-security-config>

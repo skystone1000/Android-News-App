@@ -1,8 +1,11 @@
 package com.example.newsapp.di
 
 import com.example.newsapp.BuildConfig
+import com.example.newsapp.data.remote.api.CurrentsService
 import com.example.newsapp.data.remote.api.GNewsService
+import com.example.newsapp.data.remote.api.MediastackService
 import com.example.newsapp.data.remote.api.NewsApiService
+import com.example.newsapp.data.remote.api.NewsDataService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,4 +54,34 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GNewsService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNewsDataService(client: OkHttpClient): NewsDataService =
+        Retrofit.Builder()
+            .baseUrl(NewsDataService.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NewsDataService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCurrentsService(client: OkHttpClient): CurrentsService =
+        Retrofit.Builder()
+            .baseUrl(CurrentsService.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CurrentsService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMediastackService(client: OkHttpClient): MediastackService =
+        Retrofit.Builder()
+            .baseUrl(MediastackService.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MediastackService::class.java)
 }

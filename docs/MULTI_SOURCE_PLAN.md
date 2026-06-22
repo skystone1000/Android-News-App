@@ -96,15 +96,15 @@ round-trips.
 **Goal:** Three new providers behind the same contract — each is one self-contained slice.
 
 **Per provider (×3):**
-- [ ] `data/remote/api/<X>Service.kt` (Retrofit) + `data/remote/dto/<X>Dto.kt` + `toArticleOrNull()` mapper.
-- [ ] `data/remote/source/<X>Source.kt` implementing `NewsSource`.
-- [ ] `@Provides @IntoMap @StringKey(<X>Source.ID)` in `SourceModule`; Retrofit instance in `NetworkModule`.
-- [ ] Per-provider **category mapping** to the shared `NewsCategories` vocabulary (pass-through where equal).
+- [x] `data/remote/api/<X>Service.kt` (Retrofit) + `data/remote/dto/<X>Dto.kt` + `toArticleOrNull()` mapper.
+- [x] `data/remote/source/<X>Source.kt` implementing `NewsSource`.
+- [x] `@Provides @IntoMap @StringKey(<X>Source.ID)` in `SourceModule`; Retrofit instance in `NetworkModule`.
+- [x] Per-provider **category mapping** to the shared `NewsCategories` vocabulary (pass-through where equal).
 
 **Provider specifics**
-- [ ] **NewsData.io:** cursor pagination via `nextPage`; map `results[]`.
-- [ ] **Currents:** `page_number`/`page_size`; map `news[]`; reconcile category names.
-- [ ] **Mediastack:** offset paging (`offset`/`limit`); map `data[]`; **HTTP-only** → add a
+- [x] **NewsData.io:** cursor pagination via `nextPage`; map `results[]`.
+- [x] **Currents:** `page_number`/`page_size`; map `news[]`; reconcile category names.
+- [x] **Mediastack:** offset paging (`offset`/`limit`); map `data[]`; **HTTP-only** → add a
   `network_security_config.xml` allowing cleartext **only** for `api.mediastack.com`, referenced
   from the manifest. Document the free-tier-TLS limitation in FEATURES.
 

@@ -31,7 +31,7 @@
 | 13 | Settings hub | ✅ | `SettingsScreen` (4th tab); DataStore-backed `SettingsManager`. |
 | 14 | Category / niche filtering | ✅ | Category chips on Home; selected category drives the feed. |
 | 15 | Personalized feed | ✅ | Follow categories + personalization toggle; chips narrow to followed categories. |
-| 16 | Runtime data-source selection | ✅ | Pick NewsAPI / GNews in Settings; feed rebuilds via `NewsSourceProvider`. |
+| 16 | Runtime data-source selection | ✅ | Pick NewsAPI / GNews in Settings; feed rebuilds via `NewsSourceProvider`. **Expanding** (see `MULTI_SOURCE_PLAN.md`): data layer now also supports NewsData.io, Currents, Mediastack; in-app per-provider API-key entry + usage meters land in the Settings-UI phase. Mediastack free tier is HTTP-only (scoped cleartext config). |
 | 17 | AI summaries / sentiment / tags | ✅ | Claude-powered `AiGateway`; card on article detail, gated by the AI toggle; cached in Room. (Dev key in BuildConfig; proxy for prod.) |
 | 12 | Reusable UI kit | ✅ | `NewsButton`, `PageIndicator`, `ArticleCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `Dimens`. |
 
