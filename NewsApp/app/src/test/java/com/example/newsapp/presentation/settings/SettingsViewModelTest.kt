@@ -7,6 +7,7 @@ import com.example.newsapp.util.FakeSettingsManager
 import com.example.newsapp.util.MainDispatcherRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -48,12 +49,12 @@ class SettingsViewModelTest {
     fun `saving an api key exposes the source as configured`() = runTest {
         val keyStore = FakeApiKeyStore()
         val vm = viewModel(keyStore = keyStore)
-        backgroundScope.launch { vm.configuredSourceIds.collect {} }
 
         vm.onEvent(SettingsEvent.SetApiKey("gnews", "secret"))
 
         assertThat(keyStore.getKey("gnews")).isEqualTo("secret")
-        assertThat(vm.configuredSourceIds.value).contains("gnews")
+        // Await the derived StateFlow's emission rather than racing its WhileSubscribed start.
+        assertThat(vm.configuredSourceIds.first { it.isNotEmpty() }).contains("gnews")
     }
 
     @Test

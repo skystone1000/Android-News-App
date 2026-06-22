@@ -90,7 +90,7 @@ placeholder screens until Phase 3).
 
 - AI key handling is **dev-only**: `CLAUDE_API_KEY` ships in `BuildConfig`. For production the key must move off-device behind a proxy (`CLAUDE_PROXY_URL` is already supported as the base URL) — see ROADMAP Phase 5. — *production hardening*
 - No engagement features (push notifications, daily digest, TTS, share). — *Phase 6*
-- API keys must be supplied in `local.properties` (`NEWS_API_KEY`, `GNEWS_API_KEY`, `CLAUDE_API_KEY`); empty keys make those calls fail at runtime.
+- News-provider API keys are now **entered in-app and encrypted** (`ApiKeyStore`); `local.properties`/`BuildConfig` keys are only an optional dev seed. The **Claude** key (`CLAUDE_API_KEY`) is still dev-only via `BuildConfig` — production must use `CLAUDE_PROXY_URL`.
 
 _Fixed in Phase 0: template boilerplate removed; `OnBoardingPage` shows `description`; corrupted `Page.kt` repaired; page logic corrected._
 _Done in Phase 1: Hilt wired; permissions added; DataStore app-entry flag; navigation graph + bottom-nav scaffold._
