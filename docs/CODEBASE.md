@@ -173,6 +173,8 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `data/remote/source/PageCursor.kt` | `pageOf`/`nextPageCursor` helpers for numeric-page providers. |
 | `data/remote/source/MissingApiKeyException.kt` | Thrown when a source has no configured key → surfaces as a paging `LoadResult.Error`. |
 | `data/remote/NewsPagingSource.kt` | Keyed on `String?` cursor (forward-only). `NewsApiSource`/`GNewsSource` read keys per call from `ApiKeyStore`. |
+| `data/remote/{api,dto,source}` NewsData/Currents/Mediastack | 3 providers: NewsData.io (token cursor), Currents (numeric), Mediastack (offset, **HTTP-only**). Each = service + DTO/mapper + source + `NetworkModule` Retrofit + `SourceModule` binding. |
+| `res/xml/network_security_config.xml` | Cleartext allowed **only** for `api.mediastack.com` (free tier has no TLS); referenced from the manifest. |
 
 ### Where remaining layers will go (planned, not yet created)
 - `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)

@@ -1,9 +1,15 @@
 package com.example.newsapp.di
 
+import com.example.newsapp.data.remote.api.CurrentsService
 import com.example.newsapp.data.remote.api.GNewsService
+import com.example.newsapp.data.remote.api.MediastackService
 import com.example.newsapp.data.remote.api.NewsApiService
+import com.example.newsapp.data.remote.api.NewsDataService
+import com.example.newsapp.data.remote.source.CurrentsSource
 import com.example.newsapp.data.remote.source.GNewsSource
+import com.example.newsapp.data.remote.source.MediastackSource
 import com.example.newsapp.data.remote.source.NewsApiSource
+import com.example.newsapp.data.remote.source.NewsDataSource
 import com.example.newsapp.data.remote.source.NewsSource
 import com.example.newsapp.domain.security.ApiKeyStore
 import dagger.Module
@@ -35,4 +41,25 @@ object SourceModule {
     @Singleton
     fun provideGNewsSource(service: GNewsService, apiKeyStore: ApiKeyStore): NewsSource =
         GNewsSource(service, apiKeyStore)
+
+    @Provides
+    @IntoMap
+    @StringKey(NewsDataSource.ID)
+    @Singleton
+    fun provideNewsDataSource(service: NewsDataService, apiKeyStore: ApiKeyStore): NewsSource =
+        NewsDataSource(service, apiKeyStore)
+
+    @Provides
+    @IntoMap
+    @StringKey(CurrentsSource.ID)
+    @Singleton
+    fun provideCurrentsSource(service: CurrentsService, apiKeyStore: ApiKeyStore): NewsSource =
+        CurrentsSource(service, apiKeyStore)
+
+    @Provides
+    @IntoMap
+    @StringKey(MediastackSource.ID)
+    @Singleton
+    fun provideMediastackSource(service: MediastackService, apiKeyStore: ApiKeyStore): NewsSource =
+        MediastackSource(service, apiKeyStore)
 }
