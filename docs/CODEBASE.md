@@ -13,7 +13,10 @@ Android-News-App/                 (git root, also the working directory)
 ├── docs/                         ← project documentation (this folder)
 │   ├── ARCHITECTURE.md
 │   ├── CODEBASE.md
-│   └── FEATURES.md
+│   ├── FEATURES.md
+│   ├── DATASOURCES.md            ← news providers + API-key/usage handling
+│   ├── ROADMAP.md                ← phased Path A→D plan + status
+│   └── MULTI_SOURCE_PLAN.md      ← multi-provider + in-app keys plan
 └── NewsApp/                      ← the Android Studio project (open THIS in the IDE)
     ├── build.gradle.kts          ← root build: plugin versions
     ├── settings.gradle.kts       ← module includes + repositories
@@ -46,6 +49,12 @@ Build from CLI: `cd NewsApp && ./gradlew :app:assembleDebug`
 **Dependency versions are centralized** in `NewsApp/gradle/libs.versions.toml` (Gradle
 version catalog). Add/bump dependencies there, then reference via `libs.*` in the build files.
 
+Key libraries (all via the catalog): Hilt, Retrofit + Gson + OkHttp, Coil, Paging 3, Room 2.6.1
+(kapt), DataStore Preferences, Navigation-Compose, `material-icons-core`,
+`androidx.work:work-runtime-ktx` (daily digest), `androidx.security:security-crypto` (encrypted
+API keys). Release builds use **R8** (`isMinifyEnabled` + `isShrinkResources`) with
+`app/proguard-rules.pro`.
+
 **Quality tooling (Phase 0):**
 - Static analysis: **detekt** (`NewsApp/config/detekt/detekt.yml`, pre-existing issues in `baseline.xml`). Run `./gradlew detekt`.
 - Unit tests live in `NewsApp/app/src/test/`; stack = JUnit4 + MockK + Turbine + Truth + coroutines-test. Run `./gradlew :app:testDebugUnitTest`.
@@ -56,9 +65,9 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 | File | Purpose |
 |------|---------|
 | `NewsApplication.kt` | `@HiltAndroidApp` Application — DI entry point (registered in manifest). |
-| `MainActivity.kt` | `@AndroidEntryPoint` single activity. Splash held via `MainViewModel.splashCondition`; renders `NavGraph(startDestination)`. |
+| `MainActivity.kt` | `@AndroidEntryPoint` single activity. Splash held via `MainViewModel.splashCondition`; computes dark theme from `MainViewModel.themeMode`; requests `POST_NOTIFICATIONS` (API 33+); renders `NavGraph(startDestination)`. |
 | `util/Constants.kt` | App-wide constant keys (`USER_SETTINGS`, `APP_ENTRY`). |
-| `di/AppModule.kt` | Hilt `@Module` (SingletonComponent): provides `LocalUserManager` + `AppEntryUseCases`. |
+| `di/AppModule.kt` | Hilt `@Module` (SingletonComponent): provides `LocalUserManager`, `AppEntryUseCases`, `SettingsManager`. (Other modules: `NetworkModule`, `SourceModule`, `DatabaseModule`, `RepositoryModule`, `UseCaseModule`, `AiModule`, `SecurityModule`, `UsageModule`.) |
 | `domain/manager/LocalUserManager.kt` | Pure-Kotlin contract for local user state (app-entry flag). |
 | `data/manager/LocalUserManagerImpl.kt` | DataStore Preferences impl of `LocalUserManager`. |
 | `domain/usecases/app_entry/` | `ReadAppEntry`, `SaveAppEntry`, `AppEntryUseCases` holder. |
@@ -66,14 +75,13 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 | `presentation/navgraph/Route.kt` | Sealed route/destination definitions. |
 | `presentation/navgraph/NavGraph.kt` | Top-level `NavHost`: app-start (onboarding) + news nested graphs. |
 | `presentation/onboarding/OnBoardingViewModel.kt` + `OnBoardingEvent.kt` | Onboarding `@HiltViewModel` + event(s) (`SaveAppEntry`). |
-| `presentation/news_navigator/NewsNavigator.kt` | Bottom-nav `Scaffold` + nested `NavHost` (Home/Search/Bookmark placeholder tabs). |
+| `presentation/news_navigator/NewsNavigator.kt` | Bottom-nav `Scaffold` + nested `NavHost` (Home/Search/Bookmark/Settings tabs + Details/History routes); article passed via `savedStateHandle`. |
 | `presentation/news_navigator/components/` | `NewsBottomNavigation` bar + `BottomNavigationItem`. |
-| `presentation/common/PlaceholderScreen.kt` | Temporary stand-in for tab screens (replaced in Phase 3). |
 | `presentation/Dimens.kt` | `object Dimens` — all spacing/size constants (paddings, indicator size, icon sizes, article card/image sizes). |
 | `presentation/common/NewsButton.kt` | Reusable `NewsButton` (filled) and `NewsTextButton` (text) composables. |
-| `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started buttons driven by `derivedStateOf`. Navigation onClick is a stub. |
-| `presentation/onboarding/Page.kt` | `data class Page(title, description, @DrawableRes image)` + the `pages` list (3 placeholder Lorem-Ipsum pages using `onboarding1/2/3.png`). |
-| `presentation/onboarding/components/OnBoardingPage.kt` | Single onboarding page UI (image + title + text). NOTE: currently shows `title` twice (description bug). |
+| `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started (last page fires `SaveAppEntry` → enters the main graph). |
+| `presentation/onboarding/Page.kt` | `data class Page(title, description, @DrawableRes image)` + the `pages` list (3 pages using `onboarding1/2/3.png`; copy still placeholder). |
+| `presentation/onboarding/components/OnBoardingPage.kt` | Single onboarding page UI (image + title + description). |
 | `presentation/onboarding/components/PageIndicator.kt` | Row of circular dots; highlights the selected page. |
 | `ui/theme/Color.kt` | Color palette. Brand: `Blue 0xFF1877F2` (primary), `Black 0xFF1C1E21`, plus error/surface/gray tones (`BlueGray`, `WhiteGray`). |
 | `ui/theme/Theme.kt` | `NewsAppTheme` Material3 theme + status bar handling. |
@@ -84,12 +92,12 @@ version catalog). Add/bump dependencies there, then reference via `libs.*` in th
 |------|---------|
 | `domain/model/{Article,Source}.kt` | Pure-Kotlin domain models. |
 | `domain/repository/NewsRepository.kt` | Single repository contract (paged news/search + bookmark CRUD). |
-| `data/remote/dto/{NewsApiDto,GNewsDto}.kt` | Per-provider wire DTOs + `toArticleOrNull()` mappers. |
-| `data/remote/api/{NewsApiService,GNewsService}.kt` | Retrofit service bindings (+ `BASE_URL`). |
-| `data/remote/source/NewsSource.kt` | Provider-agnostic source contract. |
-| `data/remote/source/{NewsApiSource,GNewsSource}.kt` | Concrete sources (service + API key → domain). |
+| `data/remote/dto/*` | Per-provider wire DTOs + `toArticleOrNull()` mappers (NewsAPI, GNews originally; NewsData/Currents/Mediastack added later — see "Multi-source" below). |
+| `data/remote/api/*` | Retrofit service bindings (+ `BASE_URL`) for all 5 providers. |
+| `data/remote/source/NewsSource.kt` | Provider-agnostic source contract (now returns `NewsPage`; string cursor). |
+| `data/remote/source/*Source.kt` | Concrete sources; read the key per call from `ApiKeyStore`. |
 | `data/remote/source/NewsSourceProvider.kt` | Resolves the active source from the Hilt source map. |
-| `data/remote/NewsPagingSource.kt` | Paging 3 source (headlines or search), de-dupes by URL. |
+| `data/remote/NewsPagingSource.kt` | Paging 3 source (headlines or search), string-cursor keyed, de-dupes by URL. |
 | `data/local/{ArticleEntity,NewsDao,NewsDatabase,ArticleMapper}.kt` | Room bookmark store + entity↔domain mapping. |
 | `data/repository/NewsRepositoryImpl.kt` | Pager over the active source + Room-backed bookmarks. |
 | `di/{NetworkModule,SourceModule,DatabaseModule,RepositoryModule}.kt` | Hilt wiring; `SourceModule` uses `@IntoMap @StringKey` multibinding. |
@@ -185,9 +193,6 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `presentation/common/EmptyScreen.kt` | Adds a `MissingApiKeyException` message ("Add one in Settings → Data sources"). |
 | `NewsApplication.seedDevKeysFromBuildConfig()` | Dev convenience: seeds `ApiKeyStore` from `BuildConfig` keys if unset (no-op in prod). |
 | `app/proguard-rules.pro` | `-dontwarn` for Tink's optional deps (ErrorProne/Google-API-client/Joda) + keep `com.google.crypto.tink.**`. Release (R8) verified green. |
-
-### Where remaining layers will go (planned, not yet created)
-- `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 

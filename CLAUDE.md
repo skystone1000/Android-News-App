@@ -12,6 +12,7 @@ context**. Do NOT re-scan the whole codebase to orient yourself each session.
 2. `docs/CODEBASE.md` — file-by-file map, build/toolchain versions
 3. `docs/FEATURES.md` — what works, what's planned, build order
 4. `docs/ROADMAP.md` — phased implementation plan (Path A→D) + progress tracker; consult before starting feature work and tick boxes as phases land
+5. `docs/DATASOURCES.md` — news providers, in-app API-key handling, free-tier usage tracking (read for any data-source/provider/key work)
 
 Only after reading the relevant docs should you open source files — and then open
 **only the specific files** the task needs (the docs tell you which). Do not bulk-read
@@ -31,7 +32,8 @@ session stays accurate. Specifically:
 | Change architecture, a layer, or a convention | `docs/ARCHITECTURE.md` |
 | Add/finish/alter a user-facing feature | `docs/FEATURES.md` (status table) |
 | Bump Gradle/AGP/Kotlin/SDK/dependency versions | `docs/CODEBASE.md` (toolchain table) |
-| Close one of the "Known gaps" | remove it from `docs/ARCHITECTURE.md` §7 |
+| Add/change a news provider, API-key handling, or usage tracking | `docs/DATASOURCES.md` |
+| Close one of the "Known gaps" | remove it from `docs/ARCHITECTURE.md` §6 |
 
 Also bump the `Last updated:` date at the top of any doc you edit. A code change is
 **not complete** until its docs are updated. Keep docs concise — they are a map, not

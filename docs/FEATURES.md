@@ -13,7 +13,7 @@
 | 1 | App launch / Splash screen | ✅ | `installSplashScreen()` in `MainActivity`; light + dark splash resources. |
 | 2 | Onboarding carousel | ✅ | 3-page `HorizontalPager`, indicator, Back/Next/Get-Started. "Get Started" saves the app-entry flag and navigates to the main graph. (Copy is still placeholder Lorem Ipsum.) |
 | 3 | First-launch detection (show onboarding once) | ✅ | DataStore app-entry flag via `LocalUserManager`; `MainViewModel` picks the start destination. |
-| 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (tab screens are placeholders until Phase 3). |
+| 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (Home/Search/Bookmark/Settings + Details/History routes). |
 | 5 | Home feed — breaking/top news, infinite scroll | ✅ | `HomeScreen` + `HomeViewModel`; paged via `ArticlesList` with shimmer/empty/error states. |
 | 6 | Article detail view | ✅ | `DetailsScreen` (image, title, content) + bookmark toggle + open-in-browser + share + listen (TTS). |
 | 18 | Share article | ✅ | `ACTION_SEND` chooser from the detail top bar (title + URL). |
@@ -39,23 +39,33 @@
 
 ## 2. Current user-facing behavior
 
-Launching the app shows the splash, then the **Onboarding** screen. The user can
-swipe/press Next through 3 pages. Pressing "Get Started" on the last page currently
-does nothing (navigation not wired). There is no home feed, search, or bookmarks yet.
+First launch shows the splash → **Onboarding** (3-page pager); "Get Started" saves the app-entry
+flag and enters the main app. Returning users go straight in. The main app is a bottom-nav
+single-activity with four tabs:
 
-## 3. Intended product (target)
+- **Home** — infinite-scroll headline feed with category chips; tap an article to open it.
+- **Search** — paged keyword search.
+- **Bookmark** — saved articles (Room).
+- **Settings** — data source + API keys (5 providers, with usage meters), theme (Light/Dark/System),
+  followed categories + personalization, AI summaries toggle, and reading history.
 
-A news reader where a user can: see top headlines in an infinite-scroll feed,
-open an article to read it, search for articles by keyword, and bookmark articles
-for offline access — built on a public news API (e.g. newsapi.org) with a free API key.
+The **article detail** screen shows the image/title/content with bookmark, open-in-browser, share,
+listen (TTS), and — when enabled — a Claude-generated summary/sentiment/tags card. A daily
+**WorkManager digest** notification surfaces top headlines. To fetch news the user must add at least
+one provider's API key in Settings.
 
-## 4. Build order recommended for remaining features
+## 3. Product status
 
-1. Wire Hilt (`NewsApplication` + manifest + base modules) and add `INTERNET` permission.
-2. DataStore "app entry" manager → first-launch logic; finish onboarding navigation.
-3. Navigation graph + bottom-nav scaffold (Home / Search / Bookmark).
-4. Data layer: Retrofit `NewsApi`, Paging source, repository + use cases.
-5. Home feed (paged list) → Article detail.
-6. Search (paged) → Bookmarks (Room).
+The intended product is **built**: a configurable, multi-source news reader (Paths A–D) with
+in-app encrypted API keys, optional AI features, engagement features (share/TTS/history/digest), and
+release hardening (R8). Remaining items are externally gated (FCM push, Crashlytics, release
+signing/Play publishing, modularization) — see [ROADMAP.md](ROADMAP.md).
+
+## 4. Where to read more
+
+- Data sources & API-key handling → [DATASOURCES.md](DATASOURCES.md)
+- Layer design & conventions → [ARCHITECTURE.md](ARCHITECTURE.md)
+- File-by-file map & toolchain → [CODEBASE.md](CODEBASE.md)
+- Phased plans & status → [ROADMAP.md](ROADMAP.md), [MULTI_SOURCE_PLAN.md](MULTI_SOURCE_PLAN.md)
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for layer design and [CODEBASE.md](CODEBASE.md) for where each piece goes.
