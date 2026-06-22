@@ -1,11 +1,11 @@
 package com.example.newsapp.di
 
-import com.example.newsapp.BuildConfig
 import com.example.newsapp.data.remote.api.GNewsService
 import com.example.newsapp.data.remote.api.NewsApiService
 import com.example.newsapp.data.remote.source.GNewsSource
 import com.example.newsapp.data.remote.source.NewsApiSource
 import com.example.newsapp.data.remote.source.NewsSource
+import com.example.newsapp.domain.security.ApiKeyStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,13 +26,13 @@ object SourceModule {
     @IntoMap
     @StringKey(NewsApiSource.ID)
     @Singleton
-    fun provideNewsApiSource(service: NewsApiService): NewsSource =
-        NewsApiSource(service, BuildConfig.NEWS_API_KEY)
+    fun provideNewsApiSource(service: NewsApiService, apiKeyStore: ApiKeyStore): NewsSource =
+        NewsApiSource(service, apiKeyStore)
 
     @Provides
     @IntoMap
     @StringKey(GNewsSource.ID)
     @Singleton
-    fun provideGNewsSource(service: GNewsService): NewsSource =
-        GNewsSource(service, BuildConfig.GNEWS_API_KEY)
+    fun provideGNewsSource(service: GNewsService, apiKeyStore: ApiKeyStore): NewsSource =
+        GNewsSource(service, apiKeyStore)
 }
