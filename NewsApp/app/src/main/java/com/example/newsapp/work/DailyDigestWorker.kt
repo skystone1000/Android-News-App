@@ -33,7 +33,9 @@ class DailyDigestWorker(
                 .fromApplication(applicationContext, DigestEntryPoint::class.java)
                 .newsSourceProvider()
 
-            val headlines = provider.activeSource().getNews(category = null, page = 1, pageSize = 5)
+            val headlines = provider.activeSource()
+                .getNews(category = null, cursor = null, pageSize = 5)
+                .articles
             if (headlines.isEmpty()) return Result.success()
 
             val top = headlines.first().title

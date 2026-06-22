@@ -169,6 +169,10 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `domain/security/ApiKeyStore.kt` | Contract for per-provider, user-entered keys (read at call time). |
 | `data/security/EncryptedApiKeyStore.kt` | `EncryptedSharedPreferences` (Keystore master key) impl; `keys()` via `MutableStateFlow`. |
 | `di/SecurityModule.kt` | Provides `ApiKeyStore`. |
+| `data/remote/source/NewsSource.kt` | Contract now returns `NewsPage(articles, nextCursor)` and takes a `cursor: String?` (numeric/offset/token-agnostic). |
+| `data/remote/source/PageCursor.kt` | `pageOf`/`nextPageCursor` helpers for numeric-page providers. |
+| `data/remote/source/MissingApiKeyException.kt` | Thrown when a source has no configured key → surfaces as a paging `LoadResult.Error`. |
+| `data/remote/NewsPagingSource.kt` | Keyed on `String?` cursor (forward-only). `NewsApiSource`/`GNewsSource` read keys per call from `ApiKeyStore`. |
 
 ### Where remaining layers will go (planned, not yet created)
 - `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)

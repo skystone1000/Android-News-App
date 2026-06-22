@@ -73,17 +73,17 @@ The current design injects each source's key **once at DI time** from `BuildConf
 with keys read at call time.
 
 **Tasks**
-- [ ] Evolve `NewsSource`:
+- [x] Evolve `NewsSource`:
   - `suspend fun getNews(category: String?, cursor: String?, pageSize: Int): NewsPage`
   - `suspend fun searchNews(query: String, cursor: String?, pageSize: Int): NewsPage`
   - `data class NewsPage(val articles: List<Article>, val nextCursor: String?)` (null = end).
-- [ ] Numeric providers (NewsAPI, GNews, Currents) encode the page number in the cursor string
+- [x] Numeric providers (NewsAPI, GNews, Currents) encode the page number in the cursor string
   (`"1"`, `"2"`, …); Mediastack encodes `offset`; NewsData passes the opaque `nextPage` token through.
-- [ ] Inject `ApiKeyStore` into each source; read `getKey(id)` per call; throw a typed
+- [x] Inject `ApiKeyStore` into each source; read `getKey(id)` per call; throw a typed
   `MissingApiKeyException(sourceId)` when blank.
-- [ ] Refactor `NewsPagingSource` to key on `String?` (cursor) instead of `Int`; update the
+- [x] Refactor `NewsPagingSource` to key on `String?` (cursor) instead of `Int`; update the
   `Pager`/`PagingConfig` in `NewsRepositoryImpl`. Map `MissingApiKeyException` → `LoadResult.Error`.
-- [ ] Update existing `NewsApiSource` + `GNewsSource` to the new contract.
+- [x] Update existing `NewsApiSource` + `GNewsSource` to the new contract.
 
 **Tests:** fake source paging (cursor advance + end); missing-key → error surfaced; numeric-cursor
 round-trips.
@@ -91,8 +91,7 @@ round-trips.
 **Exit:** existing two providers work through the new cursor-based pipeline with runtime keys.
 
 ---
-
-# Phase C — Add NewsData.io, Currents, Mediastack
+ — Add NewsData.io, Currents, Mediastack
 
 **Goal:** Three new providers behind the same contract — each is one self-contained slice.
 
