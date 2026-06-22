@@ -179,6 +179,8 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `data/usage/ApiUsageStoreImpl.kt` | Per-provider request counts in a DataStore (`api_usage`), rolling the window on day/month boundaries. |
 | `data/remote/UsageInterceptor.kt` | OkHttp interceptor: host→sourceId, fire-and-forget count; reconciles `x-ratelimit-remaining`. Added to the client in `NetworkModule`. |
 | `di/UsageModule.kt` | Provides `ApiUsageStore`. |
+| `presentation/settings/SettingsScreen.kt` | "Data sources & API keys" section driven by `SourceCatalog`; `SettingsViewModel` exposes `configuredSourceIds` + `usage`; new `SetApiKey`/`ClearApiKey` events (clearing the active key falls back). |
+| `presentation/settings/components/DataSourceCard.kt` + `UsageMeter.kt` | Per-provider card (masked key field, get-a-key link, active selector) + usage bar. |
 
 ### Where remaining layers will go (planned, not yet created)
 - `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)
