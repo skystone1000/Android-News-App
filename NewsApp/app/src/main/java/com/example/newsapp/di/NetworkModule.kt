@@ -3,8 +3,9 @@ package com.example.newsapp.di
 import com.example.newsapp.BuildConfig
 import com.example.newsapp.data.remote.api.CurrentsService
 import com.example.newsapp.data.remote.api.GNewsService
-import com.example.newsapp.data.remote.api.MediastackService
+import com.example.newsapp.data.remote.RedactingLoggingInterceptor
 import com.example.newsapp.data.remote.UsageInterceptor
+import com.example.newsapp.data.remote.api.MediastackService
 import com.example.newsapp.data.remote.api.NewsApiService
 import com.example.newsapp.data.remote.api.NewsDataService
 import com.example.newsapp.domain.usage.ApiUsageStore
@@ -16,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -28,17 +28,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(usageStore: ApiUsageStore): OkHttpClient {
-        val logging = HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) {
-                HttpLoggingInterceptor.Level.BODY
-            } else {
-                HttpLoggingInterceptor.Level.NONE
-            }
-        }
         val usageScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         return OkHttpClient.Builder()
             .addInterceptor(UsageInterceptor(usageStore, usageScope))
-            .addInterceptor(logging)
+            // Custom logger that redacts the API key from query params (debug only).
+            .addInterceptor(RedactingLoggingInterceptor(enabled = BuildConfig.DEBUG))
             .build()
     }
 

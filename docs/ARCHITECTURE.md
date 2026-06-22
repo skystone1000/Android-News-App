@@ -1,7 +1,7 @@
 # ARCHITECTURE.md
 
 > High-level design of the NewsApp. Read this before reading code.
-> Last updated: 2026-06-21 · Keep in sync with the codebase (see root `CLAUDE.md`).
+> Last updated: 2026-06-22 · Keep in sync with the codebase (see root `CLAUDE.md`).
 
 ## 1. Summary
 
@@ -53,8 +53,10 @@ Clean Architecture with three layers. Dependencies point **inward**
 |---------|--------------------|--------|
 | Dependency Injection | **Hilt** (`@HiltAndroidApp`, `@Module`, `@HiltViewModel`) | **wired** (`NewsApplication`, `di/AppModule`, `MainViewModel`/`OnBoardingViewModel`) |
 | Navigation | **Navigation-Compose** single-activity NavHost | **implemented** (`navgraph/NavGraph` + bottom-nav `NewsNavigator`; tab screens are placeholders until Phase 3) |
-| Networking | **Retrofit + Gson** behind a pluggable `NewsSource` (NewsAPI + GNews) | **implemented** (source-agnostic; runtime-selectable via `NewsSourceProvider`) |
-| Paging | **Paging 3** (`paging-compose`) for infinite article lists | **implemented** (`NewsPagingSource` + repository `Pager`) |
+| Networking | **Retrofit + Gson** behind a pluggable `NewsSource` (NewsAPI, NewsData.io, GNews, Currents, Mediastack) | **implemented** (source-agnostic; runtime-selectable via `NewsSourceProvider`; Mediastack is HTTP-only via scoped cleartext config) |
+| API keys | User-entered per provider, **encrypted at rest** (`ApiKeyStore` / `EncryptedSharedPreferences`) | **implemented** — read per-call by each source; entered in Settings; dev seed from `BuildConfig`; keys redacted from debug logs |
+| Quota usage | On-device per-provider request counting vs free-tier limit (`ApiUsageStore`) | **implemented** — DataStore counters with daily/monthly windows; meter in Settings |
+| Paging | **Paging 3** (`paging-compose`) for infinite article lists | **implemented** (`NewsPagingSource` keyed on a provider-agnostic **string cursor**: numeric page / offset / opaque token) |
 | Local cache / bookmarks | **Room** 2.6.1 (`ArticleEntity`, `NewsDao`, `NewsDatabase`) | **implemented** (bookmark store; consumed by repository) |
 | First-launch / user prefs | **DataStore Preferences** | **implemented** (`LocalUserManager` app-entry + `SettingsManager` user settings: source, category, theme, follows, toggles) |
 | Image loading | **Coil** (`coil-compose`) | **implemented** (`AsyncImage` in article cards/detail) |

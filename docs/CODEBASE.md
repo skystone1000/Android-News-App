@@ -181,6 +181,10 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `di/UsageModule.kt` | Provides `ApiUsageStore`. |
 | `presentation/settings/SettingsScreen.kt` | "Data sources & API keys" section driven by `SourceCatalog`; `SettingsViewModel` exposes `configuredSourceIds` + `usage`; new `SetApiKey`/`ClearApiKey` events (clearing the active key falls back). |
 | `presentation/settings/components/DataSourceCard.kt` + `UsageMeter.kt` | Per-provider card (masked key field, get-a-key link, active selector) + usage bar. |
+| `data/remote/RedactingLoggingInterceptor.kt` | Debug-only request logger that **masks key query params** (OkHttp 4.x can't redact those). Replaces `HttpLoggingInterceptor` in `NetworkModule`. |
+| `presentation/common/EmptyScreen.kt` | Adds a `MissingApiKeyException` message ("Add one in Settings → Data sources"). |
+| `NewsApplication.seedDevKeysFromBuildConfig()` | Dev convenience: seeds `ApiKeyStore` from `BuildConfig` keys if unset (no-op in prod). |
+| `app/proguard-rules.pro` | `-dontwarn` for Tink's optional deps (ErrorProne/Google-API-client/Joda) + keep `com.google.crypto.tink.**`. Release (R8) verified green. |
 
 ### Where remaining layers will go (planned, not yet created)
 - `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)
