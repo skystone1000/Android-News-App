@@ -13,9 +13,6 @@ object NewsCategories {
 /** Default source id (kept as a literal so the domain stays free of data-layer types). */
 const val DEFAULT_SOURCE_ID = "newsapi"
 
-/** Selectable data-source ids surfaced in Settings. */
-val AVAILABLE_SOURCE_IDS = listOf("newsapi", "gnews")
-
 /**
  * User-configurable preferences. Defaults reproduce a plain generic reader, so every
  * feature is opt-in.

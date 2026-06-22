@@ -152,18 +152,18 @@ local count; host→sourceId mapping.
 active source — gated on configured keys.
 
 **Tasks**
-- [ ] `SettingsEvent.SetApiKey(sourceId, key)` + `ClearApiKey(sourceId)`; `SettingsViewModel`
+- [x] `SettingsEvent.SetApiKey(sourceId, key)` + `ClearApiKey(sourceId)`; `SettingsViewModel`
   reads `ApiKeyStore.keys()` + `ApiUsageStore.usage()` + settings and exposes a "configured source ids" set.
-- [ ] Settings "Data sources & API keys" section: one row per `SourceMetadata` with
+- [x] Settings "Data sources & API keys" section: one row per `SourceMetadata` with
   display name, a **masked** key field (save/clear), a "Get a key" link (opens `signupUrl`),
   and a configured/active badge.
-- [ ] **Usage meter** on each configured row: `used / limit` for the period, a progress bar
+- [x] **Usage meter** on each configured row: `used / limit` for the period, a progress bar
   (green → amber → red as it nears the limit), and reset time ("resets in 4h" / "resets Jul 1"),
   labeled as an **on-device estimate**. A source at/over its limit shows a warning that further
   calls may fail (HTTP 429). Unconfigured rows show no meter.
-- [ ] Active-source picker enables **only** configured sources; choosing an unconfigured one
+- [x] Active-source picker enables **only** configured sources; choosing an unconfigured one
   routes the user to add a key.
-- [ ] If the active source's key is cleared, fall back to another configured source (else default),
+- [x] If the active source's key is cleared, fall back to another configured source (else default),
   so the feed never points at an unusable source.
 
 **Tests:** gating (unconfigured source not selectable); clearing the active key triggers fallback;

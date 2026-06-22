@@ -1,5 +1,7 @@
 package com.example.newsapp.presentation.settings
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,21 +23,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.newsapp.domain.model.AVAILABLE_SOURCE_IDS
 import com.example.newsapp.domain.model.NewsCategories
+import com.example.newsapp.domain.model.SourceCatalog
 import com.example.newsapp.domain.model.ThemeMode
 import com.example.newsapp.domain.model.UserSettings
+import com.example.newsapp.domain.usage.UsageSnapshot
 import com.example.newsapp.presentation.Dimens.MediumPadding1
+import com.example.newsapp.presentation.settings.components.DataSourceCard
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SettingsScreen(
     settings: UserSettings,
+    configuredSourceIds: Set<String>,
+    usage: Map<String, UsageSnapshot>,
     event: (SettingsEvent) -> Unit,
     navigateToHistory: () -> Unit
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,15 +69,31 @@ fun SettingsScreen(
         }
         Spacer(Modifier.height(MediumPadding1))
 
-        SectionTitle("Data source")
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            AVAILABLE_SOURCE_IDS.forEach { id ->
-                FilterChip(
-                    selected = settings.dataSourceId == id,
-                    onClick = { event(SettingsEvent.SetDataSource(id)) },
-                    label = { Text(id) }
-                )
-            }
+        SectionTitle("Data sources & API keys")
+        Text(
+            text = "Add a key for any provider, then pick one to power the feed. " +
+                "Keys are stored encrypted on this device.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        SourceCatalog.ALL_SOURCES.forEach { meta ->
+            DataSourceCard(
+                metadata = meta,
+                isActive = settings.dataSourceId == meta.id,
+                isConfigured = meta.id in configuredSourceIds,
+                usage = usage[meta.id],
+                onSetKey = { key -> event(SettingsEvent.SetApiKey(meta.id, key)) },
+                onClearKey = { event(SettingsEvent.ClearApiKey(meta.id)) },
+                onSelect = { event(SettingsEvent.SetDataSource(meta.id)) },
+                onGetKey = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(meta.signupUrl))
+                    if (intent.resolveActivity(context.packageManager) != null) {
+                        context.startActivity(intent)
+                    }
+                },
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
         }
         Spacer(Modifier.height(MediumPadding1))
 

@@ -124,8 +124,12 @@ fun NewsNavigator() {
             composable(Route.SettingsScreen.route) {
                 val viewModel: SettingsViewModel = hiltViewModel()
                 val settings by viewModel.settings.collectAsState()
+                val configuredSourceIds by viewModel.configuredSourceIds.collectAsState()
+                val usage by viewModel.usage.collectAsState()
                 SettingsScreen(
                     settings = settings,
+                    configuredSourceIds = configuredSourceIds,
+                    usage = usage,
                     event = viewModel::onEvent,
                     navigateToHistory = { navController.navigate(Route.HistoryScreen.route) }
                 )
