@@ -161,8 +161,17 @@ Release builds are currently **unsigned** (`app-release-unsigned.apk`). Signing/
 Crashlytics, modularization, baseline profiles, and Play publishing are deferred — they
 need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 
+### Multi-source + in-app API keys (in progress — see `MULTI_SOURCE_PLAN.md`)
+| File / package | Purpose |
+|------|---------|
+| `domain/model/SourceQuota.kt` | `SourceQuota(limit, period)` + `QuotaPeriod` (drives the usage meter). |
+| `domain/model/SourceCatalog.kt` | `SourceMetadata` + `SourceCatalog.ALL_SOURCES` (5 providers: newsapi/newsdata/gnews/currents/mediastack). |
+| `domain/security/ApiKeyStore.kt` | Contract for per-provider, user-entered keys (read at call time). |
+| `data/security/EncryptedApiKeyStore.kt` | `EncryptedSharedPreferences` (Keystore master key) impl; `keys()` via `MutableStateFlow`. |
+| `di/SecurityModule.kt` | Provides `ApiKeyStore`. |
+
 ### Where remaining layers will go (planned, not yet created)
-- `work/`, `data/notifications/` (Phase 6)
+- `domain/usage/`, `data/usage/` (usage tracking) + new providers under `data/remote/{api,dto,source}` (Phase C–D)
 
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 
