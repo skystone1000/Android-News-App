@@ -114,6 +114,9 @@ dependencies {
     // WorkManager (daily digest)
     implementation(libs.androidx.work.runtime)
 
+    // Encrypted storage for user-entered API keys
+    implementation(libs.androidx.security.crypto)
+
     // Room
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)

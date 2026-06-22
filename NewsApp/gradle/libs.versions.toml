@@ -39,6 +39,9 @@ pagingCompose = "3.2.0-rc01"
 # Background work
 work = "2.9.1"
 
+# Security (encrypted key storage)
+securityCrypto = "1.1.0-alpha06"
+
 # Misc UI
 accompanist = "0.31.4-beta"
 
@@ -103,6 +106,9 @@ androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", 
 
 # Background work
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
+
+# Security (encrypted key storage)
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 
 # Misc UI
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
