@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Schibsted+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+svg{display:block}
+.scr::-webkit-scrollbar{display:none}
+.scr{scrollbar-width:none}
+</style>
+</helmet>
+
+<div style="width:294px; padding:11px; background:#0a0a0a; border-radius:42px; box-shadow:0 1px 0 1px rgba(0,0,0,0.55), 0 26px 50px -22px rgba(0,0,0,0.5)">
+  <div style="position:relative; width:272px; height:574px; background:{{ t.bg }}; border-radius:32px; overflow:hidden; display:flex; flex-direction:column">
+
+    <!-- status bar -->
+    <div style="flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:10px 22px 3px">
+      <span style="font:700 12px 'Hanken Grotesk',sans-serif; color:{{ t.statusText }}; letter-spacing:0.01em">9:41</span>
+      <div style="display:flex; align-items:center; gap:6px">
+        <span style="font:700 10.5px 'Hanken Grotesk',sans-serif; color:{{ t.statusText }}">5G</span>
+        <div style="width:21px; height:11px; border:1.4px solid {{ t.statusText }}; border-radius:3px; padding:1.5px; display:flex; opacity:0.9">
+          <div style="flex:1; background:{{ t.statusText }}; border-radius:1px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1; min-height:0; display:flex; flex-direction:column">
+
+      <!-- ============ HOME ============ -->
+      <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 20px 10px">
+            <div style="display:flex; align-items:center; gap:8px">
+              <div style="width:24px; height:24px; border-radius:8px; background:{{ t.accent }}; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5px">
+                <div style="width:12px; height:2px; border-radius:1px; background:{{ t.onAccent }}"></div>
+                <div style="width:12px; height:2px; border-radius:1px; background:{{ t.onAccent }}"></div>
+                <div style="width:7px; height:2px; border-radius:1px; background:{{ t.onAccent }}; margin-right:5px"></div>
+              </div>
+              <span style="font:800 20px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:{{ t.text }}">Brief</span>
+            </div>
+            <div style="width:30px; height:30px; border-radius:50%; background:{{ t.chipBg }}; border:1px solid {{ t.border }}"></div>
+          </div>
+
+          <div class="scr" style="display:flex; gap:20px; padding:2px 20px 12px; overflow-x:auto">
+            <sc-for list="{{ homeChips }}" as="chip" hint-placeholder-count="6">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0">
+                <span style="font:600 13.5px 'Hanken Grotesk',sans-serif; white-space:nowrap; color:{{ chip.color }}">{{ chip.label }}</span>
+                <div style="width:20px; height:2.5px; border-radius:2px; background:{{ chip.under }}"></div>
+              </div>
+            </sc-for>
+          </div>
+
+          <!-- featured -->
+          <div style="margin:0 16px 4px; border-radius:18px; overflow:hidden; background:{{ t.card }}; border:1px solid {{ t.border }}; box-shadow:{{ t.shadow }}">
+            <div style="height:152px; background:linear-gradient(140deg, {{ t.placeholder }}, {{ t.divider }}); position:relative; display:flex; align-items:center; justify-content:center">
+              <span style="font:500 10px ui-monospace,monospace; color:{{ t.placeholderText }}; letter-spacing:0.06em">news photo</span>
+              <span style="position:absolute; top:11px; left:11px; padding:4px 9px; border-radius:7px; background:rgba(8,10,9,0.62); backdrop-filter:blur(4px); font:700 9px 'Hanken Grotesk',sans-serif; letter-spacing:0.08em; color:#fff">CULTURE</span>
+            </div>
+            <div style="padding:13px 15px 14px">
+              <h3 style="font:700 16.5px 'Schibsted Grotesk',sans-serif; line-height:1.24; letter-spacing:-0.02em; color:{{ t.text }}">{{ featured.title }}</h3>
+              <div style="display:flex; align-items:center; gap:7px; margin-top:10px">
+                <div style="width:18px; height:18px; border-radius:50%; background:{{ t.accentSoft }}; border:1px solid {{ t.border }}"></div>
+                <span style="font:600 11px 'Hanken Grotesk',sans-serif; color:{{ t.textSec }}">{{ featured.source }}</span>
+                <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">· {{ featured.time }}</span>
+              </div>
+            </div>
+          </div>
+
+          <sc-for list="{{ articles }}" as="a" hint-placeholder-count="4">
+            <div style="display:flex; gap:13px; padding:14px 18px; align-items:flex-start; border-top:1px solid {{ t.divider }}">
+              <div style="flex:1; min-width:0">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px">
+                  <span style="font:700 9.5px 'Hanken Grotesk',sans-serif; letter-spacing:0.07em; color:{{ t.accent }}">{{ a.kicker }}</span>
+                  <span style="font:500 10px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">· {{ a.time }}</span>
+                </div>
+                <div style="font:600 13.5px 'Schibsted Grotesk',sans-serif; line-height:1.3; letter-spacing:-0.01em; color:{{ t.text }}">{{ a.title }}</div>
+                <div style="font:500 10.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:7px">{{ a.source }}</div>
+              </div>
+              <div style="width:66px; height:66px; border-radius:13px; flex-shrink:0; background:linear-gradient(140deg, {{ t.placeholder }}, {{ t.divider }})"></div>
+            </div>
+          </sc-for>
+          <div style="height:8px; flex-shrink:0"></div>
+        </div>
+      </sc-if>
+
+      <!-- ============ ARTICLE ============ -->
+      <sc-if value="{{ isArticle }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; background:{{ t.bg }}">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:6px 18px 8px; color:{{ t.text }}">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+            <div style="display:flex; align-items:center; gap:16px; color:{{ t.textSec }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="m8 11 8-4M8 13l8 4"/></svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v16l-5-3.4L7 20Z"/></svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path d="M12 4c2.4 2.6 2.4 12.8 0 16M12 4c-2.4 2.6-2.4 12.8 0 16"/></svg>
+            </div>
+          </div>
+          <div style="height:196px; margin:2px 0 0; background:linear-gradient(140deg, {{ t.placeholder }}, {{ t.divider }}); display:flex; align-items:center; justify-content:center">
+            <span style="font:500 10px ui-monospace,monospace; color:{{ t.placeholderText }}; letter-spacing:0.06em">news photo</span>
+          </div>
+          <div style="padding:18px 20px 24px">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:11px">
+              <span style="font:700 9.5px 'Hanken Grotesk',sans-serif; letter-spacing:0.07em; color:{{ t.accent }}">CULTURE</span>
+              <span style="font:500 11px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">· 4 min read</span>
+            </div>
+            <h1 style="font:700 22px 'Schibsted Grotesk',sans-serif; line-height:1.18; letter-spacing:-0.03em; color:{{ t.text }}">The actor with everyone&rsquo;s favorite voice is releasing a blues album</h1>
+            <div style="display:flex; align-items:center; gap:9px; margin-top:15px; padding-bottom:15px; border-bottom:1px solid {{ t.divider }}">
+              <div style="width:30px; height:30px; border-radius:50%; background:{{ t.accentSoft }}; border:1px solid {{ t.border }}"></div>
+              <div>
+                <div style="font:600 12px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">Currents</div>
+                <div style="font:500 11px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">June 22, 2026</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:10px; margin:16px 0; padding:13px 14px; border-radius:14px; background:{{ t.accentSoft }}; border:1px solid {{ t.accentLine }}">
+              <div style="width:20px; height:20px; border-radius:6px; background:{{ t.accent }}; flex-shrink:0; display:flex; align-items:center; justify-content:center; font:800 11px 'Schibsted Grotesk',sans-serif; color:{{ t.onAccent }}">AI</div>
+              <div>
+                <div style="font:700 10px 'Hanken Grotesk',sans-serif; letter-spacing:0.05em; color:{{ t.accent }}; margin-bottom:4px">AI SUMMARY</div>
+                <div style="font:500 12px 'Hanken Grotesk',sans-serif; line-height:1.45; color:{{ t.textSec }}">A symphonic blues revue is being reissued as a collaborative album, with iconic artists reworking the classics.</div>
+              </div>
+            </div>
+            <p style="font:400 14px 'Hanken Grotesk',sans-serif; line-height:1.65; color:{{ t.textSec }}; margin-bottom:13px">The project gathers a generation of blues musicians under a single banner, marking a century of the genre with newly recorded sessions and restored archival tracks.</p>
+            <p style="font:400 14px 'Hanken Grotesk',sans-serif; line-height:1.65; color:{{ t.textSec }}">Proceeds from the release will support music education programs, organizers said, with a tour expected to follow later in the year.</p>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ SEARCH ============ -->
+      <sc-if value="{{ isSearch }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column">
+          <div style="padding:8px 20px 6px">
+            <h2 style="font:800 24px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:{{ t.text }}">Search</h2>
+          </div>
+          <div style="padding:8px 18px 6px">
+            <div style="display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:14px; background:{{ t.chipBg }}; border:1px solid {{ t.border }}">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ t.textTer }}" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+              <span style="font:500 13.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">Search news, topics, sources</span>
+            </div>
+          </div>
+          <div style="padding:16px 20px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:11px">TRENDING NOW</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px">
+              <sc-for list="{{ trending }}" as="tr" hint-placeholder-count="5">
+                <div style="display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:11px; background:{{ t.chipBg }}; border:1px solid {{ t.border }}">
+                  <div style="width:5px; height:5px; border-radius:50%; background:{{ t.accent }}"></div>
+                  <span style="font:600 12px 'Hanken Grotesk',sans-serif; color:{{ t.text }}; white-space:nowrap">{{ tr }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:18px 20px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:11px">BROWSE TOPICS</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:9px">
+              <sc-for list="{{ topics }}" as="tp" hint-placeholder-count="6">
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:13px 13px; border-radius:13px; background:{{ t.card }}; border:1px solid {{ t.border }}">
+                  <span style="font:600 13px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">{{ tp.name }}</span>
+                  <span style="font:500 10px ui-monospace,monospace; color:{{ t.textTer }}">{{ tp.count }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="height:8px; flex-shrink:0"></div>
+        </div>
+      </sc-if>
+
+      <!-- ============ BOOKMARK ============ -->
+      <sc-if value="{{ isBookmark }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column">
+          <div style="display:flex; align-items:flex-end; justify-content:space-between; padding:8px 20px 12px">
+            <h2 style="font:800 24px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:{{ t.text }}">Saved</h2>
+            <span style="font:500 12px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; padding-bottom:3px">3 articles</span>
+          </div>
+          <div style="display:flex; gap:8px; padding:0 20px 4px">
+            <div style="padding:6px 13px; border-radius:10px; background:{{ t.accent }}; font:600 11.5px 'Hanken Grotesk',sans-serif; color:{{ t.onAccent }}">All</div>
+            <div style="padding:6px 13px; border-radius:10px; border:1px solid {{ t.border }}; font:600 11.5px 'Hanken Grotesk',sans-serif; color:{{ t.textSec }}">Unread</div>
+          </div>
+          <sc-for list="{{ saved }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex; gap:13px; padding:15px 18px; align-items:flex-start; border-top:1px solid {{ t.divider }}">
+              <div style="width:66px; height:66px; border-radius:13px; flex-shrink:0; background:linear-gradient(140deg, {{ t.placeholder }}, {{ t.divider }})"></div>
+              <div style="flex:1; min-width:0">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px">
+                  <span style="font:700 9.5px 'Hanken Grotesk',sans-serif; letter-spacing:0.07em; color:{{ t.accent }}">{{ s.kicker }}</span>
+                </div>
+                <div style="font:600 13.5px 'Schibsted Grotesk',sans-serif; line-height:1.3; letter-spacing:-0.01em; color:{{ t.text }}">{{ s.title }}</div>
+                <div style="font:500 10.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:7px">{{ s.time }}</div>
+              </div>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="{{ t.accent }}" stroke="{{ t.accent }}" stroke-width="1.6" stroke-linejoin="round"><path d="M7 4h10v16l-5-3.4L7 20Z"/></svg>
+            </div>
+          </sc-for>
+          <div style="height:8px; flex-shrink:0"></div>
+        </div>
+      </sc-if>
+
+      <!-- ============ SETTINGS ============ -->
+      <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column">
+          <div style="padding:8px 20px 14px">
+            <h2 style="font:800 24px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:{{ t.text }}">Settings</h2>
+          </div>
+
+          <div style="padding:0 18px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:10px; padding-left:2px">APPEARANCE</div>
+            <div style="display:flex; gap:4px; padding:4px; border-radius:13px; background:{{ t.chipBg }}; border:1px solid {{ t.border }}">
+              <sc-for list="{{ segs }}" as="sg" hint-placeholder-count="3">
+                <div style="flex:1; text-align:center; padding:8px 0; border-radius:10px; background:{{ sg.bg }}; box-shadow:{{ sg.shadow }}; font:600 12.5px 'Hanken Grotesk',sans-serif; color:{{ sg.color }}">{{ sg.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding:18px 18px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:10px; padding-left:2px">DATA SOURCES &amp; API KEYS</div>
+            <div style="display:flex; align-items:center; gap:13px; padding:14px 15px; border-radius:14px; background:{{ t.card }}; border:1px solid {{ t.border }}">
+              <div style="width:38px; height:38px; border-radius:11px; background:{{ t.accentSoft }}; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="{{ t.accent }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-6"/><path d="M4.5 11.5v6c0 1.55 3.36 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-6"/></svg>
+              </div>
+              <div style="flex:1; min-width:0">
+                <div style="font:600 13.5px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">Manage sources &amp; keys</div>
+                <div style="font:500 11.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:2px">{{ srcSummary }}</div>
+              </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ t.textTer }}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:10px; padding-left:2px">PREFERENCES</div>
+            <div style="border-radius:14px; background:{{ t.card }}; border:1px solid {{ t.border }}; overflow:hidden">
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 14px">
+                <div>
+                  <div style="font:600 13px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">Personalized feed</div>
+                  <div style="font:500 11px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:2px">Only categories you follow</div>
+                </div>
+                <div style="width:38px; height:22px; border-radius:11px; background:{{ togPersonal.track }}; position:relative; flex-shrink:0">
+                  <div style="position:absolute; top:2px; left:{{ togPersonal.left }}; width:18px; height:18px; border-radius:50%; background:{{ togPersonal.knob }}; box-shadow:0 1px 2px rgba(0,0,0,0.25)"></div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 14px; border-top:1px solid {{ t.divider }}">
+                <div>
+                  <div style="font:600 13px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">AI summaries</div>
+                  <div style="font:500 11px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:2px">Show on article detail</div>
+                </div>
+                <div style="width:38px; height:22px; border-radius:11px; background:{{ togAI.track }}; position:relative; flex-shrink:0">
+                  <div style="position:absolute; top:2px; left:{{ togAI.left }}; width:18px; height:18px; border-radius:50%; background:{{ togAI.knob }}; box-shadow:0 1px 2px rgba(0,0,0,0.25)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:14px 20px 6px">
+            <div style="font:700 11px 'Hanken Grotesk',sans-serif; letter-spacing:0.06em; color:{{ t.textTer }}; margin-bottom:11px; padding-left:2px">FOLLOWED CATEGORIES</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px">
+              <sc-for list="{{ followChips }}" as="fc" hint-placeholder-count="7">
+                <div style="padding:7px 13px; border-radius:11px; background:{{ fc.bg }}; border:1px solid {{ fc.border }}; font:600 12px 'Hanken Grotesk',sans-serif; color:{{ fc.color }}">{{ fc.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="height:10px; flex-shrink:0"></div>
+        </div>
+      </sc-if>
+
+      <!-- ============ SOURCES (detail) ============ -->
+      <sc-if value="{{ isSources }}" hint-placeholder-val="{{ true }}">
+        <div class="scr" style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column">
+          <div style="display:flex; align-items:center; gap:12px; padding:8px 18px 4px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="{{ t.text }}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+            <h2 style="font:800 21px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:{{ t.text }}">Data sources</h2>
+          </div>
+          <div style="font:500 11.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; padding:2px 20px 14px">Add provider keys to power your feed. Keys are stored encrypted on this device.</div>
+          <div style="padding:0 18px 6px">
+            <sc-for list="{{ sources }}" as="s" hint-placeholder-count="3">
+              <div style="border-radius:16px; background:{{ t.card }}; border:1px solid {{ t.border }}; padding:15px; margin-bottom:11px">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px">
+                  <span style="font:700 14px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.01em; color:{{ t.text }}">{{ s.name }}</span>
+                  <span style="font:600 11.5px 'Hanken Grotesk',sans-serif; color:{{ s.statusColor }}">{{ s.statusText }}</span>
+                </div>
+                <sc-if value="{{ s.showUsage }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-bottom:13px">
+                    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:7px">
+                      <span style="font:600 12px 'Hanken Grotesk',sans-serif; color:{{ t.text }}">{{ s.usageText }}</span>
+                      <span style="font:500 10.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">{{ s.reset }}</span>
+                    </div>
+                    <div style="position:relative; height:5px; border-radius:3px; background:{{ s.track }}; overflow:hidden">
+                      <div style="position:absolute; left:0; top:0; bottom:0; width:{{ s.pct }}; border-radius:3px; background:{{ s.fill }}"></div>
+                    </div>
+                    <div style="font:500 9.5px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}; margin-top:6px">On-device estimate</div>
+                  </div>
+                </sc-if>
+                <div style="display:flex; align-items:center; padding:12px 13px; border-radius:11px; border:1px solid {{ t.border }}; background:{{ s.inputBg }}">
+                  <span style="font:500 13px 'Hanken Grotesk',sans-serif; color:{{ t.textTer }}">API key (apikey)</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:18px; margin-top:13px">
+                  <div style="padding:9px 20px; border-radius:11px; background:{{ s.saveBg }}; font:600 12.5px 'Hanken Grotesk',sans-serif; color:{{ s.saveColor }}">Save</div>
+                  <sc-if value="{{ s.showClear }}" hint-placeholder-val="{{ true }}">
+                    <span style="font:600 13px 'Hanken Grotesk',sans-serif; color:{{ s.accent }}">Clear</span>
+                  </sc-if>
+                  <span style="font:600 13px 'Hanken Grotesk',sans-serif; color:{{ s.accent }}">Get a key</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:11px; margin-top:15px">
+                  <div style="width:18px; height:18px; border-radius:50%; border:2px solid {{ s.radioBorder }}; display:flex; align-items:center; justify-content:center; flex-shrink:0"><div style="width:8px; height:8px; border-radius:50%; background:{{ s.radioDot }}"></div></div>
+                  <span style="font:500 13px 'Hanken Grotesk',sans-serif; color:{{ s.radioLabelColor }}">{{ s.radioLabel }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="height:10px; flex-shrink:0"></div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <!-- bottom nav -->
+    <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+      <div style="flex-shrink:0; display:flex; align-items:center; justify-content:space-around; padding:9px 6px 12px; background:{{ t.navBg }}; border-top:1px solid {{ t.divider }}">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; color:{{ navC.home }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.6 12 4l9 6.6"/><path d="M5.5 9.4V20h13V9.4"/></svg>
+          <span style="font:600 9.5px 'Hanken Grotesk',sans-serif">Home</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; color:{{ navC.search }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+          <span style="font:600 9.5px 'Hanken Grotesk',sans-serif">Search</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; color:{{ navC.saved }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v16l-5-3.4L7 20Z"/></svg>
+          <span style="font:600 9.5px 'Hanken Grotesk',sans-serif">Saved</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; color:{{ navC.settings }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16M4 16h16"/><circle cx="10" cy="8" r="2.6" fill="{{ t.bg }}"/><circle cx="15" cy="16" r="2.6" fill="{{ t.bg }}"/></svg>
+          <span style="font:600 9.5px 'Hanken Grotesk',sans-serif">Settings</span>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:316,&quot;height&quot;:596},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;article&quot;,&quot;search&quot;,&quot;bookmark&quot;,&quot;settings&quot;,&quot;sources&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const theme = this.props.theme === 'dark' ? 'dark' : 'light';
+    const screen = this.props.screen || 'home';
+
+    const L = {
+      name: 'light', bg: '#FAFAF9', surface: '#FFFFFF', card: '#FFFFFF',
+      border: '#E7E5E4', divider: '#F1EFEC', text: '#1C1917', textSec: '#57534E',
+      textTer: '#A8A29E', accent: '#047857', accentSoft: '#ECFDF5', accentLine: '#C7EBD9',
+      onAccent: '#FFFFFF', chipBg: '#F4F4F2', statusText: '#1C1917',
+      placeholder: '#EEEDE9', placeholderText: '#B6B0A8',
+      pill: '#E7F6EE', good: '#047857', warn: '#B45309',
+      shadow: '0 1px 2px rgba(28,25,23,0.05), 0 12px 26px -16px rgba(28,25,23,0.18)',
+      navBg: '#FFFFFF', toggleOff: '#D9D6D1'
+    };
+    const D = {
+      name: 'dark', bg: '#0B0F0E', surface: '#14181A', card: '#161B1D',
+      border: '#272D2F', divider: '#1E2426', text: '#F4F4F3', textSec: '#A6AFAB',
+      textTer: '#6B746F', accent: '#10B981', accentSoft: 'rgba(16,185,129,0.13)', accentLine: 'rgba(16,185,129,0.28)',
+      onAccent: '#04231A', chipBg: '#1C2123', statusText: '#F4F4F3',
+      placeholder: '#1E2426', placeholderText: '#48524C',
+      pill: 'rgba(16,185,129,0.15)', good: '#34D399', warn: '#F59E0B',
+      shadow: '0 1px 2px rgba(0,0,0,0.4), 0 12px 26px -16px rgba(0,0,0,0.6)',
+      navBg: '#0F1413', toggleOff: '#2B3235'
+    };
+    const t = theme === 'dark' ? D : L;
+
+    const isHome = screen === 'home', isArticle = screen === 'article',
+      isSearch = screen === 'search', isBookmark = screen === 'bookmark',
+      isSettings = screen === 'settings', isSources = screen === 'sources';
+
+    const navC = {
+      home: isHome ? t.accent : t.textTer,
+      search: isSearch ? t.accent : t.textTer,
+      saved: isBookmark ? t.accent : t.textTer,
+      settings: (isSettings || isSources) ? t.accent : t.textTer
+    };
+
+    const homeChips = ['Top', 'World', 'Business', 'Tech', 'Culture', 'Sports'].map((c, i) => ({
+      label: c, color: i === 0 ? t.text : t.textTer, under: i === 0 ? t.accent : 'transparent'
+    }));
+
+    const followChips = [['General', true], ['Business', true], ['Technology', true], ['Sports', false], ['Science', false], ['Health', false], ['Culture', false]].map(([label, on]) => ({
+      label, bg: on ? t.accent : 'transparent', color: on ? t.onAccent : t.textSec, border: on ? t.accent : t.border
+    }));
+
+    const inputBg = t.name === 'dark' ? '#0E1312' : '#FFFFFF';
+    const saveBg = t.name === 'dark' ? '#232A2B' : '#ECEBE8';
+    const trackBg = t.name === 'dark' ? '#2B3235' : '#E7E5E4';
+    const sources = [
+      { name: 'NewsAPI.org', hasKey: false, selected: false },
+      { name: 'NewsData.io', hasKey: true, used: 144, total: 200, reset: 'Resets in 23 hours', selected: true },
+      { name: 'GNews', hasKey: false, selected: false },
+      { name: 'Currents', hasKey: true, used: 12, total: 600, reset: 'Resets in 8 min', selected: false },
+      { name: 'Mediastack', hasKey: false, selected: false }
+    ].map(s => {
+      const pct = s.total ? Math.min(100, Math.round((s.used / s.total) * 100)) : 0;
+      const warn = pct >= 70;
+      return {
+        name: s.name,
+        dot: s.hasKey ? t.good : t.textTer,
+        compactMeta: s.hasKey ? (s.total ? (s.used + ' / ' + s.total) : 'Active') : 'No key',
+        compactColor: s.hasKey ? t.textSec : t.textTer,
+        statusText: s.hasKey ? 'Active' : 'No key',
+        statusColor: s.hasKey ? t.good : t.textTer,
+        showUsage: !!(s.hasKey && s.total),
+        usageText: s.used + ' / ' + s.total + ' used',
+        reset: s.reset || '',
+        pct: pct + '%',
+        fill: warn ? t.warn : t.accent,
+        track: trackBg,
+        inputBg, saveBg,
+        saveColor: t.textTer,
+        accent: t.accent,
+        showClear: s.hasKey,
+        radioBorder: s.selected ? t.accent : t.textTer,
+        radioDot: s.selected ? t.accent : 'transparent',
+        radioLabel: s.hasKey ? 'Use this source' : 'Add a key to use this source',
+        radioLabelColor: s.selected ? t.text : t.textSec
+      };
+    });
+
+    const srcActiveN = sources.filter(s => s.statusText === 'Active').length;
+    const srcSummary = srcActiveN + ' active \u00b7 ' + (sources.length - srcActiveN) + ' need a key';
+
+    const activeSeg = t.name === 'dark' ? 'Dark' : 'Light';
+    const segs = ['Light', 'Dark', 'System'].map(s => ({
+      label: s,
+      bg: s === activeSeg ? t.surface : 'transparent',
+      color: s === activeSeg ? t.text : t.textSec,
+      shadow: s === activeSeg ? (t.name === 'dark' ? '0 1px 3px rgba(0,0,0,0.55)' : '0 1px 2px rgba(0,0,0,0.09)') : 'none'
+    }));
+
+    const tog = (on) => ({ track: on ? t.accent : t.toggleOff, knob: '#FFFFFF', left: on ? '18px' : '2px' });
+
+    return {
+      t, isHome, isArticle, isSearch, isBookmark, isSettings, isSources, showNav: !isArticle,
+      navC, homeChips, followChips, sources, segs, srcSummary,
+      togPersonal: tog(true), togAI: tog(false),
+      featured: { title: 'The actor with everyone\u2019s favorite voice is releasing a blues album', source: 'Currents', time: '3h' },
+      articles: [
+        { kicker: 'WORLD', time: '2h', title: 'USW vows to hold Nippon Steel to its U.S. investment pledges', source: 'Currents' },
+        { kicker: 'BUSINESS', time: '4h', title: 'Regional alliance backs spacecraft manufacturing expansion', source: 'Currents' },
+        { kicker: 'SPORTS', time: '5h', title: 'Messi becomes the World Cup\u2019s all-time top scorer', source: 'Currents' },
+        { kicker: 'INDIA', time: '6h', title: 'Lucknow fire inquiry: residential block used for commercial work', source: 'Currents' }
+      ],
+      saved: [
+        { kicker: 'SPORTS', time: 'Saved 1h ago', title: 'Messi becomes the World Cup\u2019s all-time top scorer' },
+        { kicker: 'CULTURE', time: 'Saved yesterday', title: 'The actor with everyone\u2019s favorite voice is releasing a blues album' },
+        { kicker: 'BUSINESS', time: 'Saved 2d ago', title: 'Regional alliance backs spacecraft manufacturing expansion' }
+      ],
+      trending: ['Nippon Steel', 'World Cup', 'Blues album', 'Spacecraft', 'Lucknow fire'],
+      topics: [
+        { name: 'Business', count: '128' }, { name: 'Technology', count: '94' },
+        { name: 'Sports', count: '76' }, { name: 'Science', count: '52' },
+        { name: 'Health', count: '40' }, { name: 'Culture', count: '33' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

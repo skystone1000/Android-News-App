@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Schibsted+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+svg{display:block}
+.card{background:#fff;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.lbl{font:600 12px 'Hanken Grotesk',sans-serif;letter-spacing:.04em;color:#6b7280;margin-bottom:10px}
+.sec{font:700 10px 'Hanken Grotesk',sans-serif;letter-spacing:.1em;color:#9ca3af;margin-bottom:14px}
+</style>
+</helmet>
+
+<!-- ===================== TITLE ===================== -->
+<div style="position:absolute; left:40px; top:48px; width:720px">
+  <div class="lbl" data-drags-parent="1">Design System</div>
+  <div class="card" style="padding:40px 44px">
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:22px">
+      <div style="width:46px; height:46px; border-radius:14px; background:#047857; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4.5px">
+        <div style="width:22px; height:3.4px; border-radius:2px; background:#fff"></div>
+        <div style="width:22px; height:3.4px; border-radius:2px; background:#fff"></div>
+        <div style="width:13px; height:3.4px; border-radius:2px; background:#fff; margin-right:9px"></div>
+      </div>
+      <div style="font:800 40px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.04em; color:#1C1917">Brief</div>
+    </div>
+    <div style="font:400 19px 'Hanken Grotesk',sans-serif; line-height:1.5; color:#57534E; max-width:560px">A news reader, redesigned. One clean, all-sans system with fully realized <strong style="color:#1C1917; font-weight:700">day</strong> and <strong style="color:#1C1917; font-weight:700">night</strong> themes — applied across every screen.</div>
+    <div style="display:flex; gap:9px; margin-top:24px; flex-wrap:wrap">
+      <div style="padding:7px 14px; border-radius:9px; background:#F4F4F2; font:600 12px 'Hanken Grotesk',sans-serif; color:#44403C">Schibsted Grotesk · Hanken Grotesk</div>
+      <div style="padding:7px 14px; border-radius:9px; background:#ECFDF5; font:600 12px 'Hanken Grotesk',sans-serif; color:#047857">Emerald accent</div>
+      <div style="padding:7px 14px; border-radius:9px; background:#F4F4F2; font:600 12px 'Hanken Grotesk',sans-serif; color:#44403C">5 screens · 2 themes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BRAND ===================== -->
+<div style="position:absolute; left:820px; top:48px; width:760px">
+  <div class="lbl" data-drags-parent="1">Brand &amp; logo</div>
+  <div class="card" style="padding:0; overflow:hidden; display:flex">
+    <div style="flex:1; padding:38px 36px; display:flex; flex-direction:column; gap:26px; background:#fff">
+      <div style="display:flex; align-items:center; gap:13px">
+        <div style="width:40px; height:40px; border-radius:12px; background:#047857; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px">
+          <div style="width:19px; height:3px; border-radius:2px; background:#fff"></div>
+          <div style="width:19px; height:3px; border-radius:2px; background:#fff"></div>
+          <div style="width:11px; height:3px; border-radius:2px; background:#fff; margin-right:8px"></div>
+        </div>
+        <div style="font:800 30px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.04em; color:#1C1917">Brief</div>
+      </div>
+      <div style="font:500 14px 'Hanken Grotesk',sans-serif; color:#A8A29E; font-style:italic">&ldquo;The day, in brief.&rdquo;</div>
+      <div style="height:1px; background:#F1EFEC"></div>
+      <div style="font:400 13.5px 'Hanken Grotesk',sans-serif; line-height:1.55; color:#57534E">The mark stacks three descending bars — a story trimmed to its essentials. It reads at any size and inverts cleanly for dark surfaces.</div>
+    </div>
+    <div style="width:280px; background:#0B0F0E; padding:38px 30px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px">
+      <div style="display:flex; align-items:center; gap:11px">
+        <div style="width:34px; height:34px; border-radius:11px; background:#10B981; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3.5px">
+          <div style="width:16px; height:2.6px; border-radius:2px; background:#04231A"></div>
+          <div style="width:16px; height:2.6px; border-radius:2px; background:#04231A"></div>
+          <div style="width:9px; height:2.6px; border-radius:2px; background:#04231A; margin-right:7px"></div>
+        </div>
+        <div style="font:800 26px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.04em; color:#F4F4F3">Brief</div>
+      </div>
+      <div style="display:flex; gap:14px">
+        <div style="width:54px; height:54px; border-radius:16px; background:#10B981; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px">
+          <div style="width:25px; height:3.6px; border-radius:2px; background:#04231A"></div>
+          <div style="width:25px; height:3.6px; border-radius:2px; background:#04231A"></div>
+          <div style="width:15px; height:3.6px; border-radius:2px; background:#04231A; margin-right:10px"></div>
+        </div>
+        <div style="width:54px; height:54px; border-radius:16px; background:#fff; border:1px solid #272D2F; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px">
+          <div style="width:25px; height:3.6px; border-radius:2px; background:#047857"></div>
+          <div style="width:25px; height:3.6px; border-radius:2px; background:#047857"></div>
+          <div style="width:15px; height:3.6px; border-radius:2px; background:#047857; margin-right:10px"></div>
+        </div>
+      </div>
+      <div style="font:600 10px 'Hanken Grotesk',sans-serif; letter-spacing:0.08em; color:#6B746F">APP ICON</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DAY TOKENS ===================== -->
+<div style="position:absolute; left:40px; top:560px; width:560px">
+  <div class="lbl" data-drags-parent="1">Color · Day</div>
+  <div class="card" style="padding:28px 30px; background:#FAFAF9">
+    <div class="sec">LIGHT THEME</div>
+    <div style="display:flex; flex-direction:column; gap:3px">
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#FAFAF9; border:1px solid #E7E5E4"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Background</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">app canvas</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#FAFAF9</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#FFFFFF; border:1px solid #E7E5E4"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Surface / Card</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">elevated content</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#FFFFFF</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#E7E5E4"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Border</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">hairline</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#E7E5E4</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#1C1917"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Text</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">primary / secondary / tertiary</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#1C1917</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#047857"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Accent</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">emerald</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#047857</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#ECFDF5; border:1px solid #C7EBD9"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Accent soft</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#A8A29E">tint / fill</div></div><div style="font:500 12px ui-monospace,monospace; color:#57534E">#ECFDF5</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== NIGHT TOKENS ===================== -->
+<div style="position:absolute; left:640px; top:560px; width:560px">
+  <div class="lbl" data-drags-parent="1">Color · Night</div>
+  <div class="card" style="padding:28px 30px; background:#0B0F0E; box-shadow:0 1px 3px rgba(0,0,0,.3)">
+    <div class="sec" style="color:#6B746F">DARK THEME</div>
+    <div style="display:flex; flex-direction:column; gap:3px">
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#0B0F0E; border:1px solid #272D2F"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Background</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">app canvas</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">#0B0F0E</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#161B1D; border:1px solid #272D2F"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Surface / Card</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">elevated content</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">#161B1D</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#272D2F"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Border</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">hairline</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">#272D2F</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#F4F4F3"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Text</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">primary / secondary / tertiary</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">#F4F4F3</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#10B981"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Accent</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">emerald (brightened)</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">#10B981</div></div>
+      <div style="display:flex; align-items:center; gap:14px; padding:9px 0"><div style="width:40px; height:40px; border-radius:10px; background:#15241F; border:1px solid rgba(16,185,129,0.28)"></div><div style="flex:1"><div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Accent soft</div><div style="font:500 11px 'Hanken Grotesk',sans-serif; color:#6B746F">tint / fill</div></div><div style="font:500 12px ui-monospace,monospace; color:#A6AFAB">13% α</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TYPE ===================== -->
+<div style="position:absolute; left:1240px; top:560px; width:540px">
+  <div class="lbl" data-drags-parent="1">Typography</div>
+  <div class="card" style="padding:30px 32px">
+    <div class="sec">TYPE SCALE</div>
+    <div style="display:flex; flex-direction:column; gap:22px">
+      <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">DISPLAY · Schibsted 800 · 34</div><div style="font:800 34px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.035em; color:#1C1917">Today in Brief</div></div>
+      <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">HEADLINE · Schibsted 700 · 22</div><div style="font:700 22px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.025em; line-height:1.2; color:#1C1917">A blues revue, reborn for its centenary</div></div>
+      <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">TITLE · Schibsted 600 · 16</div><div style="font:600 16px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.015em; color:#1C1917">Regional alliance backs spacecraft plant</div></div>
+      <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">BODY · Hanken 400 · 14</div><div style="font:400 14px 'Hanken Grotesk',sans-serif; line-height:1.6; color:#57534E">The project gathers a generation of musicians under a single banner, marking a century of the genre.</div></div>
+      <div style="display:flex; gap:40px">
+        <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">LABEL · 600 · 12</div><div style="font:600 12px 'Hanken Grotesk',sans-serif; color:#1C1917">Personalized feed</div></div>
+        <div><div style="font:500 10px 'Hanken Grotesk',sans-serif; letter-spacing:.05em; color:#A8A29E; margin-bottom:5px">OVERLINE · 700 · 10</div><div style="font:700 10px 'Hanken Grotesk',sans-serif; letter-spacing:.09em; color:#047857">CULTURE</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMPONENTS · LIGHT ===================== -->
+<div style="position:absolute; left:40px; top:1190px; width:560px">
+  <div class="lbl" data-drags-parent="1">Components · Day</div>
+  <div class="card" style="padding:30px 32px; background:#FAFAF9">
+    <div style="display:flex; flex-direction:column; gap:24px">
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+        <div style="padding:11px 20px; border-radius:12px; background:#047857; font:600 13px 'Hanken Grotesk',sans-serif; color:#fff">Read article</div>
+        <div style="padding:11px 20px; border-radius:12px; background:#fff; border:1px solid #E7E5E4; font:600 13px 'Hanken Grotesk',sans-serif; color:#1C1917">Save</div>
+        <div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#047857">Get a key</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap">
+        <div style="padding:7px 14px; border-radius:11px; background:#047857; font:600 12px 'Hanken Grotesk',sans-serif; color:#fff">General</div>
+        <div style="padding:7px 14px; border-radius:11px; background:#fff; border:1px solid #E7E5E4; font:600 12px 'Hanken Grotesk',sans-serif; color:#57534E">Business</div>
+        <div style="padding:7px 14px; border-radius:11px; background:#fff; border:1px solid #E7E5E4; font:600 12px 'Hanken Grotesk',sans-serif; color:#57534E">Sports</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:20px">
+        <div style="width:38px; height:22px; border-radius:11px; background:#047857; position:relative"><div style="position:absolute; top:2px; left:18px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.25)"></div></div>
+        <div style="width:38px; height:22px; border-radius:11px; background:#D9D6D1; position:relative"><div style="position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.25)"></div></div>
+        <div style="display:flex; gap:5px; align-items:center"><span style="padding:4px 9px; border-radius:8px; background:#E7F6EE; font:600 10px 'Hanken Grotesk',sans-serif; color:#047857">Active</span><span style="padding:4px 9px; border-radius:8px; background:#F4F4F2; font:600 10px 'Hanken Grotesk',sans-serif; color:#A8A29E">Add key</span></div>
+      </div>
+      <div style="display:flex; gap:4px; padding:4px; border-radius:13px; background:#F4F4F2; border:1px solid #E7E5E4">
+        <div style="flex:1; text-align:center; padding:8px 0; border-radius:10px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.09); font:600 12.5px 'Hanken Grotesk',sans-serif; color:#1C1917">Light</div>
+        <div style="flex:1; text-align:center; padding:8px 0; font:600 12.5px 'Hanken Grotesk',sans-serif; color:#57534E">Dark</div>
+        <div style="flex:1; text-align:center; padding:8px 0; font:600 12.5px 'Hanken Grotesk',sans-serif; color:#57534E">System</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:13px; background:#fff; border:1px solid #E7E5E4"><span style="font:500 13px 'Hanken Grotesk',sans-serif; color:#A8A29E; flex:1">API key (apikey)</span><span style="font:600 12px 'Hanken Grotesk',sans-serif; color:#A8A29E">Save</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMPONENTS · DARK ===================== -->
+<div style="position:absolute; left:640px; top:1190px; width:560px">
+  <div class="lbl" data-drags-parent="1">Components · Night</div>
+  <div class="card" style="padding:30px 32px; background:#0B0F0E; box-shadow:0 1px 3px rgba(0,0,0,.3)">
+    <div style="display:flex; flex-direction:column; gap:24px">
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+        <div style="padding:11px 20px; border-radius:12px; background:#10B981; font:600 13px 'Hanken Grotesk',sans-serif; color:#04231A">Read article</div>
+        <div style="padding:11px 20px; border-radius:12px; background:#161B1D; border:1px solid #272D2F; font:600 13px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Save</div>
+        <div style="font:600 13px 'Hanken Grotesk',sans-serif; color:#34D399">Get a key</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap">
+        <div style="padding:7px 14px; border-radius:11px; background:#10B981; font:600 12px 'Hanken Grotesk',sans-serif; color:#04231A">General</div>
+        <div style="padding:7px 14px; border-radius:11px; background:#161B1D; border:1px solid #272D2F; font:600 12px 'Hanken Grotesk',sans-serif; color:#A6AFAB">Business</div>
+        <div style="padding:7px 14px; border-radius:11px; background:#161B1D; border:1px solid #272D2F; font:600 12px 'Hanken Grotesk',sans-serif; color:#A6AFAB">Sports</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:20px">
+        <div style="width:38px; height:22px; border-radius:11px; background:#10B981; position:relative"><div style="position:absolute; top:2px; left:18px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.4)"></div></div>
+        <div style="width:38px; height:22px; border-radius:11px; background:#2B3235; position:relative"><div style="position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.4)"></div></div>
+        <div style="display:flex; gap:5px; align-items:center"><span style="padding:4px 9px; border-radius:8px; background:rgba(16,185,129,0.15); font:600 10px 'Hanken Grotesk',sans-serif; color:#34D399">Active</span><span style="padding:4px 9px; border-radius:8px; background:#1C2123; font:600 10px 'Hanken Grotesk',sans-serif; color:#6B746F">Add key</span></div>
+      </div>
+      <div style="display:flex; gap:4px; padding:4px; border-radius:13px; background:#1C2123; border:1px solid #272D2F">
+        <div style="flex:1; text-align:center; padding:8px 0; font:600 12.5px 'Hanken Grotesk',sans-serif; color:#A6AFAB">Light</div>
+        <div style="flex:1; text-align:center; padding:8px 0; border-radius:10px; background:#161B1D; box-shadow:0 1px 3px rgba(0,0,0,.55); font:600 12.5px 'Hanken Grotesk',sans-serif; color:#F4F4F3">Dark</div>
+        <div style="flex:1; text-align:center; padding:8px 0; font:600 12.5px 'Hanken Grotesk',sans-serif; color:#A6AFAB">System</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:13px; background:#161B1D; border:1px solid #272D2F"><span style="font:500 13px 'Hanken Grotesk',sans-serif; color:#6B746F; flex:1">API key (apikey)</span><span style="font:600 12px 'Hanken Grotesk',sans-serif; color:#6B746F">Save</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SCREENS · DAY ===================== -->
+<div style="position:absolute; left:40px; top:1850px; width:400px">
+  <div style="font:800 22px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:#1C1917" data-drags-parent="1">Screens — Day</div>
+  <div style="font:500 13px 'Hanken Grotesk',sans-serif; color:#9ca3af; margin-top:4px" data-drags-parent="1">Home · Article · Search · Saved · Settings</div>
+</div>
+
+<div style="position:absolute; left:40px; top:1930px"><div class="lbl" data-drags-parent="1">Home</div><dc-import name="Phone" theme="light" screen="home" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:390px; top:1930px"><div class="lbl" data-drags-parent="1">Article</div><dc-import name="Phone" theme="light" screen="article" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:740px; top:1930px"><div class="lbl" data-drags-parent="1">Search</div><dc-import name="Phone" theme="light" screen="search" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1090px; top:1930px"><div class="lbl" data-drags-parent="1">Saved</div><dc-import name="Phone" theme="light" screen="bookmark" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1440px; top:1930px"><div class="lbl" data-drags-parent="1">Settings</div><dc-import name="Phone" theme="light" screen="settings" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1790px; top:1930px"><div class="lbl" data-drags-parent="1">Data sources</div><dc-import name="Phone" theme="light" screen="sources" hint-size="316px,596px"></dc-import></div>
+
+<!-- ===================== SCREENS · NIGHT ===================== -->
+<div style="position:absolute; left:40px; top:2660px; width:400px">
+  <div style="font:800 22px 'Schibsted Grotesk',sans-serif; letter-spacing:-0.03em; color:#1C1917" data-drags-parent="1">Screens — Night</div>
+  <div style="font:500 13px 'Hanken Grotesk',sans-serif; color:#9ca3af; margin-top:4px" data-drags-parent="1">The same surfaces, retuned for low light</div>
+</div>
+
+<div style="position:absolute; left:40px; top:2740px"><div class="lbl" data-drags-parent="1">Home</div><dc-import name="Phone" theme="dark" screen="home" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:390px; top:2740px"><div class="lbl" data-drags-parent="1">Article</div><dc-import name="Phone" theme="dark" screen="article" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:740px; top:2740px"><div class="lbl" data-drags-parent="1">Search</div><dc-import name="Phone" theme="dark" screen="search" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1090px; top:2740px"><div class="lbl" data-drags-parent="1">Saved</div><dc-import name="Phone" theme="dark" screen="bookmark" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1440px; top:2740px"><div class="lbl" data-drags-parent="1">Settings</div><dc-import name="Phone" theme="dark" screen="settings" hint-size="316px,596px"></dc-import></div>
+<div style="position:absolute; left:1790px; top:2740px"><div class="lbl" data-drags-parent="1">Data sources</div><dc-import name="Phone" theme="dark" screen="sources" hint-size="316px,596px"></dc-import></div>
+</x-dc>
+</body>
+</html>
