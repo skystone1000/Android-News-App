@@ -2,7 +2,7 @@
 
 > Canonical reference for the news data sources the app integrates, how keys are managed, and how
 > free-tier usage is tracked. For the original build plan see [MULTI_SOURCE_PLAN.md](MULTI_SOURCE_PLAN.md).
-> Last updated: 2026-06-22.
+> Last updated: 2026-06-23.
 
 ## Overview
 
@@ -18,22 +18,42 @@ Each provider's API key is **entered in-app and encrypted** — keys are never b
 | NewsAPI.org | `newsapi` | `https://newsapi.org/` | `apiKey` | `v2/top-headlines` | `v2/everything` | numeric `page` | `articles[]` | ~100/day (dev only) |
 | NewsData.io | `newsdata` | `https://newsdata.io/` | `apikey` | `api/1/latest` | `api/1/latest?q=` | **token** cursor (`nextPage`) | `results[]` | ~200/day |
 | GNews | `gnews` | `https://gnews.io/` | `apikey` | `api/v4/top-headlines` | `api/v4/search` | numeric `page` | `articles[]` | ~100/day |
-| Currents | `currents` | `https://api.currentsapi.services/` | `apiKey` | `v1/latest-news` | `v1/search` | numeric `page_number` | `news[]` | ~600/day |
+| Currents | `currents` | `https://api.currentsapi.services/` | `apiKey` | `v1/latest-news` | `v1/search` | **none** (single page) | `news[]` | ~600/day |
 | Mediastack | `mediastack` | `http://api.mediastack.com/` | `access_key` | `v1/news` | `v1/news?keywords=` | **offset** (`offset`/`limit`) | `data[]` | ~500/month, **HTTP only** |
 
 > Quotas/endpoints are approximate — **verify against each provider's current docs**. The free-tier
 > numbers live in `SourceCatalog` (`SourceQuota`) and drive the in-app usage meter; the per-provider
 > signup URLs (for the "Get a key" link) live there too.
 
+### Official documentation
+
+| Provider | Docs |
+|----------|------|
+| NewsAPI.org | https://newsapi.org/docs |
+| NewsData.io | https://newsdata.io/documentation |
+| GNews | https://docs.gnews.io/ |
+| Currents | https://currentsapi.services/en/docs/ |
+| Mediastack | https://docs.apilayer.com/mediastack/docs/api-documentation |
+
 ### Provider notes
-- **NewsAPI.org** — free key is **developer-only** per its TOS (no production traffic).
+- **NewsAPI.org** — free key is **developer-only** per its TOS (no production traffic). On that plan
+  deep pagination is capped (≈100 results total), so requesting a page beyond that returns a
+  `maximumResultsReached` error — expected, not a bug.
 - **NewsData.io** — cursor pagination: `page` is an opaque `nextPage` token, not a number. No "general"
-  category, so the app maps `general → top`.
-- **GNews** — `max` controls page size; numeric `page`.
-- **Currents** — `page_number`/`page_size`; its category vocabulary already covers the shared set.
-- **Mediastack** — offset pagination (`offset`/`limit`). Free tier is **HTTP only** (no TLS); a
-  cleartext exception scoped to `api.mediastack.com` is declared in `res/xml/network_security_config.xml`.
-  Upgrade to a paid HTTPS plan to remove it.
+  category, so the app maps `general → top`. Note: **error** responses return `results` as an *object*
+  while success returns an *array*, so a bad key/quota error can fail JSON parsing rather than surface
+  cleanly (potential hardening item).
+- **GNews** — `max` controls page size; numeric `page`. The **free plan caps `max` at 10** and rejects
+  larger values, so `GNewsSource` clamps the requested page size to 10 (`FREE_MAX_RESULTS`).
+- **Currents** — per its OpenAPI spec, `v1/latest-news` accepts **only `language`** and `v1/search`
+  only `keywords`/`language` (plus category/country/date filters); **neither supports pagination**.
+  Sending `page_number`/`page_size`/`category` to `latest-news` makes the API return **HTTP 400**, so
+  the source sends only the supported params and returns a single page (no category narrowing on the
+  headlines feed).
+- **Mediastack** — offset pagination (`offset`/`limit`); auth is the `access_key` **query** param
+  against `http://api.mediastack.com`. Free tier is **HTTP only** (no TLS); a cleartext exception
+  scoped to `api.mediastack.com` is declared in `res/xml/network_security_config.xml`. Upgrade to a
+  paid HTTPS plan to remove it.
 
 ## How a source works
 
