@@ -59,6 +59,10 @@ class ApiUsageStoreImpl(
         }
     }
 
+    override suspend fun clearAll() {
+        context.usageDataStore.edit { it.clear() }
+    }
+
     private fun snapshot(source: SourceMetadata, prefs: Preferences, current: Long): UsageSnapshot {
         val windowStart = QuotaWindow.windowStart(source.quota.period, current)
         val storedWindow = prefs[windowKey(source.id)]

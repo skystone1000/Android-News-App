@@ -20,4 +20,7 @@ interface SettingsManager {
     suspend fun setAiSummariesEnabled(enabled: Boolean)
 
     suspend fun setThemeMode(mode: ThemeMode)
+
+    /** Resets all user settings to their defaults (used by the debug reset action). */
+    suspend fun clear()
 }

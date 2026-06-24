@@ -23,6 +23,8 @@ import com.example.newsapp.presentation.bookmark.BookmarkScreen
 import com.example.newsapp.presentation.bookmark.BookmarkViewModel
 import com.example.newsapp.presentation.debug.DebugScreen
 import com.example.newsapp.presentation.debug.DebugViewModel
+import com.example.newsapp.presentation.debug.RequestLogScreen
+import com.example.newsapp.presentation.debug.RequestLogViewModel
 import com.example.newsapp.presentation.details.DetailsScreen
 import com.example.newsapp.presentation.details.DetailsViewModel
 import com.example.newsapp.presentation.history.HistoryScreen
@@ -142,8 +144,24 @@ fun NewsNavigator() {
                 val config by viewModel.config.collectAsState()
                 DebugScreen(
                     config = config,
+                    sideEffect = viewModel.sideEffect,
                     onToggleSave = viewModel::setSaveResponses,
                     onToggleOffline = viewModel::setOfflineMode,
+                    onToggleForceError = viewModel::setForceError,
+                    onCycleLatency = viewModel::cycleLatency,
+                    onClearMocks = viewModel::clearMocks,
+                    onResetState = viewModel::resetAppState,
+                    onSideEffectShown = viewModel::consumeSideEffect,
+                    navigateToRequestLog = { navController.navigate(Route.RequestLogScreen.route) },
+                    navigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(Route.RequestLogScreen.route) {
+                val viewModel: RequestLogViewModel = hiltViewModel()
+                val entries by viewModel.entries.collectAsState()
+                RequestLogScreen(
+                    entries = entries,
+                    onClear = viewModel::clear,
                     navigateUp = { navController.navigateUp() }
                 )
             }

@@ -33,4 +33,7 @@ interface ApiUsageStore {
 
     /** Clears the count for [sourceId] in the current window. */
     suspend fun reset(sourceId: String)
+
+    /** Clears all usage counts (used by the debug reset action). */
+    suspend fun clearAll()
 }

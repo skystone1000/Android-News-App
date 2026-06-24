@@ -56,6 +56,10 @@ class SettingsManagerImpl(
         context.settingsDataStore.edit { it[Keys.THEME] = mode.name }
     }
 
+    override suspend fun clear() {
+        context.settingsDataStore.edit { it.clear() }
+    }
+
     private object Keys {
         val DATA_SOURCE = stringPreferencesKey("data_source")
         val CATEGORY = stringPreferencesKey("selected_category")
