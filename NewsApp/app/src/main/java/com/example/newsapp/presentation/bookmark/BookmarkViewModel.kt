@@ -23,5 +23,10 @@ class BookmarkViewModel @Inject constructor(
         newsUseCases.selectArticles()
             .onEach { articles -> state = state.copy(articles = articles) }
             .launchIn(viewModelScope)
+
+        // Reading history drives the read/unread state of saved articles.
+        newsUseCases.getHistory()
+            .onEach { history -> state = state.copy(readUrls = history.mapTo(mutableSetOf()) { it.url }) }
+            .launchIn(viewModelScope)
     }
 }

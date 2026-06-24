@@ -20,7 +20,11 @@ class SearchViewModel @Inject constructor(
 
     fun onEvent(event: SearchEvent) {
         when (event) {
-            is SearchEvent.UpdateSearchQuery -> state = state.copy(searchQuery = event.query)
+            is SearchEvent.UpdateSearchQuery -> state = state.copy(
+                searchQuery = event.query,
+                // Clearing the field returns to the discovery view (trending / topics).
+                articles = if (event.query.isBlank()) null else state.articles,
+            )
             is SearchEvent.SearchNews -> searchNews()
         }
     }

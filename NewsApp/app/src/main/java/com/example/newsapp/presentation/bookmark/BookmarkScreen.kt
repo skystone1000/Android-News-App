@@ -38,8 +38,13 @@ fun BookmarkScreen(
     navigateToDetails: (Article) -> Unit,
 ) {
     val colors = BriefTheme.colors
-    // "Unread" filter is inert: there is no read-state model yet (see UI_REFACTOR_PLAN.md).
+    // 0 = All, 1 = Unread (saved articles not yet opened — i.e. not in reading history).
     var filterIndex by remember { mutableIntStateOf(0) }
+    val visibleArticles = if (filterIndex == 1) {
+        state.articles.filter { it.url !in state.readUrls }
+    } else {
+        state.articles
+    }
 
     Column(
         modifier = Modifier
@@ -71,12 +76,12 @@ fun BookmarkScreen(
         }
         Spacer(Modifier.height(4.dp))
 
-        if (state.articles.isEmpty()) {
+        if (visibleArticles.isEmpty()) {
             EmptyScreen()
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(count = state.articles.size) { index ->
-                    val article = state.articles[index]
+                items(count = visibleArticles.size) { index ->
+                    val article = visibleArticles[index]
                     if (index > 0) HorizontalDivider(thickness = 1.dp, color = colors.divider)
                     ArticleRow(
                         article = article,

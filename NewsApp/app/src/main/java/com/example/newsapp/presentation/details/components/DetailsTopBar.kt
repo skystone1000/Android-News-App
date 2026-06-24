@@ -1,7 +1,6 @@
 package com.example.newsapp.presentation.details.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,18 +18,20 @@ import com.example.newsapp.ui.theme.BriefTheme
 @Composable
 fun DetailsTopBar(
     isSpeaking: Boolean,
+    isBookmarked: Boolean,
     onListenClick: () -> Unit,
     onShareClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     onBrowsingClick: () -> Unit,
     onBackClick: () -> Unit
 ) {
+    val colors = BriefTheme.colors
     TopAppBar(
         title = {},
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            actionIconContentColor = BriefTheme.colors.textSec,
-            navigationIconContentColor = BriefTheme.colors.text
+            actionIconContentColor = colors.textSec,
+            navigationIconContentColor = colors.text
         ),
         navigationIcon = {
             IconButton(onClick = onBackClick) {
@@ -41,11 +42,21 @@ fun DetailsTopBar(
             }
         },
         actions = {
+            // Listen: a play triangle when idle, a stop square while reading aloud.
             IconButton(onClick = onListenClick) {
-                Icon(
-                    imageVector = if (isSpeaking) Icons.Filled.Clear else Icons.Filled.PlayArrow,
-                    contentDescription = if (isSpeaking) "Stop listening" else "Listen to article"
-                )
+                if (isSpeaking) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_stop),
+                        contentDescription = "Stop reading aloud",
+                        tint = colors.accent,
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.PlayArrow,
+                        contentDescription = "Listen to article",
+                        tint = colors.textSec,
+                    )
+                }
             }
             IconButton(onClick = onShareClick) {
                 Icon(
@@ -53,10 +64,14 @@ fun DetailsTopBar(
                     contentDescription = "Share article"
                 )
             }
+            // Bookmark: filled + accent when saved, outline when not.
             IconButton(onClick = onBookmarkClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_bookmark),
-                    contentDescription = "Bookmark"
+                    painter = painterResource(
+                        id = if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark,
+                    ),
+                    contentDescription = if (isBookmarked) "Remove bookmark" else "Save article",
+                    tint = if (isBookmarked) colors.accent else colors.textSec,
                 )
             }
             IconButton(onClick = onBrowsingClick) {

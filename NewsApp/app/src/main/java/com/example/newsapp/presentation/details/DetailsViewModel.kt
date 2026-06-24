@@ -28,6 +28,10 @@ class DetailsViewModel @Inject constructor(
     var aiState by mutableStateOf<AiInsightState>(AiInsightState.Idle)
         private set
 
+    /** Whether the current article is currently bookmarked (drives the filled/outline icon). */
+    var isBookmarked by mutableStateOf(false)
+        private set
+
     fun onEvent(event: DetailsEvent) {
         when (event) {
             is DetailsEvent.UpsertDeleteArticle -> viewModelScope.launch {
@@ -48,6 +52,11 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch { newsUseCases.recordHistory(article) }
     }
 
+    /** Refreshes [isBookmarked] for [article] from the bookmark store. */
+    fun syncBookmark(article: Article) {
+        viewModelScope.launch { isBookmarked = newsUseCases.selectArticle(article.url) != null }
+    }
+
     /** Loads an AI insight only when the user has enabled AI summaries in Settings. */
     fun loadInsightIfEnabled(article: Article) {
         viewModelScope.launch {
@@ -64,11 +73,13 @@ class DetailsViewModel @Inject constructor(
 
     private suspend fun upsertArticle(article: Article) {
         newsUseCases.upsertArticle(article)
+        isBookmarked = true
         sideEffect = "Article Saved"
     }
 
     private suspend fun deleteArticle(article: Article) {
         newsUseCases.deleteArticle(article)
+        isBookmarked = false
         sideEffect = "Article Deleted"
     }
 }

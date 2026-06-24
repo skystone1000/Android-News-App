@@ -166,8 +166,10 @@ fun NewsNavigator() {
                         article = article,
                         sideEffect = viewModel.sideEffect,
                         aiState = viewModel.aiState,
+                        isBookmarked = viewModel.isBookmarked,
                         event = viewModel::onEvent,
                         onRequestInsight = {
+                            viewModel.syncBookmark(article)
                             viewModel.recordHistory(article)
                             viewModel.loadInsightIfEnabled(article)
                         },

@@ -41,6 +41,7 @@ fun DetailsScreen(
     article: Article,
     sideEffect: String?,
     aiState: AiInsightState,
+    isBookmarked: Boolean,
     event: (DetailsEvent) -> Unit,
     onRequestInsight: () -> Unit,
     navigateUp: () -> Unit,
@@ -66,6 +67,7 @@ fun DetailsScreen(
         item {
             DetailsTopBar(
                 isSpeaking = speaker.isSpeaking,
+                isBookmarked = isBookmarked,
                 onListenClick = {
                     val body = article.content.ifEmpty { article.description }
                     speaker.toggle("${article.title}. $body")
