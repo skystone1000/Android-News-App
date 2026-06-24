@@ -141,3 +141,32 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
+
+// --- Debug mock tooling helpers (see docs/DEBUG_MODE_PLAN.md) ---
+// Bridge the device capture dir (Android/data/<appId>/files/mock, written by the app's
+// "Save API responses" toggle) to the repo and the bundled offline fixtures.
+// Requires `adb` on PATH and a single connected device/emulator.
+val mockAppId = "com.example.newsapp" // keep in sync with android.defaultConfig.applicationId
+val mockDeviceDir = "/sdcard/Android/data/$mockAppId/files/mock"
+val mockRepoDir = layout.projectDirectory.dir("mock")          // NewsApp/mock
+val mockAssetsDir = layout.projectDirectory.dir("app/src/main/assets/mock")
+
+tasks.register<Exec>("pullMocks") {
+    group = "mock"
+    description = "adb pull captured responses from the device into NewsApp/mock."
+    doFirst { mockRepoDir.asFile.mkdirs() }
+    commandLine("adb", "pull", mockDeviceDir, layout.projectDirectory.asFile.absolutePath)
+}
+
+tasks.register<Exec>("clearDeviceMocks") {
+    group = "mock"
+    description = "Delete captured responses from the connected device."
+    commandLine("adb", "shell", "rm", "-rf", mockDeviceDir)
+}
+
+tasks.register<Copy>("seedMockAssets") {
+    group = "mock"
+    description = "Copy NewsApp/mock into src/main/assets/mock so offline mode works on fresh installs."
+    from(mockRepoDir)
+    into(mockAssetsDir)
+}
