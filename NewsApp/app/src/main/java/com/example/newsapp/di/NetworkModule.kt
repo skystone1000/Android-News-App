@@ -3,6 +3,7 @@ package com.example.newsapp.di
 import com.example.newsapp.BuildConfig
 import com.example.newsapp.data.remote.api.CurrentsService
 import com.example.newsapp.data.remote.api.GNewsService
+import com.example.newsapp.data.remote.MockInterceptor
 import com.example.newsapp.data.remote.RedactingLoggingInterceptor
 import com.example.newsapp.data.remote.UsageInterceptor
 import com.example.newsapp.data.remote.api.MediastackService
@@ -27,9 +28,15 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(usageStore: ApiUsageStore): OkHttpClient {
+    fun provideOkHttpClient(
+        usageStore: ApiUsageStore,
+        mockInterceptor: MockInterceptor,
+    ): OkHttpClient {
         val usageScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         return OkHttpClient.Builder()
+            // First: debug capture / offline replay (no-op in release). Runs before usage
+            // counting so replayed calls don't consume the free-tier quota.
+            .addInterceptor(mockInterceptor)
             .addInterceptor(UsageInterceptor(usageStore, usageScope))
             // Custom logger that redacts the API key from query params (debug only).
             .addInterceptor(RedactingLoggingInterceptor(enabled = BuildConfig.DEBUG))
