@@ -33,6 +33,11 @@ class FakeApiUsageStore(
         flow.value = snapshots()
     }
 
+    override suspend fun clearAll() {
+        counts.clear()
+        flow.value = snapshots()
+    }
+
     private fun snapshots(): Map<String, UsageSnapshot> {
         val now = 0L
         return SourceCatalog.ALL_SOURCES.associate { source ->

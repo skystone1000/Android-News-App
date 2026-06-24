@@ -36,4 +36,8 @@ class FakeSettingsManager : SettingsManager {
     override suspend fun setThemeMode(mode: ThemeMode) {
         state.value = state.value.copy(themeMode = mode)
     }
+
+    override suspend fun clear() {
+        state.value = UserSettings()
+    }
 }

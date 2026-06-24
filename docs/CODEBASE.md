@@ -200,6 +200,20 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `NewsApplication.seedDevKeysFromBuildConfig()` | Dev convenience: seeds `ApiKeyStore` from `BuildConfig` keys if unset (no-op in prod). |
 | `app/proguard-rules.pro` | `-dontwarn` for Tink's optional deps (ErrorProne/Google-API-client/Joda) + keep `com.google.crypto.tink.**`. Release (R8) verified green. |
 
+### Debug-mode tooling (debug builds only — see `DEBUG_MODE_PLAN.md`)
+| File / package | Purpose |
+|------|---------|
+| `domain/debug/{DebugConfig,DebugSettingsStore}.kt` | Debug flags model + contract (save / offline / force-error / latency). |
+| `data/debug/DebugSettingsStoreImpl.kt` | DataStore (`debug_settings`) impl. |
+| `data/debug/DebugConfigHolder.kt` | Mirrors latest config into an `AtomicReference` for synchronous reads on the network thread. |
+| `data/debug/MockStore.kt` | Capture (`getExternalFilesDir/mock/<key>/NNN.json`) + round-robin replay + assets fallback; pure `mockKey()`. |
+| `data/remote/MockInterceptor.kt` | First OkHttp interceptor: capture/offline-replay/force-error/latency (debug + provider hosts only); before `UsageInterceptor`. |
+| `data/debug/RequestLog.kt` | In-memory ring buffer (last 100) for the request inspector. |
+| `data/debug/DebugActions.kt` | `clearMocks()` + `resetAppState()` (wipes Room, keys, settings/usage/debug stores). |
+| `di/DebugModule.kt` | Provides `DebugSettingsStore`. |
+| `presentation/debug/` | `DebugScreen`/`DebugViewModel` (toggles + actions), `RequestLogScreen`/`RequestLogViewModel`. Reached from Settings → "Developer options" (debug only). |
+| `app/build.gradle.kts` (tasks) | `pullMocks` / `clearDeviceMocks` / `seedMockAssets` adb/copy helpers. |
+
 ## 4. Resources (`NewsApp/app/src/main/res/`)
 
 | Group | Contents |
