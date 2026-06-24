@@ -2,7 +2,7 @@
 
 > Canonical reference for the news data sources the app integrates, how keys are managed, and how
 > free-tier usage is tracked. For the original build plan see [MULTI_SOURCE_PLAN.md](MULTI_SOURCE_PLAN.md).
-> Last updated: 2026-06-23.
+> Last updated: 2026-06-24.
 
 ## Overview
 
@@ -79,9 +79,10 @@ Each provider's API key is **entered in-app and encrypted** — keys are never b
 
 - **Storage:** `ApiKeyStore` / `EncryptedApiKeyStore` — `EncryptedSharedPreferences` with a Keystore-backed
   master key (AES-256-GCM values). Keys decrypt only in memory on use.
-- **Entry:** Settings → "Data sources & API keys" — a masked field per provider (save/clear), a
-  "Get a key" deep link, and an active-source selector enabled only once a key is saved. Clearing the
-  active source's key falls back to another configured source (else the default).
+- **Entry:** Settings → "Manage sources & keys" row → the dedicated **`DataSourcesScreen`** — a masked
+  field per provider (save/clear), a "Get a key" deep link, and an active-source selector enabled only
+  once a key is saved. Clearing the active source's key falls back to another configured source (else
+  the default).
 - **Dev seed:** on first launch, `NewsApplication` seeds the store from `BuildConfig` keys
   (`NEWS_API_KEY`, `GNEWS_API_KEY` from `local.properties`) if unset — a no-op in production.
 - **Log safety:** keys ride in query params, so `RedactingLoggingInterceptor` masks them in debug logs
@@ -94,5 +95,5 @@ Each provider's API key is **entered in-app and encrypted** — keys are never b
   day (DAILY) or month (MONTHLY) boundary.
 - Counting hook: `UsageInterceptor` (OkHttp) maps host → provider id and records each request
   fire-and-forget; when a provider returns `x-ratelimit-remaining`, that value reconciles the estimate.
-- UI: `UsageMeter` in Settings shows `used / limit`, a colour bar, and the reset time — labelled an
+- UI: `UsageMeter` on the Data Sources screen shows `used / limit`, a colour bar, and the reset time — labelled an
   **on-device estimate** (failed/cached requests or other-device usage won't match the provider exactly).

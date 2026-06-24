@@ -1,35 +1,47 @@
 package com.example.newsapp.presentation.common
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.example.newsapp.domain.model.Article
-import com.example.newsapp.presentation.Dimens.ExtraSmallPadding2
 import com.example.newsapp.presentation.Dimens.MediumPadding1
+import com.example.newsapp.ui.theme.BriefTheme
 
-/** Renders a paged list of articles, handling loading/empty/error states. */
+/** Renders a paged list of articles as [ArticleRow]s, handling loading/empty/error states. */
 @Composable
 fun ArticlesList(
     modifier: Modifier = Modifier,
     articles: LazyPagingItems<Article>,
-    onClick: (Article) -> Unit
+    kicker: (Article) -> String? = { it.source.name },
+    onClick: (Article) -> Unit,
 ) {
     val shouldRenderList = handlePagingResult(articles)
     if (shouldRenderList) {
-        LazyColumn(
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(MediumPadding1),
-            contentPadding = PaddingValues(all = ExtraSmallPadding2)
-        ) {
+        val divider = BriefTheme.colors.divider
+        LazyColumn(modifier = modifier.fillMaxSize()) {
             items(count = articles.itemCount) { index ->
                 articles[index]?.let { article ->
-                    ArticleCard(article = article, onClick = { onClick(article) })
+                    if (index > 0) {
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 1.dp,
+                            color = divider,
+                        )
+                    }
+                    ArticleRow(
+                        article = article,
+                        kicker = kicker(article),
+                        time = article.publishedAt,
+                        onClick = { onClick(article) },
+                    )
                 }
             }
         }

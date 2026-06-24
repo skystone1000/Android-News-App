@@ -19,7 +19,7 @@ import androidx.core.view.WindowCompat
 import com.example.newsapp.domain.model.ThemeMode
 import com.example.newsapp.presentation.MainViewModel
 import com.example.newsapp.presentation.navgraph.NavGraph
-import com.example.newsapp.ui.theme.NewsAppTheme
+import com.example.newsapp.ui.theme.BriefTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 ThemeMode.DARK -> true
                 ThemeMode.SYSTEM -> isSystemInDarkTheme()
             }
-            NewsAppTheme(darkTheme = darkTheme) {
+            BriefTheme(darkTheme = darkTheme) {
                 Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
                     NavGraph(startDestination = viewModel.startDestination)
                 }

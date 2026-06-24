@@ -3,18 +3,25 @@ package com.example.newsapp.presentation.news_navigator.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.newsapp.presentation.Dimens.ExtraSmallPadding2
 import com.example.newsapp.presentation.Dimens.IconSize
+import com.example.newsapp.ui.theme.BriefTheme
 
 @Composable
 fun NewsBottomNavigation(
@@ -22,36 +29,43 @@ fun NewsBottomNavigation(
     selectedItem: Int,
     onItemClick: (Int) -> Unit
 ) {
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.background,
-        tonalElevation = 10.dp
+    val colors = BriefTheme.colors
+    Column(
+        Modifier
+            .background(colors.navBg)
+            .navigationBarsPadding(),
     ) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                selected = index == selectedItem,
-                onClick = { onItemClick(index) },
-                icon = {
-                    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = item.text,
-                            modifier = Modifier.size(IconSize)
-                        )
-                        Text(
-                            text = item.text,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.padding(top = ExtraSmallPadding2)
-                        )
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    selectedTextColor = MaterialTheme.colorScheme.primary,
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = MaterialTheme.colorScheme.background
-                )
-            )
+        HorizontalDivider(thickness = 1.dp, color = colors.divider)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 9.dp, bottom = 12.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+        ) {
+            items.forEachIndexed { index, item ->
+                val active = index == selectedItem
+                val tint = if (active) colors.accent else colors.textTer
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                    ) { onItemClick(index) },
+                ) {
+                    Icon(
+                        painter = painterResource(id = item.icon),
+                        contentDescription = item.text,
+                        tint = tint,
+                        modifier = Modifier.size(IconSize),
+                    )
+                    Text(
+                        text = item.text,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = tint,
+                        modifier = Modifier.padding(top = 4.dp),
+                    )
+                }
+            }
         }
     }
 }

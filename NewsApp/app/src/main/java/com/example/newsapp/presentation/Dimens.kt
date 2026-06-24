@@ -18,4 +18,28 @@ object Dimens {
     val ArticleCardSize = 96.dp
 
     val ArticleImageHeight = 248.dp
+
+    // --- Brief design system (see docs/UI_REFACTOR_PLAN.md §1d) ---
+    val ScreenPadding = 20.dp
+    val ScreenPaddingSmall = 18.dp
+
+    val ChipRadius = 11.dp
+    val ButtonRadius = 12.dp
+    val CardRadiusSmall = 14.dp
+    val CardRadiusMedium = 16.dp
+    val CardRadiusLarge = 18.dp
+
+    val ThumbnailSize = 66.dp
+    val ThumbnailRadius = 13.dp
+    val FeaturedImageHeight = 152.dp
+    val HeroImageHeight = 196.dp
+    val AvatarSize = 30.dp
+    val AvatarSizeSmall = 18.dp
+
+    val ToggleWidth = 38.dp
+    val ToggleHeight = 22.dp
+    val ToggleKnob = 18.dp
+
+    val LogoMark = 24.dp
+    val TabUnderline = 2.5.dp
 }

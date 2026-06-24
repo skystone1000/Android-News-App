@@ -14,15 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.newsapp.R
 import com.example.newsapp.presentation.Dimens.MediumPadding1
 import com.example.newsapp.presentation.Dimens.MediumPadding2
 import com.example.newsapp.presentation.onboarding.pages
-import com.example.newsapp.ui.theme.NewsAppTheme
+import com.example.newsapp.ui.theme.BriefTheme
 
 @Composable
 fun OnBoardingPage(
@@ -42,14 +39,14 @@ fun OnBoardingPage(
         Text(
             text = page.title,
             modifier = Modifier.padding(horizontal = MediumPadding2),
-            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
-            color = colorResource(id = R.color.display_small)
+            style = MaterialTheme.typography.titleMedium,
+            color = BriefTheme.colors.text
         )
         Text(
             text = page.description,
             modifier = Modifier.padding(horizontal = MediumPadding2),
             style = MaterialTheme.typography.bodyMedium,
-            color = colorResource(id = R.color.text_medium)
+            color = BriefTheme.colors.textSec
         )
     }
 }
@@ -59,7 +56,7 @@ fun OnBoardingPage(
 @Preview(uiMode = UI_MODE_NIGHT_YES , showBackground = true)
 @Composable
 fun onBoardingPagePreview(){
-    NewsAppTheme {
+    BriefTheme {
         OnBoardingPage(page = pages[0])
     }
 }

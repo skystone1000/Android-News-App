@@ -1,7 +1,7 @@
 # CODEBASE.md
 
 > File-by-file map of the project so you don't have to re-scan the tree each session.
-> Read this before opening source files. Last updated: 2026-06-22.
+> Read this before opening source files. Last updated: 2026-06-24.
 > Update this whenever files are added, removed, moved, or substantially changed (see root `CLAUDE.md`).
 
 ## 1. Repository layout
@@ -77,15 +77,21 @@ API keys). Release builds use **R8** (`isMinifyEnabled` + `isShrinkResources`) w
 | `presentation/onboarding/OnBoardingViewModel.kt` + `OnBoardingEvent.kt` | Onboarding `@HiltViewModel` + event(s) (`SaveAppEntry`). |
 | `presentation/news_navigator/NewsNavigator.kt` | Bottom-nav `Scaffold` + nested `NavHost` (Home/Search/Bookmark/Settings tabs + Details/History routes); article passed via `savedStateHandle`. |
 | `presentation/news_navigator/components/` | `NewsBottomNavigation` bar + `BottomNavigationItem`. |
-| `presentation/Dimens.kt` | `object Dimens` — all spacing/size constants (paddings, indicator size, icon sizes, article card/image sizes). |
-| `presentation/common/NewsButton.kt` | Reusable `NewsButton` (filled) and `NewsTextButton` (text) composables. |
-| `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started (last page fires `SaveAppEntry` → enters the main graph). |
+| `presentation/Dimens.kt` | `object Dimens` — all spacing/size/radii constants (incl. Brief design-system tokens: card/chip/button radii, screen padding, thumbnail/hero sizes, toggle dims). |
+| `presentation/common/NewsButton.kt` | `BriefButton` (filled emerald), `BriefSecondaryButton`, `BriefTextButton` + legacy `NewsButton`/`NewsTextButton` aliases (restyled, used by onboarding). |
+| `presentation/common/BriefComponents.kt` | Small Brief primitives: `BriefChip`, `BriefToggle`, `SegmentedControl`, `SectionHeader`, `BriefScreenTitle`. |
+| `presentation/common/ArticleRow.kt` | Compact list item (kicker/time overline, Schibsted title, source, 66dp thumbnail; optional leading thumb + trailing slot). |
+| `presentation/common/FeaturedCard.kt` | Hero card for the top article (image + badge + headline + source row). |
+| `presentation/common/CategoryTabRow.kt` | Scrollable underline category tabs (Home). |
+| `presentation/common/BriefLogo.kt` | `BriefMark` (emerald three-bar mark, drawn in Compose) + `BriefWordmark`. Launcher icon swap deferred to Phase 2. |
+| `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started (last page fires `SaveAppEntry` → enters the main graph). Restyled to Brief. |
 | `presentation/onboarding/Page.kt` | `data class Page(title, description, @DrawableRes image)` + the `pages` list (3 pages using `onboarding1/2/3.png`; copy still placeholder). |
-| `presentation/onboarding/components/OnBoardingPage.kt` | Single onboarding page UI (image + title + description). |
-| `presentation/onboarding/components/PageIndicator.kt` | Row of circular dots; highlights the selected page. |
-| `ui/theme/Color.kt` | Color palette. Brand: `Blue 0xFF1877F2` (primary), `Black 0xFF1C1E21`, plus error/surface/gray tones (`BlueGray`, `WhiteGray`). |
-| `ui/theme/Theme.kt` | `NewsAppTheme` Material3 theme + status bar handling. |
-| `ui/theme/Type.kt` | Typography definitions. |
+| `presentation/onboarding/components/OnBoardingPage.kt` | Single onboarding page UI (image + title + description); Brief theme colors. |
+| `presentation/onboarding/components/PageIndicator.kt` | Row of circular dots; highlights the selected page (emerald). |
+| `ui/theme/Color.kt` | Intentionally minimal — all colors live in `BriefColors.kt` and are read via `BriefTheme.colors`. |
+| `ui/theme/BriefColors.kt` | **Brief design-system token set**: `BriefColors` data class + `Light/DarkBriefColors` (warm-stone neutrals, emerald accent), `LocalBriefColors`, `BriefTheme.colors` accessor. |
+| `ui/theme/Theme.kt` | `BriefTheme` composable: provides `LocalBriefColors` + a minimal Material3 colorScheme + status-bar handling. (Was `NewsAppTheme`.) |
+| `ui/theme/Type.kt` | `BriefTypography` — Schibsted Grotesk (display/headline/title) + Hanken Grotesk (body/label/overline), loaded per-weight from bundled variable fonts via `FontVariation`. |
 
 ### Data layer (Phase 2)
 | File / package | Purpose |
@@ -113,8 +119,8 @@ Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (def
 | `presentation/home/{HomeScreen,HomeViewModel}.kt` | Paged headlines feed. |
 | `presentation/search/` | `SearchScreen`/`SearchViewModel`/`SearchState`/`SearchEvent` + `components/SearchBar`. |
 | `presentation/details/` | `DetailsScreen`/`DetailsViewModel`/`DetailsEvent` + `components/DetailsTopBar` (listen/share/bookmark/open-in-browser) + `ArticleSpeaker.kt` (TTS wrapper). |
-| `presentation/bookmark/` | `BookmarkScreen`/`BookmarkViewModel`/`BookmarkState` (Room-backed list). |
-| `presentation/common/` | `ArticleCard`, `ArticlesList` (+ paging-state handling), `ShimmerEffect`, `EmptyScreen`. |
+| `presentation/bookmark/` | `BookmarkScreen` ("Saved": title + count, All/Unread filter [Unread inert], `ArticleRow`)/`BookmarkViewModel`/`BookmarkState` (Room-backed list). |
+| `presentation/common/` | `ArticleRow`, `FeaturedCard`, `ArticlesList` (+ paging-state handling), `ShimmerEffect`, `EmptyScreen`. (`ArticleCard` removed.) |
 
 Domain models implement `java.io.Serializable` so an `Article` can pass through Compose
 navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
@@ -125,8 +131,8 @@ navigation via `savedStateHandle` (pure JVM, keeps the domain Android-free).
 | `domain/model/UserSettings.kt` | `UserSettings`, `ThemeMode`, `NewsCategories`, source-id constants. |
 | `domain/manager/SettingsManager.kt` | Contract for reading/persisting user settings. |
 | `data/manager/SettingsManagerImpl.kt` | DataStore impl (separate store: `news_user_settings`). |
-| `presentation/settings/` | `SettingsScreen`/`SettingsViewModel`/`SettingsEvent` (theme, source, follows, toggles). |
-| `presentation/home/components/CategoryChips.kt` | Horizontal category selector on Home. |
+| `presentation/settings/` | `SettingsScreen` (segmented theme control, data-sources entry row, preferences card, followed chips) + `DataSourcesScreen` (own screen: per-provider key/usage cards) / `SettingsViewModel`/`SettingsEvent`. |
+| Home category selector | Now the `CategoryTabRow` underline tabs (was `home/components/CategoryChips.kt`, removed). |
 | `NewsApplication.kt` | Now also syncs `NewsSourceProvider.activeSourceId` from settings. |
 | `MainViewModel.kt` | Now also exposes `themeMode`; `MainActivity` applies it to `NewsAppTheme`. |
 
@@ -200,7 +206,8 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 |-------|----------|
 | `drawable/` | App icons + UI icons: `ic_back_arrow, ic_bookmark, ic_close, ic_home, ic_logo, ic_network, ic_network_error, ic_preferences, ic_search, ic_search_document, ic_splash, ic_time`; onboarding images `onboarding1/2/3.png`; launcher background/foreground. |
 | `values/strings.xml` | Only `app_name = NewsApp`. (Most UI strings are hardcoded in composables — candidate for extraction.) |
-| `values/colors.xml` | Semantic color resources incl. `display_small`, `text_medium`. |
+| `font/` | `schibsted_grotesk_variable.ttf`, `hanken_grotesk_variable.ttf` (bundled variable fonts; Poppins removed). |
+| `values/colors.xml` | Legacy semantic color resources (`display_small`, `text_medium`) — now unused by UI (colors come from `BriefColors.kt`); candidates for removal. |
 | `values/themes.xml`, `values/splash.xml`, `values-night/splash.xml` | App theme + splash (light/dark). |
 | `xml/` | `backup_rules.xml`, `data_extraction_rules.xml`. |
 | `mipmap-anydpi-v26/` | Adaptive launcher icons. |

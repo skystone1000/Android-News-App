@@ -18,8 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.newsapp.ui.theme.BriefTheme
 import com.example.newsapp.presentation.Dimens.ArticleCardSize
 import com.example.newsapp.presentation.Dimens.ExtraSmallPadding2
 import com.example.newsapp.presentation.Dimens.MediumPadding1
@@ -45,7 +45,7 @@ private fun ArticleCardShimmerEffect(modifier: Modifier = Modifier) {
         ),
         label = "shimmerAlpha"
     )
-    val shimmerColor = Color.Gray.copy(alpha = alpha)
+    val shimmerColor = BriefTheme.colors.placeholder.copy(alpha = alpha)
 
     Row(modifier = modifier.padding(vertical = ExtraSmallPadding2)) {
         Box(

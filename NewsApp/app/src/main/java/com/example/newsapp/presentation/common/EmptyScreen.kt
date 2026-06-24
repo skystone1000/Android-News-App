@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import com.example.newsapp.R
 import com.example.newsapp.data.remote.source.MissingApiKeyException
+import com.example.newsapp.ui.theme.BriefTheme
 
 /**
  * Full-screen empty/error state. Shows a friendly message derived from [error]
@@ -44,14 +45,14 @@ fun EmptyScreen(error: LoadState.Error? = null) {
             painter = painterResource(id = R.drawable.ic_network_error),
             contentDescription = null,
             modifier = Modifier.size(120.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = BriefTheme.colors.textTer
         )
         Text(
             modifier = Modifier.padding(top = 16.dp),
             text = message,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = BriefTheme.colors.textTer
         )
     }
 }

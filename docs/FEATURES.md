@@ -1,7 +1,12 @@
 # FEATURES.md
 
 > What the app does today and what's planned. Read this to understand product scope.
-> Last updated: 2026-06-22. Update the status table whenever a feature lands or changes.
+> Last updated: 2026-06-24. Update the status table whenever a feature lands or changes.
+
+> **UI:** the app now uses the **"Brief" design system** (emerald accent, warm-stone
+> neutrals, Schibsted + Hanken Grotesk, full light/dark) across every screen. The app name
+> and package rename (`com.skystone1000.brief`) + launcher-icon swap are **Phase 2** — see
+> `UI_REFACTOR_PLAN.md`.
 
 ## Status legend
 ✅ Done · 🟡 Partial / stubbed · ⛔ Not started (dependency may exist)
@@ -13,7 +18,7 @@
 | 1 | App launch / Splash screen | ✅ | `installSplashScreen()` in `MainActivity`; light + dark splash resources. |
 | 2 | Onboarding carousel | ✅ | 3-page `HorizontalPager`, indicator, Back/Next/Get-Started. "Get Started" saves the app-entry flag and navigates to the main graph. (Copy is still placeholder Lorem Ipsum.) |
 | 3 | First-launch detection (show onboarding once) | ✅ | DataStore app-entry flag via `LocalUserManager`; `MainViewModel` picks the start destination. |
-| 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (Home/Search/Bookmark/Settings + Details/History routes). |
+| 4 | Navigation graph (single-activity) | ✅ | `NavGraph` with app-start + news nested graphs; bottom-nav `NewsNavigator` (Home/Search/Saved/Settings + Details/History/DataSources routes). |
 | 5 | Home feed — breaking/top news, infinite scroll | ✅ | `HomeScreen` + `HomeViewModel`; paged via `ArticlesList` with shimmer/empty/error states. |
 | 6 | Article detail view | ✅ | `DetailsScreen` (image, title, content) + bookmark toggle + open-in-browser + share + listen (TTS). |
 | 18 | Share article | ✅ | `ACTION_SEND` chooser from the detail top bar (title + URL). |

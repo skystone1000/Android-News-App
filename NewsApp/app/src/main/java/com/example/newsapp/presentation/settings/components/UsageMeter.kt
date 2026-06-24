@@ -1,22 +1,27 @@
 package com.example.newsapp.presentation.settings.components
 
 import android.text.format.DateUtils
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.newsapp.domain.usage.UsageSnapshot
+import com.example.newsapp.ui.theme.BriefTheme
 
-private const val AMBER_THRESHOLD = 0.7f
-private const val RED_THRESHOLD = 0.9f
+private const val WARN_THRESHOLD = 0.7f
 
 /**
  * Free-tier usage meter for one provider: `used / limit`, a colour-coded bar, and the reset time.
@@ -24,51 +29,49 @@ private const val RED_THRESHOLD = 0.9f
  */
 @Composable
 fun UsageMeter(snapshot: UsageSnapshot, modifier: Modifier = Modifier) {
+    val colors = BriefTheme.colors
     val fraction = if (snapshot.limit > 0) {
         (snapshot.used.toFloat() / snapshot.limit).coerceIn(0f, 1f)
     } else {
         0f
     }
-    val barColor = when {
-        fraction >= RED_THRESHOLD -> MaterialTheme.colorScheme.error
-        fraction >= AMBER_THRESHOLD -> Color(0xFFFFA000)
-        else -> MaterialTheme.colorScheme.primary
-    }
+    val barColor = if (fraction >= WARN_THRESHOLD) colors.warn else colors.accent
 
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
             Text(
                 text = "${snapshot.used} / ${snapshot.limit} used",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.weight(1f)
+                style = MaterialTheme.typography.labelLarge,
+                color = colors.text,
+                modifier = Modifier.weight(1f),
             )
             Text(
                 text = "Resets ${DateUtils.getRelativeTimeSpanString(snapshot.resetAt)}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.labelSmall,
+                color = colors.textTer,
             )
         }
-        LinearProgressIndicator(
-            progress = { fraction },
+        Spacer(Modifier.height(7.dp))
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp),
-            color = barColor
-        )
-        if (fraction >= RED_THRESHOLD) {
-            Text(
-                text = "Near the free-tier limit — calls may start failing.",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.error,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.padding(top = 2.dp)
+                .height(5.dp)
+                .clip(RoundedCornerShape(3.dp))
+                .background(colors.border),
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(fraction)
+                    .fillMaxHeight()
+                    .clip(RoundedCornerShape(3.dp))
+                    .background(barColor),
             )
         }
         Text(
             text = "On-device estimate",
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = colors.textTer,
+            modifier = Modifier.padding(top = 6.dp),
         )
     }
 }

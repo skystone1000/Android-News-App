@@ -1,13 +1,13 @@
 # ARCHITECTURE.md
 
 > High-level design of the NewsApp. Read this before reading code.
-> Last updated: 2026-06-22 · Keep in sync with the codebase (see root `CLAUDE.md`).
+> Last updated: 2026-06-24 · Keep in sync with the codebase (see root `CLAUDE.md`).
 
 ## 1. Summary
 
 NewsApp is a single-module Android app built with **Jetpack Compose** following
 **Clean Architecture + MVVM**. It is a **functional multi-source news reader**: onboarding,
-a bottom-nav main app (Home/Search/Bookmark/Settings), article detail, configurable settings,
+a bottom-nav main app (Home/Search/Saved/Settings), article detail, configurable settings,
 5 pluggable news providers with in-app encrypted API keys + usage meters, optional Claude AI
 summaries, engagement features (share/TTS/reading-history/daily digest), and release hardening
 (R8). Remaining work is externally gated (FCM, Crashlytics, signing/Play, modularization).
@@ -54,7 +54,7 @@ Clean Architecture with three layers. Dependencies point **inward**
 | Concern | Approach / Library | Status |
 |---------|--------------------|--------|
 | Dependency Injection | **Hilt** (`@HiltAndroidApp`, `@Module`, `@HiltViewModel`) | **wired** (`NewsApplication`, `di/AppModule`, `MainViewModel`/`OnBoardingViewModel`) |
-| Navigation | **Navigation-Compose** single-activity NavHost | **implemented** (`navgraph/NavGraph` + bottom-nav `NewsNavigator`: Home/Search/Bookmark/Settings tabs + Details/History routes) |
+| Navigation | **Navigation-Compose** single-activity NavHost | **implemented** (`navgraph/NavGraph` + bottom-nav `NewsNavigator`: Home/Search/Saved/Settings tabs + Details/History/DataSources routes) |
 | Networking | **Retrofit + Gson** behind a pluggable `NewsSource` (NewsAPI, NewsData.io, GNews, Currents, Mediastack) | **implemented** (source-agnostic; runtime-selectable via `NewsSourceProvider`; Mediastack is HTTP-only via scoped cleartext config) |
 | API keys | User-entered per provider, **encrypted at rest** (`ApiKeyStore` / `EncryptedSharedPreferences`) | **implemented** — read per-call by each source; entered in Settings; dev seed from `BuildConfig`; keys redacted from debug logs |
 | Quota usage | On-device per-provider request counting vs free-tier limit (`ApiUsageStore`) | **implemented** — DataStore counters with daily/monthly windows; meter in Settings |
@@ -71,17 +71,24 @@ Clean Architecture with three layers. Dependencies point **inward**
 `MainViewModel` reads the DataStore app-entry flag → `MainViewModel.startDestination`
 selects `AppStartNavigation` (Onboarding) or `NewsNavigation` (main) → `NavGraph` renders.
 Pressing **Get Started** saves the flag and navigates to the main graph (clearing onboarding
-from the back stack). The main graph hosts `NewsNavigator` (bottom nav: Home/Search/Bookmark/Settings,
+from the back stack). The main graph hosts `NewsNavigator` (bottom nav: Home/Search/Saved/Settings,
 plus full-screen Details and History routes). On startup `NewsApplication` also seeds dev API keys
 from `BuildConfig`, ensures the notification channel, and schedules the daily digest worker;
 `MainActivity` requests `POST_NOTIFICATIONS` on API 33+.
 
 ## 5. Key conventions
 
+- **Design system: "Brief"** (emerald accent, warm-stone neutrals, Schibsted + Hanken
+  Grotesk). Tokens live in `ui/theme/BriefColors.kt` (`BriefColors` data class +
+  `Light/DarkBriefColors`), provided by the `BriefTheme` composable via `LocalBriefColors`
+  and read through `BriefTheme.colors` — **not** Material3's `colorScheme` (which is kept
+  minimal for ripple/default coherence). Type scale is `BriefTypography` in `ui/theme/Type.kt`.
 - **Dimensions** live in `presentation/Dimens.kt` (no magic numbers in composables).
-- **Colors** live in `ui/theme/Color.kt`; semantic color resources in `res/values/colors.xml`.
-- **Reusable composables** go in `presentation/common/`.
+- **Reusable composables** go in `presentation/common/` (`ArticleRow`, `FeaturedCard`,
+  `BriefChip`, `BriefToggle`, `SegmentedControl`, `CategoryTabRow`, `BriefButton`s, `BriefLogo`…).
 - **Per-feature folders** under `presentation/<feature>/` with a `components/` subfolder for that feature's private composables.
+- The **Brief brand mark** is drawn in Compose (`BriefLogo.kt`); the launcher icon / drawable
+  swap and the app rename (`com.skystone1000.brief`) are **Phase 2** (see `UI_REFACTOR_PLAN.md`).
 
 ## 6. Known gaps / tech debt (as of 2026-06-22)
 

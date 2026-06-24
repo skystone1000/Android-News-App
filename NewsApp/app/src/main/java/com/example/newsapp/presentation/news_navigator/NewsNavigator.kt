@@ -32,6 +32,7 @@ import com.example.newsapp.presentation.news_navigator.components.BottomNavigati
 import com.example.newsapp.presentation.news_navigator.components.NewsBottomNavigation
 import com.example.newsapp.presentation.search.SearchScreen
 import com.example.newsapp.presentation.search.SearchViewModel
+import com.example.newsapp.presentation.settings.DataSourcesScreen
 import com.example.newsapp.presentation.settings.SettingsScreen
 import com.example.newsapp.presentation.settings.SettingsViewModel
 
@@ -45,7 +46,7 @@ fun NewsNavigator() {
         listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, text = "Home"),
             BottomNavigationItem(icon = R.drawable.ic_search, text = "Search"),
-            BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Bookmark"),
+            BottomNavigationItem(icon = R.drawable.ic_bookmark, text = "Saved"),
             BottomNavigationItem(icon = R.drawable.ic_preferences, text = "Settings")
         )
     }
@@ -125,13 +126,25 @@ fun NewsNavigator() {
                 val viewModel: SettingsViewModel = hiltViewModel()
                 val settings by viewModel.settings.collectAsState()
                 val configuredSourceIds by viewModel.configuredSourceIds.collectAsState()
-                val usage by viewModel.usage.collectAsState()
                 SettingsScreen(
+                    settings = settings,
+                    configuredSourceIds = configuredSourceIds,
+                    event = viewModel::onEvent,
+                    navigateToDataSources = { navController.navigate(Route.DataSourcesScreen.route) },
+                    navigateToHistory = { navController.navigate(Route.HistoryScreen.route) }
+                )
+            }
+            composable(Route.DataSourcesScreen.route) {
+                val viewModel: SettingsViewModel = hiltViewModel()
+                val settings by viewModel.settings.collectAsState()
+                val configuredSourceIds by viewModel.configuredSourceIds.collectAsState()
+                val usage by viewModel.usage.collectAsState()
+                DataSourcesScreen(
                     settings = settings,
                     configuredSourceIds = configuredSourceIds,
                     usage = usage,
                     event = viewModel::onEvent,
-                    navigateToHistory = { navController.navigate(Route.HistoryScreen.route) }
+                    navigateUp = { navController.navigateUp() }
                 )
             }
             composable(Route.HistoryScreen.route) {
