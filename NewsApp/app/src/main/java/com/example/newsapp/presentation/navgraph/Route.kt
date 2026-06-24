@@ -12,6 +12,7 @@ sealed class Route(val route: String) {
     data object BookmarkScreen : Route("bookmarkScreen")
     data object SettingsScreen : Route("settingsScreen")
     data object DataSourcesScreen : Route("dataSourcesScreen")
+    data object DebugScreen : Route("debugScreen")
     data object HistoryScreen : Route("historyScreen")
     data object DetailsScreen : Route("detailsScreen")
     data object NewsNavigatorScreen : Route("newsNavigator")

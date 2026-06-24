@@ -21,6 +21,8 @@ import com.example.newsapp.R
 import com.example.newsapp.domain.model.Article
 import com.example.newsapp.presentation.bookmark.BookmarkScreen
 import com.example.newsapp.presentation.bookmark.BookmarkViewModel
+import com.example.newsapp.presentation.debug.DebugScreen
+import com.example.newsapp.presentation.debug.DebugViewModel
 import com.example.newsapp.presentation.details.DetailsScreen
 import com.example.newsapp.presentation.details.DetailsViewModel
 import com.example.newsapp.presentation.history.HistoryScreen
@@ -131,7 +133,18 @@ fun NewsNavigator() {
                     configuredSourceIds = configuredSourceIds,
                     event = viewModel::onEvent,
                     navigateToDataSources = { navController.navigate(Route.DataSourcesScreen.route) },
-                    navigateToHistory = { navController.navigate(Route.HistoryScreen.route) }
+                    navigateToHistory = { navController.navigate(Route.HistoryScreen.route) },
+                    navigateToDebug = { navController.navigate(Route.DebugScreen.route) }
+                )
+            }
+            composable(Route.DebugScreen.route) {
+                val viewModel: DebugViewModel = hiltViewModel()
+                val config by viewModel.config.collectAsState()
+                DebugScreen(
+                    config = config,
+                    onToggleSave = viewModel::setSaveResponses,
+                    onToggleOffline = viewModel::setOfflineMode,
+                    navigateUp = { navController.navigateUp() }
                 )
             }
             composable(Route.DataSourcesScreen.route) {

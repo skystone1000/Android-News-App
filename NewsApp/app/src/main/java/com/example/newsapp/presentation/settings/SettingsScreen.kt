@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.newsapp.BuildConfig
 import com.example.newsapp.domain.model.NewsCategories
 import com.example.newsapp.domain.model.SourceCatalog
 import com.example.newsapp.domain.model.ThemeMode
@@ -45,6 +46,7 @@ fun SettingsScreen(
     event: (SettingsEvent) -> Unit,
     navigateToDataSources: () -> Unit,
     navigateToHistory: () -> Unit,
+    navigateToDebug: () -> Unit,
 ) {
     val colors = BriefTheme.colors
     val themeOrder = listOf(ThemeMode.LIGHT, ThemeMode.DARK, ThemeMode.SYSTEM)
@@ -158,6 +160,33 @@ fun SettingsScreen(
                         selected = category in settings.followedCategories,
                         onClick = { event(SettingsEvent.ToggleFollowedCategory(category)) },
                     )
+                }
+            }
+        }
+
+        // Developer options — debug builds only.
+        if (BuildConfig.DEBUG) {
+            Column(Modifier.padding(start = 18.dp, end = 18.dp, top = 18.dp)) {
+                SectionHeader("DEVELOPER", Modifier.padding(start = 2.dp, bottom = 10.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(colors.card)
+                        .border(1.dp, colors.border, RoundedCornerShape(14.dp))
+                        .clickable(onClick = navigateToDebug)
+                        .padding(15.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Developer options", style = MaterialTheme.typography.labelLarge, color = colors.text)
+                        Text(
+                            "Mock capture, offline mode, debug tools",
+                            style = MaterialTheme.typography.labelLarge.copy(fontSize = 11.5.sp),
+                            color = colors.textTer,
+                        )
+                    }
+                    Text("›", style = MaterialTheme.typography.headlineMedium, color = colors.textTer)
                 }
             }
         }
