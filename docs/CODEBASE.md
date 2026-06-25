@@ -1,7 +1,7 @@
 # CODEBASE.md
 
 > File-by-file map of the project so you don't have to re-scan the tree each session.
-> Read this before opening source files. Last updated: 2026-06-24.
+> Read this before opening source files. Last updated: 2026-06-25.
 > Update this whenever files are added, removed, moved, or substantially changed (see root `CLAUDE.md`).
 
 ## 1. Repository layout
@@ -26,7 +26,7 @@ Android-News-App/                 (git root, also the working directory)
         ├── build.gradle.kts      ← app module: SDK levels + all dependencies
         └── src/main/
             ├── AndroidManifest.xml
-            ├── java/com/example/newsapp/...   (see §3)
+            ├── java/com/skystone1000/briefly/...   (see §3)
             └── res/                            (see §4)
 ```
 
@@ -60,7 +60,7 @@ API keys). Release builds use **R8** (`isMinifyEnabled` + `isShrinkResources`) w
 - Unit tests live in `NewsApp/app/src/test/`; stack = JUnit4 + MockK + Turbine + Truth + coroutines-test. Run `./gradlew :app:testDebugUnitTest`.
 - CI: `.github/workflows/ci.yml` runs detekt + lint + unit tests + `assembleDebug` on every PR/push to `main` (JDK 17).
 
-## 3. Source files (`NewsApp/app/src/main/java/com/example/newsapp/`)
+## 3. Source files (`NewsApp/app/src/main/java/com/skystone1000/briefly/`)
 
 | File | Purpose |
 |------|---------|
@@ -83,7 +83,7 @@ API keys). Release builds use **R8** (`isMinifyEnabled` + `isShrinkResources`) w
 | `presentation/common/ArticleRow.kt` | Compact list item (kicker/time overline, Schibsted title, source, 66dp thumbnail; optional leading thumb + trailing slot). |
 | `presentation/common/FeaturedCard.kt` | Hero card for the top article (image + badge + headline + source row). |
 | `presentation/common/CategoryTabRow.kt` | Scrollable underline category tabs (Home). |
-| `presentation/common/BriefLogo.kt` | `BriefMark` (emerald three-bar mark, drawn in Compose) + `BriefWordmark`. Launcher icon swap deferred to Phase 2. |
+| `presentation/common/BriefLogo.kt` | `BriefMark` (emerald three-bar mark, drawn in Compose) + `BriefWordmark` ("Briefly"). The launcher icon (`mipmap`/`ic_launcher_*`) mirrors this mark. |
 | `presentation/onboarding/OnBoardingScreen.kt` | Onboarding screen: `HorizontalPager` over `pages`, page indicator, Back/Next/Get-Started (last page fires `SaveAppEntry` → enters the main graph). Restyled to Brief. |
 | `presentation/onboarding/Page.kt` | `data class Page(title, description, @DrawableRes image)` + the `pages` list (3 pages using `onboarding1/2/3.png`; copy still placeholder). |
 | `presentation/onboarding/components/OnBoardingPage.kt` | Single onboarding page UI (image + title + description); Brief theme colors. |
@@ -218,8 +218,8 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 
 | Group | Contents |
 |-------|----------|
-| `drawable/` | App icons + UI icons: `ic_back_arrow, ic_bookmark, ic_close, ic_home, ic_logo, ic_network, ic_network_error, ic_preferences, ic_search, ic_search_document, ic_splash, ic_time`; onboarding images `onboarding1/2/3.png`; launcher background/foreground. |
-| `values/strings.xml` | Only `app_name = NewsApp`. (Most UI strings are hardcoded in composables — candidate for extraction.) |
+| `drawable/` | App icons + UI icons: `ic_back_arrow, ic_bookmark, ic_close, ic_home, ic_logo (unused legacy art), ic_network, ic_network_error, ic_preferences, ic_search, ic_search_document, ic_splash, ic_time`; onboarding images `onboarding1/2/3.png`; launcher `ic_launcher_background` (emerald) + `ic_launcher_foreground` (Briefly three-bar mark). |
+| `values/strings.xml` | Only `app_name = Briefly`. (Most UI strings are hardcoded in composables — candidate for extraction.) |
 | `font/` | `schibsted_grotesk_variable.ttf`, `hanken_grotesk_variable.ttf` (bundled variable fonts; Poppins removed). |
 | `values/colors.xml` | Legacy semantic color resources (`display_small`, `text_medium`) — now unused by UI (colors come from `BriefColors.kt`); candidates for removal. |
 | `values/themes.xml`, `values/splash.xml`, `values-night/splash.xml` | App theme + splash (light/dark). |

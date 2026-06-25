@@ -1,11 +1,12 @@
 # FEATURES.md
 
 > What the app does today and what's planned. Read this to understand product scope.
-> Last updated: 2026-06-24. Update the status table whenever a feature lands or changes.
+> Last updated: 2026-06-25. Update the status table whenever a feature lands or changes.
 
 > **UI:** the app now uses the **"Brief" design system** (emerald accent, warm-stone
-> neutrals, Schibsted + Hanken Grotesk, full light/dark) across every screen. The app name
-> and package rename (`com.skystone1000.brief`) + launcher-icon swap are **Phase 2** — see
+> neutrals, Schibsted + Hanken Grotesk, full light/dark) across every screen. The app is
+> branded **Briefly** (package/applicationId `com.skystone1000.briefly`) with the emerald
+> three-bar launcher icon — both the reskin and the rename (Phase 2) are done; see
 > `UI_REFACTOR_PLAN.md`.
 
 ## Status legend

@@ -2,11 +2,15 @@
 
 > Plan to reskin the app to the **Brief** design system (see `Brief Figma/`) and then
 > rename the app + package. Read `ARCHITECTURE.md` and `CODEBASE.md` first.
-> Last updated: 2026-06-24.
+> Last updated: 2026-06-25.
 >
 > **Status: Phase 1 (UI reskin) — DONE.** Foundation (BriefColors/BriefTheme/Type/Dimens),
 > shared components, all screens, the new Data Sources screen, and onboarding are reskinned;
-> `assembleDebug` + `detekt` + unit tests + `lintDebug` all green. **Phase 2 (rename) — not started.**
+> `assembleDebug` + `detekt` + unit tests + `lintDebug` all green.
+> **Phase 2 (rename) — DONE.** App renamed to **Briefly**, package/applicationId
+> `com.skystone1000.briefly`, launcher icon swapped to the emerald three-bar mark;
+> `assembleDebug` + `detekt` + unit tests green. (Final brand name = "Briefly", not the
+> working title "Brief" used in the plan below.)
 
 ## 0. Summary & decisions
 
@@ -199,26 +203,33 @@ All screens keep their existing ViewModel/state wiring; only composables change.
 
 ---
 
-## Phase 2 — Rename to "Brief" + package `com.skystone1000.brief`
+## Phase 2 — Rename to "Briefly" + package `com.skystone1000.briefly` — DONE
 
-Do this as its own change **after Phase 1 lands** (keeps the reskin diff reviewable).
+Done as its own change after Phase 1 (kept the reskin diff reviewable). Final brand name
+landed as **Briefly** (working title in this plan was "Brief").
 
-1. **App name**: `res/values/strings.xml` → `app_name = Brief`.
-2. **Gradle**: `app/build.gradle.kts` → `namespace = "com.skystone1000.brief"` and
-   `applicationId = "com.skystone1000.brief"`. (New `applicationId` = effectively a new app
-   install; acceptable here — no data migration needed.)
-3. **Package move**: `java/com/example/newsapp/` → `java/com/skystone1000/brief/`; rewrite the
-   `package` + `import` lines across **~172 files** (use Android Studio "Rename package" /
-   "Move", or a scripted `sed` over `*.kt`/`*.kts` then move dirs). Mirror for
-   `src/test/java/...`.
-4. **References**: `proguard-rules.pro` keep-rules, `AndroidManifest.xml`, any `BuildConfig`
-   imports, Hilt-generated references resolve automatically after the package move.
-5. **Brand art (deferred from Phase 1)**: replace in-app logo drawable (`ic_logo` / onboarding
-   wordmark) and launcher icon (`mipmap-anydpi-v26` + foreground/background) with the Brief
-   three-descending-bars emerald mark.
-6. **Verify**: clean build + `detekt` + unit tests; smoke-launch.
-7. **Docs**: update package-root references in `ARCHITECTURE.md` / `CODEBASE.md`
-   (`com.example.newsapp` → `com.skystone1000.brief`) and app-name mentions.
+1. ✅ **App name**: `res/values/strings.xml` → `app_name = Briefly`. Theme style
+   `Theme.NewsApp` → `Theme.Briefly` (themes/splash).
+2. ✅ **Gradle**: `app/build.gradle.kts` → `namespace`/`applicationId` =
+   `com.skystone1000.briefly`; the `mockAppId` device-path constant updated to match. (New
+   `applicationId` = effectively a new app install; no data migration needed.)
+3. ✅ **Package move**: `java/com/example/newsapp/` → `java/com/skystone1000/briefly/`
+   (`git mv` of `main`/`test`/`androidTest` trees + scripted rewrite of `package`/`import`
+   lines across 162 files).
+4. ✅ **References**: `proguard-rules.pro` keep-rules + `config/detekt/baseline.xml` entries
+   rewritten; manifest uses relative `.MainActivity`/`.NewsApplication` (resolve via
+   namespace). A stale-kapt `clean` was needed before the first green Hilt build.
+5. ✅ **Brand art**: launcher icon (`ic_launcher_background` emerald + `ic_launcher_foreground`
+   three-bar mark) now mirrors `BriefMark`; in-app `BriefWordmark` text → "Briefly". The old
+   `ic_logo` drawable is unused legacy art (left in place).
+6. ✅ **Verify**: clean `assembleDebug` + `detekt` + `testDebugUnitTest` green; APK badging
+   confirms `package=com.skystone1000.briefly`, `label=Briefly`.
+7. ✅ **Docs**: package-root + app-name references updated in `ARCHITECTURE.md` / `CODEBASE.md`.
+
+> **Note:** domain class names that legitimately describe a news app (`NewsApplication`,
+> `NewsRepository`, `NewsDao`, `NewsBottomNavigation`, etc.) were intentionally **not**
+> renamed — the app is still a news app, just branded "Briefly". Only app-identity tokens
+> (app name, package, theme style) changed.
 
 ---
 

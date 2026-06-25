@@ -1,7 +1,7 @@
 # ARCHITECTURE.md
 
 > High-level design of the NewsApp. Read this before reading code.
-> Last updated: 2026-06-24 · Keep in sync with the codebase (see root `CLAUDE.md`).
+> Last updated: 2026-06-25 · Keep in sync with the codebase (see root `CLAUDE.md`).
 
 ## 1. Summary
 
@@ -13,7 +13,7 @@ summaries, engagement features (share/TTS/reading-history/daily digest), and rel
 (R8). Remaining work is externally gated (FCM, Crashlytics, signing/Play, modularization).
 
 - Single Gradle module: `:app`
-- Package root: `com.example.newsapp`
+- Package root: `com.skystone1000.briefly`
 - UI: 100% Jetpack Compose (no XML layouts, no Fragments)
 - Min SDK 24 · target SDK 33 · compile SDK 35
 

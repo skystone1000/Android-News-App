@@ -17,11 +17,11 @@ val localProperties = Properties().apply {
 fun apiKey(name: String): String = "\"${localProperties.getProperty(name).orEmpty()}\""
 
 android {
-    namespace = "com.example.newsapp"
+    namespace = "com.skystone1000.briefly"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.newsapp"
+        applicationId = "com.skystone1000.briefly"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -146,7 +146,7 @@ dependencies {
 // Bridge the device capture dir (Android/data/<appId>/files/mock, written by the app's
 // "Save API responses" toggle) to the repo and the bundled offline fixtures.
 // Needs a connected device/emulator; `adb` is resolved from the Android SDK (not the PATH).
-val mockAppId = "com.example.newsapp" // keep in sync with android.defaultConfig.applicationId
+val mockAppId = "com.skystone1000.briefly" // keep in sync with android.defaultConfig.applicationId
 val mockDeviceDir = "/sdcard/Android/data/$mockAppId/files/mock"
 // rootProject is the NewsApp/ gradle root (this script is the :app module).
 val mockRepoDir = rootProject.layout.projectDirectory.dir("mock")     // NewsApp/mock

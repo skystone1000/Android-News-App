@@ -2,14 +2,14 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>NewLineAtEndOfFile:Color.kt$com.example.newsapp.ui.theme.Color.kt</ID>
-    <ID>NewLineAtEndOfFile:Dimens.kt$com.example.newsapp.presentation.Dimens.kt</ID>
-    <ID>NewLineAtEndOfFile:MainActivity.kt$com.example.newsapp.MainActivity.kt</ID>
-    <ID>NewLineAtEndOfFile:NewsButton.kt$com.example.newsapp.presentation.common.NewsButton.kt</ID>
-    <ID>NewLineAtEndOfFile:OnBoardingPage.kt$com.example.newsapp.presentation.onboarding.components.OnBoardingPage.kt</ID>
-    <ID>NewLineAtEndOfFile:OnBoardingScreen.kt$com.example.newsapp.presentation.onboarding.OnBoardingScreen.kt</ID>
-    <ID>NewLineAtEndOfFile:PageIndicator.kt$com.example.newsapp.presentation.onboarding.components.PageIndicator.kt</ID>
-    <ID>NewLineAtEndOfFile:Theme.kt$com.example.newsapp.ui.theme.Theme.kt</ID>
-    <ID>NewLineAtEndOfFile:Type.kt$com.example.newsapp.ui.theme.Type.kt</ID>
+    <ID>NewLineAtEndOfFile:Color.kt$com.skystone1000.briefly.ui.theme.Color.kt</ID>
+    <ID>NewLineAtEndOfFile:Dimens.kt$com.skystone1000.briefly.presentation.Dimens.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$com.skystone1000.briefly.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:NewsButton.kt$com.skystone1000.briefly.presentation.common.NewsButton.kt</ID>
+    <ID>NewLineAtEndOfFile:OnBoardingPage.kt$com.skystone1000.briefly.presentation.onboarding.components.OnBoardingPage.kt</ID>
+    <ID>NewLineAtEndOfFile:OnBoardingScreen.kt$com.skystone1000.briefly.presentation.onboarding.OnBoardingScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:PageIndicator.kt$com.skystone1000.briefly.presentation.onboarding.components.PageIndicator.kt</ID>
+    <ID>NewLineAtEndOfFile:Theme.kt$com.skystone1000.briefly.ui.theme.Theme.kt</ID>
+    <ID>NewLineAtEndOfFile:Type.kt$com.skystone1000.briefly.ui.theme.Type.kt</ID>
   </CurrentIssues>
 </SmellBaseline>

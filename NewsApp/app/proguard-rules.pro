@@ -9,24 +9,24 @@
 -renamesourcefileattribute SourceFile
 
 # --- Gson-serialized DTOs (reflective field access) ---
--keep class com.example.newsapp.data.remote.dto.** { *; }
--keep class com.example.newsapp.data.ai.dto.** { *; }
+-keep class com.skystone1000.briefly.data.remote.dto.** { *; }
+-keep class com.skystone1000.briefly.data.ai.dto.** { *; }
 # Honor @SerializedName even if a field is otherwise unused.
 -keepclassmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
 
 # --- Domain models (java.io.Serializable, passed through Compose navigation) ---
--keep class com.example.newsapp.domain.model.** { *; }
--keepnames class com.example.newsapp.domain.model.** implements java.io.Serializable
+-keep class com.skystone1000.briefly.domain.model.** { *; }
+-keepnames class com.skystone1000.briefly.domain.model.** implements java.io.Serializable
 
 # --- Retrofit / OkHttp / Gson (library reflection) ---
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
 # Keep Retrofit service interfaces and their annotated methods.
--keep interface com.example.newsapp.data.remote.api.** { *; }
--keep interface com.example.newsapp.data.ai.** { *; }
+-keep interface com.skystone1000.briefly.data.remote.api.** { *; }
+-keep interface com.skystone1000.briefly.data.ai.** { *; }
 
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okhttp3.internal.platform.**

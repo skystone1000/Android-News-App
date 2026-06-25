@@ -3,6 +3,6 @@
     <style name="App.Starting.Theme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#1C1E21</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
-        <item name="postSplashScreenTheme">@style/Theme.NewsApp</item>
+        <item name="postSplashScreenTheme">@style/Theme.Briefly</item>
     </style>
 </resources>
