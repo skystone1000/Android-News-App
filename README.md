@@ -34,14 +34,20 @@ seeded into the encrypted store on first launch. `local.properties` is git-ignor
 
 ## Documentation
 
-The `docs/` directory is the source of truth for project context:
+The `NewsApp/docs/` directory is the source of truth for project context:
 
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — layers, design, conventions, known gaps
-- [docs/CODEBASE.md](docs/CODEBASE.md) — file-by-file map + toolchain versions
-- [docs/FEATURES.md](docs/FEATURES.md) — feature status
-- [docs/DATASOURCES.md](docs/DATASOURCES.md) — news providers, API-key handling, usage tracking
-- [docs/ROADMAP.md](docs/ROADMAP.md) — phased plan (Path A→D) + progress
-- [docs/MULTI_SOURCE_PLAN.md](docs/MULTI_SOURCE_PLAN.md) — multi-provider + in-app keys plan
+- [NewsApp/docs/ARCHITECTURE.md](NewsApp/docs/ARCHITECTURE.md) — layers, design, conventions, known gaps
+- [NewsApp/docs/CODEBASE.md](NewsApp/docs/CODEBASE.md) — file-by-file map + toolchain versions
+- [NewsApp/docs/FEATURES.md](NewsApp/docs/FEATURES.md) — feature status
+- [NewsApp/docs/DATASOURCES.md](NewsApp/docs/DATASOURCES.md) — news providers, API-key handling, usage tracking
+
+Phased build plans live in [NewsApp/docs/plan/](NewsApp/docs/plan/) (sequential by creation date):
+
+- [plan_1_roadmap.md](NewsApp/docs/plan/plan_1_roadmap.md) — master phased plan (Path A→D) + progress
+- [plan_2_multi_source.md](NewsApp/docs/plan/plan_2_multi_source.md) — multi-provider + in-app keys plan
+- [plan_3_ui_refactor.md](NewsApp/docs/plan/plan_3_ui_refactor.md) — Brief reskin + rename to Briefly
+- [plan_4_debug_mode.md](NewsApp/docs/plan/plan_4_debug_mode.md) — in-app debug/mock tooling
+- [plan_5_remaining_work.md](NewsApp/docs/plan/plan_5_remaining_work.md) — remaining work, gaps & known issues
 
 ## Tooling
 

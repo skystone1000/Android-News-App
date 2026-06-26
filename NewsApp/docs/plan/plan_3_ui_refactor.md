@@ -1,4 +1,4 @@
-# UI_REFACTOR_PLAN.md — "Brief" redesign
+# plan_3_ui_refactor.md (UI_REFACTOR_PLAN) — "Brief" redesign
 
 > Plan to reskin the app to the **Brief** design system (see `Brief Figma/`) and then
 > rename the app + package. Read `ARCHITECTURE.md` and `CODEBASE.md` first.
@@ -27,12 +27,13 @@ Decisions locked in:
 | Onboarding | **Restyle to Brief** (emerald + new fonts + wordmark) |
 | Brief logo / launcher icon | **Defer to Phase 2** (ships with rename) |
 | Fonts | **Bundle `.ttf`** from Google Fonts in `res/font/` (offline, no runtime fetch) |
-| Saved "Unread" filter | **Inert filter** — no read-state model exists; render but no-op (don't expand scope) |
+| Saved "Unread" filter | Originally planned **inert**; **superseded** — now functional, deriving read-state from reading history (`readUrls`). |
 
 Two honest gaps from the "pixel-match" choice, implemented as **curated/static** content
 rather than inventing a backend (called out where they occur below):
 1. **Trending searches** and **browse-topics counts** have no data source.
-2. **Saved "Unread"** has no read-state — filter is inert.
+2. ~~**Saved "Unread"** has no read-state — filter is inert.~~ **Resolved:** the Saved screen now
+   treats articles already in reading history as "read", so the Unread filter is functional.
 
 ---
 
@@ -172,7 +173,7 @@ All screens keep their existing ViewModel/state wiring; only composables change.
 | **Home** | `home/HomeScreen.kt`, `home/components/` | Logo+wordmark header + avatar; `CategoryTabRow` (Top/World/Business/Tech/Culture/Sports → `NewsCategories`, "Top" = no filter); first paged item → `FeaturedCard`; rest → `ArticleRow` with top dividers. Replaces `CategoryChips.kt`. |
 | **Article** | `details/DetailsScreen.kt`, `details/components/` | Top bar (back + share/bookmark/translate icons); 196dp hero; emerald kicker + read-time; Schibsted headline; source row; restyled `AiInsightCard` (accentSoft bg, accentLine border, "AI" badge); Hanken body. |
 | **Search** | `search/SearchScreen.kt`, `search/components/` | "Search" display title; pill search field; **TRENDING NOW** pills (curated static list → runs search); **BROWSE TOPICS** 2-col grid of categories (counts from a static map, decorative). |
-| **Saved** | `bookmark/BookmarkScreen.kt` | "Saved" title + article count; All/Unread filter pills (**Unread inert**); `ArticleRow` left-thumbnail + filled bookmark icon. |
+| **Saved** | `bookmark/BookmarkScreen.kt` | "Saved" title + article count; All/Unread filter pills (**Unread now functional** via reading history); `ArticleRow` left-thumbnail + filled bookmark icon. |
 | **Settings** | `settings/SettingsScreen.kt` | "Settings" title; APPEARANCE `SegmentedControl`; **Data sources row** → navigates to new screen; PREFERENCES card with `BriefToggle`s; FOLLOWED CATEGORIES chips. Data-source cards move out (see below). |
 | **Data Sources** (new) | `settings/datasources/DataSourcesScreen.kt` (new) | New `Route` + `NavGraph`/`NewsNavigator` entry; back + title; per-provider cards (status, `UsageMeter`, key input, Save/Clear/Get-a-key, radio select). Move `DataSourceCard.kt` + `UsageMeter.kt` here; reuse existing `SettingsViewModel` events (`SetApiKey`/`ClearApiKey`) or a small dedicated VM. |
 | **Onboarding** | `onboarding/` | Re-theme to emerald + Schibsted/Hanken; Brief wordmark; `PageIndicator` emerald. (Logo art still old until Phase 2.) |
@@ -183,7 +184,8 @@ All screens keep their existing ViewModel/state wiring; only composables change.
   tap → `SearchEvent.UpdateSearchQuery` + search.
 - `Search` browse-topics: iterate `NewsCategories`; show name + a count from a static
   `Map<String,Int>` (decorative; add a `// TODO: real counts` note).
-- `Saved` Unread: render the pill, selecting it is a no-op (no read flag in the model).
+- `Saved` Unread: now wired — `BookmarkViewModel` observes reading history and `BookmarkScreen`
+  filters out saved articles whose URL is already in `readUrls` (no longer a no-op).
 
 ---
 
@@ -199,7 +201,7 @@ All screens keep their existing ViewModel/state wiring; only composables change.
 7. Verify: `./gradlew :app:assembleDebug`, `detekt`, `:app:testDebugUnitTest` green.
 8. Docs in sync (per root `CLAUDE.md`): `ARCHITECTURE.md` (theme/token layer + new screen),
    `CODEBASE.md` (file map: new/renamed files), `FEATURES.md`, `DATASOURCES.md` (Data
-   Sources moved to its own screen), `ROADMAP.md`.
+   Sources moved to its own screen), `plan_1_roadmap.md`.
 
 ---
 

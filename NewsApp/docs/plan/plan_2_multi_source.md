@@ -1,11 +1,15 @@
-# MULTI_SOURCE_PLAN.md — Multi-provider news + in-app API keys
+# plan_2_multi_source.md (MULTI_SOURCE_PLAN) — Multi-provider news + in-app API keys
 
 > Plan to support 5 news providers and let the user enter/manage each provider's API key
 > **inside the app** (encrypted at rest), with an **in-app free-tier usage meter** (used / limit +
 > reset time) per provider. One source is active at a time.
 > Created: 2026-06-22 · Owner: Aditya Mahajan
-> Read alongside [ARCHITECTURE.md](ARCHITECTURE.md), [CODEBASE.md](CODEBASE.md), [FEATURES.md](FEATURES.md), [ROADMAP.md](ROADMAP.md).
+> Read alongside [ARCHITECTURE.md](../ARCHITECTURE.md), [CODEBASE.md](../CODEBASE.md), [FEATURES.md](../FEATURES.md), [plan_1_roadmap.md](plan_1_roadmap.md).
 > Per root `CLAUDE.md`: as each phase lands, update those docs and tick the boxes here.
+>
+> **Status: IMPLEMENTED (Phases A–F).** All 5 providers ship behind a cursor-based `NewsSource`
+> with in-app encrypted keys + on-device usage meters; see [DATASOURCES.md](../DATASOURCES.md) for the
+> canonical reference. Remaining hardening ideas are tracked in `plan_5_remaining_work.md`.
 
 ## Decisions (locked)
 
@@ -45,7 +49,7 @@ The current design injects each source's key **once at DI time** from `BuildConf
 **Goal:** A secure, observable per-provider key store; provider catalog metadata.
 
 **Tasks**
-- [ ] `domain/security/ApiKeyStore` interface:
+- [x] `domain/security/ApiKeyStore` interface:
   - `fun keys(): Flow<Map<String,String>>` (sourceId → non-blank key)
   - `suspend fun getKey(sourceId: String): String`
   - `suspend fun setKey(sourceId: String, key: String)` / `suspend fun clearKey(sourceId: String)`
@@ -54,11 +58,11 @@ The current design injects each source's key **once at DI time** from `BuildConf
   keys); `keys()` mirrored into a `MutableStateFlow`, updated on each write. (Tink AEAD + DataStore
   was the alternative; security-crypto keeps the impl small and stable. The lib is in maintenance but
   fully functional.)
-- [ ] `domain/model/SourceCatalog.kt`: `SourceMetadata(id, displayName, signupUrl, keyParamHint, quota)`
+- [x] `domain/model/SourceCatalog.kt`: `SourceMetadata(id, displayName, signupUrl, keyParamHint, quota)`
   where `quota: SourceQuota(limit, period)` (see Phase D) carries the free-tier limit used by the
   usage meter. `val ALL_SOURCES: List<SourceMetadata>` for the 5 providers. Replace `AVAILABLE_SOURCE_IDS`.
-- [ ] Hilt: `di/SecurityModule` provides `ApiKeyStore`.
-- [ ] Dependency: `com.google.crypto.tink:tink-android` (or `androidx.security:security-crypto`).
+- [x] Hilt: `di/SecurityModule` provides `ApiKeyStore`.
+- [x] Dependency: chose `androidx.security:security-crypto` (not Tink directly).
 
 **Tests:** key round-trip (set → encrypted on disk → get returns plaintext); clear removes it;
 `keys()` emits only non-blank entries.
@@ -91,7 +95,8 @@ round-trips.
 **Exit:** existing two providers work through the new cursor-based pipeline with runtime keys.
 
 ---
- — Add NewsData.io, Currents, Mediastack
+
+# Phase C — Add NewsData.io, Currents, Mediastack
 
 **Goal:** Three new providers behind the same contract — each is one self-contained slice.
 
@@ -219,4 +224,4 @@ Verify each against current provider docs and update the catalog when they chang
 ## Suggested build order
 A → B → C → D → E → F. After each phase: sanity `assembleDebug` + `detekt`, write tests (run the full
 suite at the end per the project workflow), update docs, commit with a `Feature:`/`Bug:` prefix.
-This can be appended to `ROADMAP.md` as **Phase 8** if you want it tracked in the master plan.
+This can be appended to `plan_1_roadmap.md` as **Phase 8** if you want it tracked in the master plan.

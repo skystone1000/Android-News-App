@@ -1,7 +1,7 @@
 # DATASOURCES.md — News providers & in-app API keys
 
 > Canonical reference for the news data sources the app integrates, how keys are managed, and how
-> free-tier usage is tracked. For the original build plan see [MULTI_SOURCE_PLAN.md](MULTI_SOURCE_PLAN.md).
+> free-tier usage is tracked. For the original build plan see [plan/plan_2_multi_source.md](plan/plan_2_multi_source.md).
 > Last updated: 2026-06-24.
 
 ## Overview

@@ -1,4 +1,4 @@
-# DEBUG_MODE_PLAN.md — Debug-mode tooling
+# plan_4_debug_mode.md (DEBUG_MODE_PLAN) — Debug-mode tooling
 
 > Plan for in-app developer tooling: capture API responses, replay them offline, and
 > related debug aids. **Debug builds only** (`BuildConfig.DEBUG`); zero behaviour in release.
@@ -127,8 +127,8 @@ holder. `NetworkModule.provideOkHttpClient` gains a `MockInterceptor` param and 
 - `pullMocks` — `adb pull /sdcard/Android/data/<applicationId>/files/mock <root>/NewsApp/mock`.
 - `clearDeviceMocks` — `adb shell rm -rf …/files/mock`.
 - `seedMockAssets` — copy `NewsApp/mock` → `app/src/main/assets/mock` (bundle as offline fallback).
-- All resolve `<applicationId>` from the variant (note: Phase 2 rename → `com.skystone1000.brief`
-  changes the device path automatically).
+- All resolve `<applicationId>` from the variant (the Phase 2 rename → `com.skystone1000.briefly`
+  changed the device path automatically; the `mockAppId` constant tracks `applicationId`).
 
 ## 4. Build order
 

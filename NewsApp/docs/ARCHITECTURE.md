@@ -1,11 +1,11 @@
 # ARCHITECTURE.md
 
-> High-level design of the NewsApp. Read this before reading code.
+> High-level design of **Briefly** (the news app). Read this before reading code.
 > Last updated: 2026-06-25 · Keep in sync with the codebase (see root `CLAUDE.md`).
 
 ## 1. Summary
 
-NewsApp is a single-module Android app built with **Jetpack Compose** following
+Briefly is a single-module Android app built with **Jetpack Compose** following
 **Clean Architecture + MVVM**. It is a **functional multi-source news reader**: onboarding,
 a bottom-nav main app (Home/Search/Saved/Settings), article detail, configurable settings,
 5 pluggable news providers with in-app encrypted API keys + usage meters, optional Claude AI
@@ -87,8 +87,9 @@ from `BuildConfig`, ensures the notification channel, and schedules the daily di
 - **Reusable composables** go in `presentation/common/` (`ArticleRow`, `FeaturedCard`,
   `BriefChip`, `BriefToggle`, `SegmentedControl`, `CategoryTabRow`, `BriefButton`s, `BriefLogo`…).
 - **Per-feature folders** under `presentation/<feature>/` with a `components/` subfolder for that feature's private composables.
-- The **Brief brand mark** is drawn in Compose (`BriefLogo.kt`); the launcher icon / drawable
-  swap and the app rename (`com.skystone1000.brief`) are **Phase 2** (see `UI_REFACTOR_PLAN.md`).
+- The **Brief brand mark** is drawn in Compose (`BriefLogo.kt`) and mirrored by the launcher
+  icon (`ic_launcher_*`). The app is renamed/branded **Briefly** with package/applicationId
+  `com.skystone1000.briefly` (UI refactor Phase 2 — **done**).
 
 ## 6. Known gaps / tech debt (as of 2026-06-22)
 

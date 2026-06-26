@@ -7,7 +7,7 @@
 > neutrals, Schibsted + Hanken Grotesk, full light/dark) across every screen. The app is
 > branded **Briefly** (package/applicationId `com.skystone1000.briefly`) with the emerald
 > three-bar launcher icon — both the reskin and the rename (Phase 2) are done; see
-> `UI_REFACTOR_PLAN.md`.
+> `plan/plan_3_ui_refactor.md`.
 
 ## Status legend
 ✅ Done · 🟡 Partial / stubbed · ⛔ Not started (dependency may exist)
@@ -33,7 +33,7 @@
 | 8 | Bookmark / save articles | ✅ | `BookmarkScreen` from Room; toggle from detail. |
 | 9 | Image loading | ✅ | Coil `AsyncImage` in cards + detail. |
 | 10 | Dependency injection wiring | ✅ | Hilt wired: `NewsApplication`, `di/AppModule`, `@HiltViewModel`s. |
-| 11 | Theming (light/dark, Material3) | ✅ | `NewsAppTheme`, brand palette, edge-to-edge; theme mode (Light/Dark/System) user-selectable in Settings. |
+| 11 | Theming (light/dark, Material3) | ✅ | `BriefTheme` (Brief token layer over Material3), brand palette, edge-to-edge; theme mode (Light/Dark/System) user-selectable in Settings. |
 | 13 | Settings hub | ✅ | `SettingsScreen` (4th tab); DataStore-backed `SettingsManager`. |
 | 14 | Category / niche filtering | ✅ | Category chips on Home; selected category drives the feed. |
 | 15 | Personalized feed | ✅ | Follow categories + personalization toggle; chips narrow to followed categories. |
@@ -41,7 +41,7 @@
 | 25 | In-app API keys (encrypted) | ✅ | Per-provider masked key entry in Settings, stored via `EncryptedSharedPreferences`; "Get a key" deep-links to each provider's signup. Clearing the active source's key falls back to another configured source. |
 | 26 | Free-tier usage meter | ✅ | Per-provider `used / limit` + colour bar + reset time in Settings (`UsageMeter`); on-device estimate, reconciled from rate-limit headers when present. |
 | 17 | AI summaries / sentiment / tags | ✅ | Claude-powered `AiGateway`; card on article detail, gated by the AI toggle; cached in Room. (Dev key in BuildConfig; proxy for prod.) |
-| 12 | Reusable UI kit | ✅ | `NewsButton`, `PageIndicator`, `ArticleCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `Dimens`. |
+| 12 | Reusable UI kit | ✅ | Brief components: `BriefButton`s, `BriefChip`, `BriefToggle`, `SegmentedControl`, `CategoryTabRow`, `ArticleRow`, `FeaturedCard`, `ArticlesList`, `ShimmerEffect`, `EmptyScreen`, `SearchBar`, `BriefLogo`, `PageIndicator`, `Dimens`. (`ArticleCard` removed; `NewsButton` kept only as a restyled alias.) |
 
 ## 2. Current user-facing behavior
 
@@ -49,9 +49,12 @@ First launch shows the splash → **Onboarding** (3-page pager); "Get Started" s
 flag and enters the main app. Returning users go straight in. The main app is a bottom-nav
 single-activity with four tabs:
 
-- **Home** — infinite-scroll headline feed with category chips; tap an article to open it.
-- **Search** — paged keyword search.
-- **Bookmark** — saved articles (Room).
+- **Home** — infinite-scroll headline feed with underline category tabs (`CategoryTabRow`); the
+  first item renders as a `FeaturedCard`, the rest as `ArticleRow`s; tap an article to open it.
+- **Search** — paged keyword search, plus a curated "Trending now" list and a "Browse topics"
+  grid (both static/decorative — no trending backend).
+- **Bookmark ("Saved")** — saved articles (Room) with an All/Unread filter; "Unread" = saved
+  articles not yet opened (cross-referenced against reading history).
 - **Settings** — data source + API keys (5 providers, with usage meters), theme (Light/Dark/System),
   followed categories + personalization, AI summaries toggle, and reading history.
 
@@ -65,13 +68,13 @@ one provider's API key in Settings.
 The intended product is **built**: a configurable, multi-source news reader (Paths A–D) with
 in-app encrypted API keys, optional AI features, engagement features (share/TTS/history/digest), and
 release hardening (R8). Remaining items are externally gated (FCM push, Crashlytics, release
-signing/Play publishing, modularization) — see [ROADMAP.md](ROADMAP.md).
+signing/Play publishing, modularization) — see [plan/plan_1_roadmap.md](plan/plan_1_roadmap.md).
 
 ## 4. Where to read more
 
 - Data sources & API-key handling → [DATASOURCES.md](DATASOURCES.md)
 - Layer design & conventions → [ARCHITECTURE.md](ARCHITECTURE.md)
 - File-by-file map & toolchain → [CODEBASE.md](CODEBASE.md)
-- Phased plans & status → [ROADMAP.md](ROADMAP.md), [MULTI_SOURCE_PLAN.md](MULTI_SOURCE_PLAN.md)
+- Phased plans & status → [plan/plan_1_roadmap.md](plan/plan_1_roadmap.md), [plan/plan_2_multi_source.md](plan/plan_2_multi_source.md)
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for layer design and [CODEBASE.md](CODEBASE.md) for where each piece goes.

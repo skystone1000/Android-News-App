@@ -1,9 +1,9 @@
-# ROADMAP.md — Sequential Implementation Plan (Path A → D)
+# plan_1_roadmap.md (ROADMAP) — Sequential Implementation Plan (Path A → D)
 
 > Detailed, phased plan to take NewsApp from its current state (Splash + Onboarding only)
 > to a production-shippable, fully-configurable news app.
 > Created: 2026-06-21 · Owner: Aditya Mahajan
-> Read alongside [ARCHITECTURE.md](ARCHITECTURE.md), [CODEBASE.md](CODEBASE.md), [FEATURES.md](FEATURES.md).
+> Read alongside [ARCHITECTURE.md](../ARCHITECTURE.md), [CODEBASE.md](../CODEBASE.md), [FEATURES.md](../FEATURES.md).
 > **Per the root `CLAUDE.md` rule: when a phase lands, update those docs and tick the boxes here.**
 
 ## Product decisions driving this plan

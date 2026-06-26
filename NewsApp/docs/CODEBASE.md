@@ -10,14 +10,18 @@
 Android-News-App/                 (git root, also the working directory)
 ├── README.md
 ├── CLAUDE.md                     ← LLM rules (read docs before code; keep docs updated)
-├── docs/                         ← project documentation (this folder)
-│   ├── ARCHITECTURE.md
-│   ├── CODEBASE.md
-│   ├── FEATURES.md
-│   ├── DATASOURCES.md            ← news providers + API-key/usage handling
-│   ├── ROADMAP.md                ← phased Path A→D plan + status
-│   └── MULTI_SOURCE_PLAN.md      ← multi-provider + in-app keys plan
 └── NewsApp/                      ← the Android Studio project (open THIS in the IDE)
+    ├── docs/                     ← project documentation (this folder)
+    │   ├── ARCHITECTURE.md
+    │   ├── CODEBASE.md
+    │   ├── FEATURES.md
+    │   ├── DATASOURCES.md        ← news providers + API-key/usage handling
+    │   └── plan/                 ← phased build plans (sequential by creation date)
+    │       ├── plan_1_roadmap.md         ← master phased Path A→D plan + status
+    │       ├── plan_2_multi_source.md    ← multi-provider + in-app keys plan
+    │       ├── plan_3_ui_refactor.md     ← Brief reskin + rename to Briefly
+    │       ├── plan_4_debug_mode.md      ← in-app debug/mock tooling
+    │       └── plan_5_remaining_work.md  ← remaining work, gaps & known issues
     ├── build.gradle.kts          ← root build: plugin versions
     ├── settings.gradle.kts       ← module includes + repositories
     ├── gradle.properties
@@ -119,7 +123,7 @@ Exposed to code as `BuildConfig.NEWS_API_KEY` / `BuildConfig.GNEWS_API_KEY` (def
 | `presentation/home/{HomeScreen,HomeViewModel}.kt` | Paged headlines feed. |
 | `presentation/search/` | `SearchScreen`/`SearchViewModel`/`SearchState`/`SearchEvent` + `components/SearchBar`. |
 | `presentation/details/` | `DetailsScreen`/`DetailsViewModel`/`DetailsEvent` + `components/DetailsTopBar` (listen/share/bookmark/open-in-browser) + `ArticleSpeaker.kt` (TTS wrapper). |
-| `presentation/bookmark/` | `BookmarkScreen` ("Saved": title + count, All/Unread filter [Unread inert], `ArticleRow`)/`BookmarkViewModel`/`BookmarkState` (Room-backed list). |
+| `presentation/bookmark/` | `BookmarkScreen` ("Saved": title + count, All/Unread filter, `ArticleRow`)/`BookmarkViewModel`/`BookmarkState`. Room-backed list; **Unread** filters out saved articles whose URL appears in reading history (`readUrls`), so the filter is functional (not inert). |
 | `presentation/common/` | `ArticleRow`, `FeaturedCard`, `ArticlesList` (+ paging-state handling), `ShimmerEffect`, `EmptyScreen`. (`ArticleCard` removed.) |
 
 Domain models implement `java.io.Serializable` so an `Article` can pass through Compose
@@ -161,7 +165,7 @@ Extra API keys in `local.properties`: `CLAUDE_API_KEY` (dev), optional `CLAUDE_P
 | `MainActivity.kt` | Requests `POST_NOTIFICATIONS` (API 33+) on launch. |
 
 FCM push is **deferred** — it needs a Firebase project (`google-services.json`) + a server
-trigger that can't be provisioned in this environment (see `ROADMAP.md` Phase 6). The local
+trigger that can't be provisioned in this environment (see `plan/plan_1_roadmap.md` Phase 6). The local
 engagement surface (channel, runtime permission, WorkManager digest) is built.
 
 ### Production hardening (Phase 7)
@@ -173,9 +177,9 @@ engagement surface (channel, runtime permission, WorkManager digest) is built.
 
 Release builds are currently **unsigned** (`app-release-unsigned.apk`). Signing/AAB,
 Crashlytics, modularization, baseline profiles, and Play publishing are deferred — they
-need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
+need a keystore / Firebase / Play account / devices (see `plan/plan_1_roadmap.md` Phase 7).
 
-### Multi-source + in-app API keys (in progress — see `MULTI_SOURCE_PLAN.md`)
+### Multi-source + in-app API keys (in progress — see `plan/plan_2_multi_source.md`)
 | File / package | Purpose |
 |------|---------|
 | `domain/model/SourceQuota.kt` | `SourceQuota(limit, period)` + `QuotaPeriod` (drives the usage meter). |
@@ -200,7 +204,7 @@ need a keystore / Firebase / Play account / devices (see `ROADMAP.md` Phase 7).
 | `NewsApplication.seedDevKeysFromBuildConfig()` | Dev convenience: seeds `ApiKeyStore` from `BuildConfig` keys if unset (no-op in prod). |
 | `app/proguard-rules.pro` | `-dontwarn` for Tink's optional deps (ErrorProne/Google-API-client/Joda) + keep `com.google.crypto.tink.**`. Release (R8) verified green. |
 
-### Debug-mode tooling (debug builds only — see `DEBUG_MODE_PLAN.md`)
+### Debug-mode tooling (debug builds only — see `plan/plan_4_debug_mode.md`)
 | File / package | Purpose |
 |------|---------|
 | `domain/debug/{DebugConfig,DebugSettingsStore}.kt` | Debug flags model + contract (save / offline / force-error / latency). |
